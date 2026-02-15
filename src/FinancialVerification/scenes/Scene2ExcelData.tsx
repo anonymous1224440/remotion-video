@@ -90,29 +90,28 @@ export const Scene2ExcelData: React.FC = () => {
           transform: `translateY(${interpolate(labelSlide, [0, 1], [-20, 0])}px)`,
         }}
       >
-        {/* Excel icon */}
+        {/* Bloomberg icon */}
         <div
           style={{
             width: 54,
             height: 54,
             borderRadius: 12,
-            backgroundColor: COLORS.excelGreen,
+            backgroundColor: "#1a1a1a",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             transform: `scale(${excelIconScale})`,
-            boxShadow: `0 4px 20px rgba(33, 115, 70, 0.4)`,
+            boxShadow: `0 4px 20px rgba(0, 0, 0, 0.4)`,
+            border: "1px solid #333",
           }}
         >
-          <span
-            style={{
-              color: "white",
-              fontWeight: 700,
-              fontSize: 26,
-            }}
-          >
-            X
-          </span>
+          <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+            <rect x="4" y="4" width="8" height="26" rx="1" fill="#FF9F0A" />
+            <rect x="14" y="8" width="8" height="18" rx="4" fill="#FF9F0A" />
+            <rect x="14" y="8" width="4" height="18" fill="#FF9F0A" />
+            <rect x="24" y="12" width="6" height="10" rx="3" fill="#FF9F0A" />
+            <rect x="24" y="12" width="3" height="10" fill="#FF9F0A" />
+          </svg>
         </div>
 
         <div>

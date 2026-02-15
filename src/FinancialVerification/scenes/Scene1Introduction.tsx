@@ -115,33 +115,47 @@ export const Scene1Introduction: React.FC = () => {
           gap: 24,
         }}
       >
-        {/* Icon */}
+        {/* DCP Client Partner Logo */}
         <div
           style={{
-            width: 80,
-            height: 80,
-            borderRadius: 18,
-            border: `2px solid ${COLORS.accent}`,
             display: "flex",
+            flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center",
-            marginBottom: 12,
+            marginBottom: 20,
             transform: `scale(${iconScale})`,
-            backgroundColor: COLORS.accentDim,
-            boxShadow: `0 0 30px ${COLORS.accentGlow}`,
           }}
         >
-          <svg
-            width="42"
-            height="42"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke={COLORS.accent}
-            strokeWidth="1.5"
+          <div
+            style={{
+              fontSize: 52,
+              fontWeight: 800,
+              color: COLORS.textPrimary,
+              letterSpacing: 8,
+              lineHeight: 1,
+            }}
           >
-            <path d="M9 12l2 2 4-4" />
-            <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z" />
-          </svg>
+            DCP
+          </div>
+          <div
+            style={{
+              width: 120,
+              height: 2,
+              background: `linear-gradient(90deg, transparent, ${COLORS.accent}, transparent)`,
+              marginTop: 8,
+              marginBottom: 6,
+            }}
+          />
+          <div
+            style={{
+              fontSize: 13,
+              fontWeight: 400,
+              color: COLORS.accent,
+              letterSpacing: 3,
+              textTransform: "uppercase",
+            }}
+          >
+            The Income Solution
+          </div>
         </div>
 
         {/* Title */}

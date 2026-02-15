@@ -156,13 +156,13 @@ export const COLORS = {
 };
 
 export const FPS = 30;
-export const DURATION = 2490;
+export const DURATION = 2520;
 
 export const SCENE_TIMING = {
-  scene1: { from: 0, duration: 90 },
-  scene2: { from: 90, duration: 450 },
-  scene3: { from: 540, duration: 450 },
-  scene4: { from: 990, duration: 600 },
-  scene5: { from: 1590, duration: 600 },
-  scene6: { from: 2190, duration: 300 },
+  scene1: { from: 0, duration: 120 },
+  scene2: { from: 120, duration: 450 },
+  scene3: { from: 570, duration: 450 },
+  scene4: { from: 1020, duration: 600 },
+  scene5: { from: 1620, duration: 600 },
+  scene6: { from: 2220, duration: 300 },
 };
