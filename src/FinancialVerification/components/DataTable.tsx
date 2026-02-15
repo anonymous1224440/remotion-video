@@ -1,5 +1,5 @@
 import React from "react";
-import { useCurrentFrame, interpolate, spring, useVideoConfig } from "remotion";
+import { useCurrentFrame, interpolate, spring, useVideoConfig, Img, staticFile } from "remotion";
 import {
   COLORS,
   COLUMN_LABELS,
@@ -102,25 +102,13 @@ export const DataTable: React.FC<Props> = ({
         >
           {label}
           {greenTheme && (
-            <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-              <rect width="32" height="32" rx="4" fill="#217346" />
-              <text
-                x="5"
-                y="23"
-                fill="white"
-                fontWeight="700"
-                fontSize="18"
-                fontFamily="Arial, sans-serif"
-              >
-                X
-              </text>
-              <rect x="17" y="6" width="4" height="20" rx="0.5" fill="rgba(255,255,255,0.25)" />
-              <rect x="23" y="6" width="4" height="20" rx="0.5" fill="rgba(255,255,255,0.25)" />
-              <rect x="17" y="9" width="10" height="0.8" fill="rgba(255,255,255,0.3)" />
-              <rect x="17" y="13" width="10" height="0.8" fill="rgba(255,255,255,0.3)" />
-              <rect x="17" y="17" width="10" height="0.8" fill="rgba(255,255,255,0.3)" />
-              <rect x="17" y="21" width="10" height="0.8" fill="rgba(255,255,255,0.3)" />
-            </svg>
+            <Img
+              src={staticFile("excel-logo.png")}
+              style={{
+                height: 28,
+                objectFit: "contain",
+              }}
+            />
           )}
         </div>
       )}

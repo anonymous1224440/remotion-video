@@ -6,6 +6,8 @@ import {
   interpolate,
   spring,
   Easing,
+  Img,
+  staticFile,
 } from "remotion";
 import { loadFont } from "@remotion/google-fonts/Inter";
 import { COLORS } from "../data";
@@ -118,44 +120,17 @@ export const Scene1Introduction: React.FC = () => {
         {/* DCP Client Partner Logo */}
         <div
           style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
             marginBottom: 20,
             transform: `scale(${iconScale})`,
           }}
         >
-          <div
+          <Img
+            src={staticFile("dcp-logo.png")}
             style={{
-              fontSize: 52,
-              fontWeight: 800,
-              color: COLORS.textPrimary,
-              letterSpacing: 8,
-              lineHeight: 1,
-            }}
-          >
-            DCP
-          </div>
-          <div
-            style={{
-              width: 120,
-              height: 2,
-              background: `linear-gradient(90deg, transparent, ${COLORS.accent}, transparent)`,
-              marginTop: 8,
-              marginBottom: 6,
+              height: 100,
+              objectFit: "contain",
             }}
           />
-          <div
-            style={{
-              fontSize: 13,
-              fontWeight: 400,
-              color: COLORS.accent,
-              letterSpacing: 3,
-              textTransform: "uppercase",
-            }}
-          >
-            The Income Solution
-          </div>
         </div>
 
         {/* Title */}
