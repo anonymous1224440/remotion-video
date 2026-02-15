@@ -55,7 +55,9 @@ export const Scene4Comparison: React.FC = () => {
       style={{
         fontFamily,
         opacity: fadeIn * fadeOut,
-        padding: "50px 60px",
+        padding: "30px 40px",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       {/* Header */}
@@ -65,14 +67,14 @@ export const Scene4Comparison: React.FC = () => {
           alignItems: "center",
           justifyContent: "center",
           gap: 16,
-          marginBottom: 24,
+          marginBottom: 16,
           opacity: headerSlide,
           transform: `translateY(${interpolate(headerSlide, [0, 1], [-20, 0])}px)`,
         }}
       >
         <svg
-          width="28"
-          height="28"
+          width="32"
+          height="32"
           viewBox="0 0 24 24"
           fill="none"
           stroke={COLORS.accent}
@@ -84,14 +86,14 @@ export const Scene4Comparison: React.FC = () => {
         </svg>
         <h2
           style={{
-            fontSize: 26,
+            fontSize: 30,
             fontWeight: 700,
             color: COLORS.textPrimary,
             margin: 0,
           }}
         >
-          Side-by-Side{" "}
-          <span style={{ color: COLORS.accent }}>Comparison</span>
+          Direkter{" "}
+          <span style={{ color: COLORS.accent }}>Vergleich</span>
         </h2>
       </div>
 

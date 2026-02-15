@@ -41,14 +41,14 @@ export const Scene6Final: React.FC = () => {
   const tableScale = interpolate(
     frame,
     [Math.round(3 * fps), Math.round(5 * fps)],
-    [1, 0.85],
+    [1, 0.82],
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
   );
 
   const tableOpacity = interpolate(
     frame,
     [Math.round(3 * fps), Math.round(5 * fps)],
-    [1, 0.4],
+    [1, 0.35],
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
   );
 
@@ -69,7 +69,7 @@ export const Scene6Final: React.FC = () => {
   const lineWidth = interpolate(
     frame,
     [Math.round(5 * fps), Math.round(7 * fps)],
-    [0, 300],
+    [0, 400],
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
   );
 
@@ -97,16 +97,16 @@ export const Scene6Final: React.FC = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          padding: "60px 120px",
+          padding: "40px 80px",
           opacity: tableOpacity * tableEntrance,
           transform: `scale(${tableScale})`,
         }}
       >
-        <div style={{ width: "100%", maxWidth: 1200 }}>
+        <div style={{ width: "100%", maxWidth: 1400 }}>
           <DataTable
             data={PDF_DATA}
             cellHighlights={allGreen}
-            label="Verified Financial Dataset"
+            label="Verifizierter Finanzdatensatz"
           />
         </div>
       </div>
@@ -117,7 +117,7 @@ export const Scene6Final: React.FC = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 16,
+          gap: 20,
           zIndex: 10,
           opacity: titleEntrance,
         }}
@@ -125,9 +125,9 @@ export const Scene6Final: React.FC = () => {
         {/* Shield icon */}
         <div
           style={{
-            width: 64,
-            height: 64,
-            borderRadius: 16,
+            width: 76,
+            height: 76,
+            borderRadius: 18,
             border: `2px solid ${COLORS.success}`,
             backgroundColor: COLORS.successDim,
             display: "flex",
@@ -135,12 +135,12 @@ export const Scene6Final: React.FC = () => {
             justifyContent: "center",
             transform: `scale(${shieldScale})`,
             boxShadow: `0 0 40px ${COLORS.successGlow}`,
-            marginBottom: 8,
+            marginBottom: 10,
           }}
         >
           <svg
-            width="32"
-            height="32"
+            width="38"
+            height="38"
             viewBox="0 0 24 24"
             fill="none"
             stroke={COLORS.success}
@@ -153,7 +153,7 @@ export const Scene6Final: React.FC = () => {
 
         <h1
           style={{
-            fontSize: 52,
+            fontSize: 60,
             fontWeight: 800,
             color: COLORS.textPrimary,
             textAlign: "center",
@@ -163,8 +163,8 @@ export const Scene6Final: React.FC = () => {
             transform: `translateY(${interpolate(titleEntrance, [0, 1], [30, 0])}px)`,
           }}
         >
-          Reliable. Automated.{" "}
-          <span style={{ color: COLORS.success }}>Verified.</span>
+          Zuverlässig. Automatisiert.{" "}
+          <span style={{ color: COLORS.success }}>Verifiziert.</span>
         </h1>
 
         <div
@@ -172,13 +172,13 @@ export const Scene6Final: React.FC = () => {
             width: lineWidth,
             height: 2,
             background: `linear-gradient(90deg, transparent, ${COLORS.success}, transparent)`,
-            marginTop: 4,
+            marginTop: 6,
           }}
         />
 
         <p
           style={{
-            fontSize: 22,
+            fontSize: 26,
             fontWeight: 300,
             color: COLORS.textSecondary,
             textAlign: "center",
@@ -187,7 +187,7 @@ export const Scene6Final: React.FC = () => {
             transform: `translateY(${interpolate(subtitleEntrance, [0, 1], [15, 0])}px)`,
           }}
         >
-          Financial data you can trust.
+          Finanzdaten, denen Sie vertrauen können.
         </p>
       </div>
     </AbsoluteFill>

@@ -94,8 +94,8 @@ export const ComparisonView: React.FC<Props> = ({ revealProgress }) => {
         height: "100%",
         alignItems: "center",
         justifyContent: "center",
-        gap: 40,
-        padding: "0 40px",
+        gap: 30,
+        padding: "0 20px",
       }}
     >
       <div
@@ -108,7 +108,7 @@ export const ComparisonView: React.FC<Props> = ({ revealProgress }) => {
         <DataTable
           data={EXCEL_DATA}
           compact
-          label="Bloomberg Data"
+          label="Bloomberg-Daten"
           labelColor={COLORS.excelGreen}
           cellHighlights={excelHighlights}
         />
@@ -120,7 +120,7 @@ export const ComparisonView: React.FC<Props> = ({ revealProgress }) => {
           flexDirection: "column",
           alignItems: "center",
           gap: 12,
-          width: 60,
+          width: 50,
         }}
       >
         <div
@@ -132,7 +132,7 @@ export const ComparisonView: React.FC<Props> = ({ revealProgress }) => {
         />
         <div
           style={{
-            fontSize: 14,
+            fontSize: 16,
             fontWeight: 700,
             color: COLORS.accent,
             opacity: vsOpacity,
@@ -160,7 +160,7 @@ export const ComparisonView: React.FC<Props> = ({ revealProgress }) => {
         <DataTable
           data={PDF_DATA}
           compact
-          label="Official Report"
+          label="Offizieller Bericht"
           labelColor={COLORS.pdfRed}
           cellHighlights={pdfHighlights}
         />
@@ -170,11 +170,11 @@ export const ComparisonView: React.FC<Props> = ({ revealProgress }) => {
         <div
           style={{
             position: "absolute",
-            bottom: 60,
+            bottom: 30,
             left: "50%",
             transform: "translateX(-50%)",
             display: "flex",
-            gap: 24,
+            gap: 32,
             opacity: interpolate(
               spring({
                 frame: frame - 60,
@@ -191,39 +191,39 @@ export const ComparisonView: React.FC<Props> = ({ revealProgress }) => {
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 8,
-              fontSize: 14,
+              gap: 10,
+              fontSize: 16,
               color: COLORS.textSecondary,
             }}
           >
             <div
               style={{
-                width: 10,
-                height: 10,
+                width: 12,
+                height: 12,
                 borderRadius: 2,
                 backgroundColor: COLORS.success,
               }}
             />
-            Match
+            Übereinstimmung
           </div>
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 8,
-              fontSize: 14,
+              gap: 10,
+              fontSize: 16,
               color: COLORS.textSecondary,
             }}
           >
             <div
               style={{
-                width: 10,
-                height: 10,
+                width: 12,
+                height: 12,
                 borderRadius: 2,
                 backgroundColor: COLORS.error,
               }}
             />
-            Discrepancy ({mismatchCount} found)
+            Abweichung ({mismatchCount} gefunden)
           </div>
         </div>
       )}

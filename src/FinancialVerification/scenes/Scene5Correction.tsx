@@ -47,7 +47,9 @@ export const Scene5Correction: React.FC = () => {
       style={{
         fontFamily,
         opacity: fadeIn * fadeOut,
-        padding: "50px 100px",
+        padding: "40px 80px",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       {/* Header */}
@@ -57,14 +59,14 @@ export const Scene5Correction: React.FC = () => {
           alignItems: "center",
           justifyContent: "center",
           gap: 16,
-          marginBottom: 36,
+          marginBottom: 30,
           opacity: headerSlide,
           transform: `translateY(${interpolate(headerSlide, [0, 1], [-20, 0])}px)`,
         }}
       >
         <svg
-          width="28"
-          height="28"
+          width="32"
+          height="32"
           viewBox="0 0 24 24"
           fill="none"
           stroke={COLORS.accent}
@@ -75,14 +77,14 @@ export const Scene5Correction: React.FC = () => {
         </svg>
         <h2
           style={{
-            fontSize: 26,
+            fontSize: 30,
             fontWeight: 700,
             color: COLORS.textPrimary,
             margin: 0,
           }}
         >
-          Automatic{" "}
-          <span style={{ color: COLORS.accent }}>Correction</span>
+          Automatische{" "}
+          <span style={{ color: COLORS.accent }}>Korrektur</span>
         </h2>
       </div>
 
@@ -91,7 +93,9 @@ export const Scene5Correction: React.FC = () => {
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: 20,
+          gap: 24,
+          flex: 1,
+          justifyContent: "center",
         }}
       >
         {MISMATCHES.map((mismatch, idx) => {
@@ -125,9 +129,9 @@ export const Scene5Correction: React.FC = () => {
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: 24,
-                padding: "20px 28px",
-                borderRadius: 12,
+                gap: 28,
+                padding: "24px 32px",
+                borderRadius: 14,
                 backgroundColor: COLORS.bgCard,
                 border: `1px solid ${progress > 0.8 ? COLORS.success + "40" : COLORS.border}`,
                 opacity: cardEntrance,
@@ -137,15 +141,15 @@ export const Scene5Correction: React.FC = () => {
               {/* Step number */}
               <div
                 style={{
-                  width: 40,
-                  height: 40,
+                  width: 48,
+                  height: 48,
                   borderRadius: "50%",
                   backgroundColor: COLORS.accentDim,
                   border: `2px solid ${COLORS.accent}`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: 16,
+                  fontSize: 20,
                   fontWeight: 700,
                   color: COLORS.accent,
                   flexShrink: 0,
@@ -158,7 +162,7 @@ export const Scene5Correction: React.FC = () => {
               <div style={{ flex: 1 }}>
                 <div
                   style={{
-                    fontSize: 18,
+                    fontSize: 22,
                     fontWeight: 600,
                     color: COLORS.textPrimary,
                     marginBottom: 4,
@@ -168,7 +172,7 @@ export const Scene5Correction: React.FC = () => {
                 </div>
                 <div
                   style={{
-                    fontSize: 13,
+                    fontSize: 15,
                     color: COLORS.textMuted,
                     textTransform: "uppercase",
                     letterSpacing: 1,
@@ -179,12 +183,12 @@ export const Scene5Correction: React.FC = () => {
               </div>
 
               {/* Old value */}
-              <div style={{ textAlign: "center", minWidth: 100 }}>
+              <div style={{ textAlign: "center", minWidth: 120 }}>
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 13,
                     color: COLORS.textMuted,
-                    marginBottom: 4,
+                    marginBottom: 6,
                     textTransform: "uppercase",
                     letterSpacing: 1,
                   }}
@@ -207,28 +211,28 @@ export const Scene5Correction: React.FC = () => {
                     extrapolateRight: "clamp",
                   }),
                   color: COLORS.accent,
-                  fontSize: 20,
+                  fontSize: 24,
                 }}
               >
                 →
               </div>
 
               {/* New value */}
-              <div style={{ textAlign: "center", minWidth: 100 }}>
+              <div style={{ textAlign: "center", minWidth: 120 }}>
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 13,
                     color: COLORS.textMuted,
-                    marginBottom: 4,
+                    marginBottom: 6,
                     textTransform: "uppercase",
                     letterSpacing: 1,
                   }}
                 >
-                  Verified
+                  Verifiziert
                 </div>
                 <div
                   style={{
-                    fontSize: 15,
+                    fontSize: 18,
                     fontWeight: 700,
                     fontFamily: "'Courier New', monospace",
                     color:
@@ -246,8 +250,8 @@ export const Scene5Correction: React.FC = () => {
               {/* Checkmark */}
               <div
                 style={{
-                  width: 32,
-                  height: 32,
+                  width: 38,
+                  height: 38,
                   borderRadius: "50%",
                   backgroundColor:
                     checkOpacity > 0 ? COLORS.success : "transparent",
@@ -263,8 +267,8 @@ export const Scene5Correction: React.FC = () => {
                 }}
               >
                 <svg
-                  width="16"
-                  height="16"
+                  width="18"
+                  height="18"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="white"
@@ -282,7 +286,7 @@ export const Scene5Correction: React.FC = () => {
       <div
         style={{
           textAlign: "center",
-          marginTop: 30,
+          marginTop: 24,
           opacity: interpolate(
             frame,
             [Math.round(14 * fps), Math.round(15 * fps)],
@@ -295,16 +299,16 @@ export const Scene5Correction: React.FC = () => {
           style={{
             display: "inline-flex",
             alignItems: "center",
-            gap: 10,
-            padding: "12px 28px",
-            borderRadius: 8,
+            gap: 12,
+            padding: "14px 32px",
+            borderRadius: 10,
             backgroundColor: COLORS.successDim,
             border: `1px solid ${COLORS.success}40`,
           }}
         >
           <svg
-            width="18"
-            height="18"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
             fill="none"
             stroke={COLORS.success}
@@ -315,13 +319,13 @@ export const Scene5Correction: React.FC = () => {
           </svg>
           <span
             style={{
-              fontSize: 15,
+              fontSize: 17,
               fontWeight: 600,
               color: COLORS.success,
               letterSpacing: 0.5,
             }}
           >
-            Automatic correction using verified source data
+            Automatische Korrektur mit verifizierten Quelldaten
           </span>
         </div>
       </div>

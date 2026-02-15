@@ -91,11 +91,11 @@ export const COLUMN_KEYS: (keyof CompanyData)[] = [
 ];
 
 export const COLUMN_LABELS = [
-  "Company",
-  "Revenue",
-  "Net Income",
+  "Unternehmen",
+  "Umsatz",
+  "Nettoergebnis",
   "EBITDA",
-  "Assets",
+  "Vermögen",
 ];
 
 export type MismatchInfo = {

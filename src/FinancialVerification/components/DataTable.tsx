@@ -50,9 +50,9 @@ export const DataTable: React.FC<Props> = ({
   const { fps } = useVideoConfig();
 
   const widths = compact ? COL_WIDTHS_COMPACT : COL_WIDTHS;
-  const fontSize = compact ? 13 : 16;
-  const headerFontSize = compact ? 11 : 13;
-  const rowPadding = compact ? "8px 0" : "12px 0";
+  const fontSize = compact ? 16 : 20;
+  const headerFontSize = compact ? 13 : 15;
+  const rowPadding = compact ? "12px 0" : "16px 0";
 
   const tableEntrance = spring({
     frame,
@@ -65,7 +65,7 @@ export const DataTable: React.FC<Props> = ({
     <div
       style={{
         width: "100%",
-        borderRadius: 10,
+        borderRadius: 12,
         overflow: "hidden",
         border: `1px solid ${COLORS.border}`,
         backgroundColor: "rgba(12, 22, 42, 0.95)",
@@ -76,10 +76,10 @@ export const DataTable: React.FC<Props> = ({
       {label && (
         <div
           style={{
-            padding: compact ? "8px 14px" : "12px 18px",
+            padding: compact ? "10px 18px" : "14px 22px",
             backgroundColor: COLORS.bgCard,
             borderBottom: `1px solid ${COLORS.border}`,
-            fontSize: compact ? 12 : 14,
+            fontSize: compact ? 14 : 16,
             fontWeight: 600,
             color: labelColor ?? COLORS.accent,
             letterSpacing: 1.5,
@@ -95,7 +95,7 @@ export const DataTable: React.FC<Props> = ({
           display: "flex",
           backgroundColor: COLORS.tableHeader,
           borderBottom: `2px solid ${COLORS.accent}40`,
-          padding: compact ? "7px 0" : "10px 0",
+          padding: compact ? "10px 0" : "14px 0",
         }}
       >
         {COLUMN_LABELS.map((col, i) => (
@@ -103,7 +103,7 @@ export const DataTable: React.FC<Props> = ({
             key={col}
             style={{
               width: widths[i],
-              padding: "0 12px",
+              padding: "0 16px",
               fontSize: headerFontSize,
               fontWeight: 700,
               color: COLORS.textMuted,
@@ -196,7 +196,7 @@ export const DataTable: React.FC<Props> = ({
                   key={colIndex}
                   style={{
                     width: widths[colIndex],
-                    padding: "0 12px",
+                    padding: "0 16px",
                     fontSize,
                     fontWeight: colIndex === 0 ? 600 : 400,
                     color: textColor,

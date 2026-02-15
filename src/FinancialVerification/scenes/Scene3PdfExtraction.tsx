@@ -44,12 +44,12 @@ const PdfDocument: React.FC<{
   return (
     <div
       style={{
-        width: 200,
-        height: 260,
-        borderRadius: 8,
+        width: 220,
+        height: 300,
+        borderRadius: 10,
         backgroundColor: "#1a2744",
         border: `1px solid ${COLORS.border}`,
-        padding: 16,
+        padding: 18,
         position: "relative",
         overflow: "hidden",
         transform: `scale(${entrance}) translateY(${interpolate(entrance, [0, 1], [30, 0])}px)`,
@@ -61,20 +61,20 @@ const PdfDocument: React.FC<{
         style={{
           display: "flex",
           alignItems: "center",
-          gap: 8,
-          marginBottom: 12,
+          gap: 10,
+          marginBottom: 14,
         }}
       >
         <div
           style={{
-            width: 28,
-            height: 28,
-            borderRadius: 4,
+            width: 32,
+            height: 32,
+            borderRadius: 5,
             backgroundColor: COLORS.pdfRed,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontSize: 10,
+            fontSize: 11,
             fontWeight: 700,
             color: "white",
           }}
@@ -83,7 +83,7 @@ const PdfDocument: React.FC<{
         </div>
         <span
           style={{
-            fontSize: 11,
+            fontSize: 12,
             color: COLORS.textSecondary,
             fontWeight: 600,
           }}
@@ -93,12 +93,12 @@ const PdfDocument: React.FC<{
       </div>
 
       {/* Document lines */}
-      {[...Array(10)].map((_, i) => (
+      {[...Array(12)].map((_, i) => (
         <div
           key={i}
           style={{
-            height: 6,
-            marginBottom: 8,
+            height: 7,
+            marginBottom: 9,
             borderRadius: 3,
             backgroundColor: COLORS.border,
             width: `${60 + (i % 3) * 15}%`,
@@ -142,10 +142,10 @@ const PdfDocument: React.FC<{
         <div
           style={{
             position: "absolute",
-            top: 8,
-            right: 8,
-            width: 24,
-            height: 24,
+            top: 10,
+            right: 10,
+            width: 28,
+            height: 28,
             borderRadius: "50%",
             backgroundColor: COLORS.success,
             display: "flex",
@@ -155,8 +155,8 @@ const PdfDocument: React.FC<{
           }}
         >
           <svg
-            width="14"
-            height="14"
+            width="16"
+            height="16"
             viewBox="0 0 24 24"
             fill="none"
             stroke="white"
@@ -218,7 +218,9 @@ export const Scene3PdfExtraction: React.FC = () => {
       style={{
         fontFamily,
         opacity: fadeIn * fadeOut,
-        padding: "50px 80px",
+        padding: "40px 60px",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       {/* Header */}
@@ -226,17 +228,17 @@ export const Scene3PdfExtraction: React.FC = () => {
         style={{
           display: "flex",
           alignItems: "center",
-          gap: 16,
-          marginBottom: 30,
+          gap: 18,
+          marginBottom: 24,
           opacity: headerSlide,
           transform: `translateY(${interpolate(headerSlide, [0, 1], [-20, 0])}px)`,
         }}
       >
         <div
           style={{
-            width: 48,
-            height: 48,
-            borderRadius: 10,
+            width: 54,
+            height: 54,
+            borderRadius: 12,
             backgroundColor: COLORS.pdfRed,
             display: "flex",
             alignItems: "center",
@@ -245,8 +247,8 @@ export const Scene3PdfExtraction: React.FC = () => {
           }}
         >
           <svg
-            width="24"
-            height="24"
+            width="28"
+            height="28"
             viewBox="0 0 24 24"
             fill="none"
             stroke="white"
@@ -261,22 +263,22 @@ export const Scene3PdfExtraction: React.FC = () => {
         <div>
           <h2
             style={{
-              fontSize: 28,
+              fontSize: 32,
               fontWeight: 700,
               color: COLORS.textPrimary,
               margin: 0,
             }}
           >
-            PDF Upload & Extraction
+            PDF-Upload & Extraktion
           </h2>
           <p
             style={{
-              fontSize: 14,
+              fontSize: 16,
               color: COLORS.textMuted,
               margin: "4px 0 0 0",
             }}
           >
-            Scanning official company annual reports
+            Offizielle Geschäftsberichte werden gescannt
           </p>
         </div>
       </div>
@@ -284,21 +286,23 @@ export const Scene3PdfExtraction: React.FC = () => {
       <div
         style={{
           display: "flex",
-          alignItems: "flex-start",
-          gap: 40,
+          alignItems: "stretch",
+          gap: 36,
+          flex: 1,
         }}
       >
         {/* PDF documents */}
         <div
           style={{
             display: "flex",
-            gap: 16,
+            gap: 18,
             flexShrink: 0,
+            alignItems: "center",
           }}
         >
-          <PdfDocument index={0} title="Annual_Report_2024.pdf" />
-          <PdfDocument index={1} title="Financial_Stmt_Q4.pdf" />
-          <PdfDocument index={2} title="Earnings_Release.pdf" />
+          <PdfDocument index={0} title="Jahresbericht_2024.pdf" />
+          <PdfDocument index={1} title="Finanzbericht_Q4.pdf" />
+          <PdfDocument index={2} title="Ergebnismeldung.pdf" />
         </div>
 
         {/* Arrow */}
@@ -311,15 +315,15 @@ export const Scene3PdfExtraction: React.FC = () => {
           }}
         >
           <svg
-            width="60"
-            height="24"
-            viewBox="0 0 60 24"
+            width="70"
+            height="28"
+            viewBox="0 0 70 28"
             fill="none"
             stroke={COLORS.accent}
             strokeWidth="2"
           >
-            <line x1="0" y1="12" x2="50" y2="12" />
-            <polyline points="44 6 50 12 44 18" />
+            <line x1="0" y1="14" x2="58" y2="14" />
+            <polyline points="52 7 58 14 52 21" />
           </svg>
         </div>
 
@@ -328,29 +332,34 @@ export const Scene3PdfExtraction: React.FC = () => {
           style={{
             flex: 1,
             opacity: arrowOpacity,
+            display: "flex",
+            flexDirection: "column",
           }}
         >
           <div
             style={{
-              borderRadius: 10,
+              borderRadius: 12,
               overflow: "hidden",
               border: `1px solid ${COLORS.border}`,
               backgroundColor: "rgba(12, 22, 42, 0.95)",
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
             }}
           >
             <div
               style={{
-                padding: "10px 16px",
+                padding: "12px 18px",
                 backgroundColor: COLORS.bgCard,
                 borderBottom: `1px solid ${COLORS.border}`,
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: 600,
                 color: COLORS.accent,
                 letterSpacing: 1.5,
                 textTransform: "uppercase",
               }}
             >
-              Extracted Data
+              Extrahierte Daten
             </div>
 
             {/* Header row */}
@@ -359,7 +368,7 @@ export const Scene3PdfExtraction: React.FC = () => {
                 display: "flex",
                 backgroundColor: COLORS.tableHeader,
                 borderBottom: `2px solid ${COLORS.accent}40`,
-                padding: "8px 0",
+                padding: "10px 0",
               }}
             >
               {COLUMN_LABELS.map((col) => (
@@ -367,8 +376,8 @@ export const Scene3PdfExtraction: React.FC = () => {
                   key={col}
                   style={{
                     flex: 1,
-                    padding: "0 10px",
-                    fontSize: 10,
+                    padding: "0 12px",
+                    fontSize: 12,
                     fontWeight: 700,
                     color: COLORS.textMuted,
                     textTransform: "uppercase",
@@ -394,7 +403,7 @@ export const Scene3PdfExtraction: React.FC = () => {
                   key={i}
                   style={{
                     display: "flex",
-                    padding: "8px 0",
+                    padding: "12px 0",
                     backgroundColor:
                       i % 2 === 0
                         ? COLORS.tableRowEven
@@ -406,8 +415,8 @@ export const Scene3PdfExtraction: React.FC = () => {
                   <div
                     style={{
                       flex: 1,
-                      padding: "0 10px",
-                      fontSize: 12,
+                      padding: "0 12px",
+                      fontSize: 15,
                       fontWeight: 600,
                       color: COLORS.textPrimary,
                     }}
@@ -417,8 +426,8 @@ export const Scene3PdfExtraction: React.FC = () => {
                   <div
                     style={{
                       flex: 1,
-                      padding: "0 10px",
-                      fontSize: 12,
+                      padding: "0 12px",
+                      fontSize: 15,
                       color: COLORS.textSecondary,
                       fontFamily: "'Courier New', monospace",
                     }}
@@ -428,8 +437,8 @@ export const Scene3PdfExtraction: React.FC = () => {
                   <div
                     style={{
                       flex: 1,
-                      padding: "0 10px",
-                      fontSize: 12,
+                      padding: "0 12px",
+                      fontSize: 15,
                       color: COLORS.textSecondary,
                       fontFamily: "'Courier New', monospace",
                     }}
@@ -439,8 +448,8 @@ export const Scene3PdfExtraction: React.FC = () => {
                   <div
                     style={{
                       flex: 1,
-                      padding: "0 10px",
-                      fontSize: 12,
+                      padding: "0 12px",
+                      fontSize: 15,
                       color: COLORS.textSecondary,
                       fontFamily: "'Courier New', monospace",
                     }}
@@ -450,8 +459,8 @@ export const Scene3PdfExtraction: React.FC = () => {
                   <div
                     style={{
                       flex: 1,
-                      padding: "0 10px",
-                      fontSize: 12,
+                      padding: "0 12px",
+                      fontSize: 15,
                       color: COLORS.textSecondary,
                       fontFamily: "'Courier New', monospace",
                     }}
@@ -468,7 +477,7 @@ export const Scene3PdfExtraction: React.FC = () => {
       {/* Progress bar */}
       <div
         style={{
-          marginTop: 24,
+          marginTop: 20,
           opacity: arrowOpacity,
         }}
       >
@@ -476,18 +485,18 @@ export const Scene3PdfExtraction: React.FC = () => {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            marginBottom: 6,
-            fontSize: 12,
+            marginBottom: 8,
+            fontSize: 15,
             color: COLORS.textMuted,
           }}
         >
-          <span>Extraction Progress</span>
+          <span>Extraktionsfortschritt</span>
           <span>{Math.round(extractionProgress * 100)}%</span>
         </div>
         <div
           style={{
-            height: 4,
-            borderRadius: 2,
+            height: 6,
+            borderRadius: 3,
             backgroundColor: COLORS.bgCard,
             overflow: "hidden",
           }}
@@ -496,7 +505,7 @@ export const Scene3PdfExtraction: React.FC = () => {
             style={{
               height: "100%",
               width: `${extractionProgress * 100}%`,
-              borderRadius: 2,
+              borderRadius: 3,
               background: `linear-gradient(90deg, ${COLORS.accent}, ${COLORS.success})`,
               boxShadow: `0 0 10px ${COLORS.accentGlow}`,
             }}

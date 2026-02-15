@@ -36,7 +36,7 @@ export const Scene1Introduction: React.FC = () => {
   const lineWidth = interpolate(
     frame,
     [Math.round(0.5 * fps), Math.round(2 * fps)],
-    [0, 400],
+    [0, 500],
     {
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
@@ -61,7 +61,7 @@ export const Scene1Introduction: React.FC = () => {
   const shimmerX = interpolate(
     frame,
     [Math.round(2 * fps), Math.round(4 * fps)],
-    [-200, 1200],
+    [-200, 1400],
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
   );
 
@@ -82,9 +82,9 @@ export const Scene1Introduction: React.FC = () => {
       }}
     >
       {/* Floating particles */}
-      {[...Array(6)].map((_, i) => {
-        const x = 300 + i * 250;
-        const baseY = 200 + (i % 3) * 200;
+      {[...Array(8)].map((_, i) => {
+        const x = 200 + i * 220;
+        const baseY = 150 + (i % 4) * 200;
         const y =
           baseY + Math.sin((frame + i * 40) / (1.5 * fps)) * 30;
         const size = 3 + (i % 3) * 2;
@@ -112,28 +112,28 @@ export const Scene1Introduction: React.FC = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 20,
+          gap: 24,
         }}
       >
         {/* Icon */}
         <div
           style={{
-            width: 70,
-            height: 70,
-            borderRadius: 16,
+            width: 80,
+            height: 80,
+            borderRadius: 18,
             border: `2px solid ${COLORS.accent}`,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            marginBottom: 10,
+            marginBottom: 12,
             transform: `scale(${iconScale})`,
             backgroundColor: COLORS.accentDim,
             boxShadow: `0 0 30px ${COLORS.accentGlow}`,
           }}
         >
           <svg
-            width="36"
-            height="36"
+            width="42"
+            height="42"
             viewBox="0 0 24 24"
             fill="none"
             stroke={COLORS.accent}
@@ -153,7 +153,7 @@ export const Scene1Introduction: React.FC = () => {
         >
           <h1
             style={{
-              fontSize: 56,
+              fontSize: 66,
               fontWeight: 800,
               color: COLORS.textPrimary,
               textAlign: "center",
@@ -164,9 +164,9 @@ export const Scene1Introduction: React.FC = () => {
               margin: 0,
             }}
           >
-            Automated Financial
+            Automatisierte Finanz-
             <br />
-            <span style={{ color: COLORS.accent }}>Data Verification</span>
+            <span style={{ color: COLORS.accent }}>Datenverifizierung</span>
           </h1>
 
           {/* Shimmer */}
@@ -175,7 +175,7 @@ export const Scene1Introduction: React.FC = () => {
               position: "absolute",
               top: 0,
               left: shimmerX,
-              width: 100,
+              width: 120,
               height: "100%",
               background: `linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)`,
               transform: "skewX(-15deg)",
@@ -189,28 +189,28 @@ export const Scene1Introduction: React.FC = () => {
             width: lineWidth,
             height: 2,
             background: `linear-gradient(90deg, transparent, ${COLORS.accent}, transparent)`,
-            marginTop: 4,
-            marginBottom: 4,
+            marginTop: 6,
+            marginBottom: 6,
           }}
         />
 
         {/* Subtitle */}
         <p
           style={{
-            fontSize: 22,
+            fontSize: 26,
             fontWeight: 300,
             color: COLORS.textSecondary,
             textAlign: "center",
             lineHeight: 1.5,
-            maxWidth: 700,
+            maxWidth: 800,
             opacity: subtitleEntrance,
             transform: `translateY(${interpolate(subtitleEntrance, [0, 1], [20, 0])}px)`,
             margin: 0,
           }}
         >
-          Ensuring accuracy between Bloomberg data
+          Präzisionsabgleich zwischen Bloomberg-Daten
           <br />
-          and official company reports
+          und offiziellen Unternehmensberichten
         </p>
       </div>
     </AbsoluteFill>

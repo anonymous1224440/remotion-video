@@ -74,7 +74,9 @@ export const Scene2ExcelData: React.FC = () => {
       style={{
         fontFamily,
         opacity: fadeIn * fadeOut,
-        padding: "60px 120px",
+        padding: "40px 80px",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       {/* Header */}
@@ -82,8 +84,8 @@ export const Scene2ExcelData: React.FC = () => {
         style={{
           display: "flex",
           alignItems: "center",
-          gap: 16,
-          marginBottom: 30,
+          gap: 18,
+          marginBottom: 24,
           opacity: labelSlide,
           transform: `translateY(${interpolate(labelSlide, [0, 1], [-20, 0])}px)`,
         }}
@@ -91,9 +93,9 @@ export const Scene2ExcelData: React.FC = () => {
         {/* Excel icon */}
         <div
           style={{
-            width: 48,
-            height: 48,
-            borderRadius: 10,
+            width: 54,
+            height: 54,
+            borderRadius: 12,
             backgroundColor: COLORS.excelGreen,
             display: "flex",
             alignItems: "center",
@@ -106,7 +108,7 @@ export const Scene2ExcelData: React.FC = () => {
             style={{
               color: "white",
               fontWeight: 700,
-              fontSize: 22,
+              fontSize: 26,
             }}
           >
             X
@@ -116,34 +118,34 @@ export const Scene2ExcelData: React.FC = () => {
         <div>
           <h2
             style={{
-              fontSize: 28,
+              fontSize: 32,
               fontWeight: 700,
               color: COLORS.textPrimary,
               margin: 0,
             }}
           >
-            Bloomberg Data Source
+            Bloomberg-Datenquelle
           </h2>
           <p
             style={{
-              fontSize: 14,
+              fontSize: 16,
               color: COLORS.textMuted,
               margin: "4px 0 0 0",
               letterSpacing: 0.5,
             }}
           >
-            Financial metrics extracted from Bloomberg Terminal
+            Finanzkennzahlen aus dem Bloomberg Terminal
           </p>
         </div>
       </div>
 
-      {/* Table container */}
-      <div style={{ position: "relative" }}>
+      {/* Table container - flex: 1 to fill remaining space */}
+      <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column" }}>
         <DataTable
           data={EXCEL_DATA}
           animateRows
           highlightRow={highlightRow}
-          label="Q4 2024 Financial Summary"
+          label="Q4 2024 Finanzübersicht"
         />
 
         {/* Scan line effect */}
@@ -170,8 +172,8 @@ export const Scene2ExcelData: React.FC = () => {
           alignItems: "center",
           justifyContent: "space-between",
           marginTop: 20,
-          padding: "12px 20px",
-          borderRadius: 8,
+          padding: "14px 24px",
+          borderRadius: 10,
           backgroundColor: COLORS.bgCard,
           border: `1px solid ${COLORS.border}`,
           opacity: interpolate(
@@ -186,27 +188,27 @@ export const Scene2ExcelData: React.FC = () => {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 8,
-            fontSize: 13,
+            gap: 10,
+            fontSize: 16,
             color: COLORS.textMuted,
           }}
         >
           <div
             style={{
-              width: 8,
-              height: 8,
+              width: 10,
+              height: 10,
               borderRadius: "50%",
               backgroundColor: COLORS.success,
               boxShadow: `0 0 8px ${COLORS.successGlow}`,
             }}
           />
-          5 companies loaded
+          5 Unternehmen geladen
         </div>
-        <div style={{ fontSize: 13, color: COLORS.textMuted }}>
-          4 metrics per company
+        <div style={{ fontSize: 16, color: COLORS.textMuted }}>
+          4 Kennzahlen pro Unternehmen
         </div>
-        <div style={{ fontSize: 13, color: COLORS.accent }}>
-          Ready for verification
+        <div style={{ fontSize: 16, color: COLORS.accent }}>
+          Bereit zur Verifizierung
         </div>
       </div>
     </AbsoluteFill>
