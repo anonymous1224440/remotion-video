@@ -164,8 +164,7 @@ export const Scene1Introduction: React.FC = () => {
               margin: 0,
             }}
           >
-            Automatisierte Finanz-
-            <br />
+            Automatisierte{" "}
             <span style={{ color: COLORS.accent }}>Datenverifizierung</span>
           </h1>
 

@@ -7,8 +7,7 @@ import {
   spring,
 } from "remotion";
 import { loadFont } from "@remotion/google-fonts/Inter";
-import { DataTable } from "../components/DataTable";
-import { COLORS, PDF_DATA } from "../data";
+import { COLORS } from "../data";
 
 const { fontFamily } = loadFont("normal", {
   weights: ["300", "400", "600", "700", "800"],
@@ -24,43 +23,15 @@ export const Scene6Final: React.FC = () => {
     extrapolateRight: "clamp",
   });
 
-  const tableEntrance = spring({
-    frame,
-    fps,
-    config: { damping: 200 },
-    durationInFrames: Math.round(1 * fps),
-  });
-
-  const allGreen: Record<string, "corrected"> = {};
-  for (let row = 0; row < PDF_DATA.length; row++) {
-    for (let col = 1; col <= 4; col++) {
-      allGreen[`${row}-${col}`] = "corrected";
-    }
-  }
-
-  const tableScale = interpolate(
-    frame,
-    [Math.round(3 * fps), Math.round(5 * fps)],
-    [1, 0.82],
-    { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
-  );
-
-  const tableOpacity = interpolate(
-    frame,
-    [Math.round(3 * fps), Math.round(5 * fps)],
-    [1, 0.35],
-    { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
-  );
-
   const titleEntrance = spring({
-    frame: frame - Math.round(4 * fps),
+    frame: frame - Math.round(0.5 * fps),
     fps,
     config: { damping: 200 },
     durationInFrames: Math.round(1.5 * fps),
   });
 
   const subtitleEntrance = spring({
-    frame: frame - Math.round(5.5 * fps),
+    frame: frame - Math.round(2 * fps),
     fps,
     config: { damping: 200 },
     durationInFrames: Math.round(1 * fps),
@@ -68,13 +39,13 @@ export const Scene6Final: React.FC = () => {
 
   const lineWidth = interpolate(
     frame,
-    [Math.round(5 * fps), Math.round(7 * fps)],
+    [Math.round(1.5 * fps), Math.round(3.5 * fps)],
     [0, 400],
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
   );
 
   const shieldScale = spring({
-    frame: frame - Math.round(3.5 * fps),
+    frame: frame - Math.round(0.3 * fps),
     fps,
     config: { damping: 15, stiffness: 200 },
     durationInFrames: Math.round(0.8 * fps),
@@ -89,28 +60,6 @@ export const Scene6Final: React.FC = () => {
         alignItems: "center",
       }}
     >
-      {/* Table in background */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "40px 80px",
-          opacity: tableOpacity * tableEntrance,
-          transform: `scale(${tableScale})`,
-        }}
-      >
-        <div style={{ width: "100%", maxWidth: 1400 }}>
-          <DataTable
-            data={PDF_DATA}
-            cellHighlights={allGreen}
-            label="Verifizierter Finanzdatensatz"
-          />
-        </div>
-      </div>
-
       {/* Final title overlay */}
       <div
         style={{

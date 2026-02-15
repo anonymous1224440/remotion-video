@@ -61,7 +61,7 @@ export const Scene2ExcelData: React.FC = () => {
   const scanLineY = interpolate(
     frame,
     [Math.round(4 * fps), Math.round(8 * fps)],
-    [-10, 110],
+    [0, 100],
     {
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
@@ -140,12 +140,13 @@ export const Scene2ExcelData: React.FC = () => {
       </div>
 
       {/* Table container - flex: 1 to fill remaining space */}
-      <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column" }}>
+      <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", borderRadius: 12 }}>
         <DataTable
           data={EXCEL_DATA}
           animateRows
           highlightRow={highlightRow}
-          label="Q4 2024 Finanzübersicht"
+          label="Q4 2025 Finanzübersicht"
+          greenTheme
         />
 
         {/* Scan line effect */}
@@ -157,8 +158,8 @@ export const Scene2ExcelData: React.FC = () => {
               right: 0,
               top: `${scanLineY}%`,
               height: 2,
-              background: `linear-gradient(90deg, transparent, ${COLORS.accent}, transparent)`,
-              boxShadow: `0 0 15px ${COLORS.accentGlow}`,
+              background: `linear-gradient(90deg, transparent, ${COLORS.success}, transparent)`,
+              boxShadow: `0 0 15px ${COLORS.successGlow}`,
               opacity: 0.7,
             }}
           />

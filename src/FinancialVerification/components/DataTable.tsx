@@ -28,6 +28,7 @@ type Props = {
   labelColor?: string;
   corrections?: CorrectionEntry[];
   correctionProgress?: number;
+  greenTheme?: boolean;
 };
 
 const cellKey = (row: number, col: number) => `${row}-${col}`;
@@ -45,6 +46,7 @@ export const DataTable: React.FC<Props> = ({
   labelColor,
   corrections = [],
   correctionProgress = 0,
+  greenTheme = false,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -61,14 +63,23 @@ export const DataTable: React.FC<Props> = ({
     durationInFrames: 20,
   });
 
+  const tableBorder = greenTheme ? "#1e5f3a" : COLORS.border;
+  const tableBg = greenTheme ? "rgba(10, 28, 18, 0.95)" : "rgba(12, 22, 42, 0.95)";
+  const headerBg = greenTheme ? "#0d2a1a" : COLORS.tableHeader;
+  const headerBorderColor = greenTheme ? "rgba(33, 115, 70, 0.5)" : `${COLORS.accent}40`;
+  const labelBg = greenTheme ? "#102e1c" : COLORS.bgCard;
+  const defaultLabelColor = greenTheme ? "#4ade80" : COLORS.accent;
+  const rowEven = greenTheme ? "#0c1e14" : COLORS.tableRowEven;
+  const rowOdd = greenTheme ? "#0e2218" : COLORS.tableRowOdd;
+
   return (
     <div
       style={{
         width: "100%",
         borderRadius: 12,
         overflow: "hidden",
-        border: `1px solid ${COLORS.border}`,
-        backgroundColor: "rgba(12, 22, 42, 0.95)",
+        border: `1px solid ${tableBorder}`,
+        backgroundColor: tableBg,
         opacity: tableEntrance,
         transform: `scale(${interpolate(tableEntrance, [0, 1], [0.97, 1])})`,
       }}
@@ -77,11 +88,11 @@ export const DataTable: React.FC<Props> = ({
         <div
           style={{
             padding: compact ? "10px 18px" : "14px 22px",
-            backgroundColor: COLORS.bgCard,
-            borderBottom: `1px solid ${COLORS.border}`,
+            backgroundColor: labelBg,
+            borderBottom: `1px solid ${tableBorder}`,
             fontSize: compact ? 14 : 16,
             fontWeight: 600,
-            color: labelColor ?? COLORS.accent,
+            color: labelColor ?? defaultLabelColor,
             letterSpacing: 1.5,
             textTransform: "uppercase",
           }}
@@ -93,8 +104,8 @@ export const DataTable: React.FC<Props> = ({
       <div
         style={{
           display: "flex",
-          backgroundColor: COLORS.tableHeader,
-          borderBottom: `2px solid ${COLORS.accent}40`,
+          backgroundColor: headerBg,
+          borderBottom: `2px solid ${headerBorderColor}`,
           padding: compact ? "10px 0" : "14px 0",
         }}
       >
@@ -136,12 +147,12 @@ export const DataTable: React.FC<Props> = ({
               display: "flex",
               padding: rowPadding,
               backgroundColor: isHighlighted
-                ? COLORS.accentDim
+                ? (greenTheme ? "rgba(33, 115, 70, 0.15)" : COLORS.accentDim)
                 : rowIndex % 2 === 0
-                  ? COLORS.tableRowEven
-                  : COLORS.tableRowOdd,
+                  ? rowEven
+                  : rowOdd,
               borderLeft: isHighlighted
-                ? `3px solid ${COLORS.accent}`
+                ? `3px solid ${greenTheme ? COLORS.excelGreen : COLORS.accent}`
                 : "3px solid transparent",
               opacity: rowSpring,
               transform: `translateX(${interpolate(rowSpring, [0, 1], [20, 0])}px)`,

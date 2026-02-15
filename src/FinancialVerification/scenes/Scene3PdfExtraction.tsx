@@ -300,7 +300,7 @@ export const Scene3PdfExtraction: React.FC = () => {
             alignItems: "center",
           }}
         >
-          <PdfDocument index={0} title="Jahresbericht_2024.pdf" />
+          <PdfDocument index={0} title="Jahresbericht_2025.pdf" />
           <PdfDocument index={1} title="Finanzbericht_Q4.pdf" />
           <PdfDocument index={2} title="Ergebnismeldung.pdf" />
         </div>
