@@ -10,7 +10,7 @@ Config.overrideWebpackConfig((config) => {
       ...config.resolve,
       alias: {
         ...(config.resolve?.alias || {}),
-        "@remotion/google-fonts/Inter": path.resolve(__dirname, "google-fonts-shim.js"),
+        "@remotion/google-fonts/Inter": path.resolve(process.cwd(), "google-fonts-shim.js"),
       },
     },
   };
