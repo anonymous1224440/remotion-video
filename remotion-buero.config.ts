@@ -1,4 +1,5 @@
 import { Config } from "@remotion/cli/config";
+import path from "path";
 
 Config.setVideoImageFormat("jpeg");
 Config.setOverwriteOutput(true);
@@ -9,7 +10,7 @@ Config.overrideWebpackConfig((config) => {
       ...config.resolve,
       alias: {
         ...(config.resolve?.alias || {}),
-        "@remotion/google-fonts/Inter": "/home/user/remotion-video/google-fonts-shim.js",
+        "@remotion/google-fonts/Inter": path.resolve(__dirname, "google-fonts-shim.js"),
       },
     },
   };
