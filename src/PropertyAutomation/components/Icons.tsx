@@ -277,21 +277,34 @@ export const SPLogo: React.FC<{ size?: number }> = ({ size = 100 }) => (
   <svg
     width={size}
     height={size}
-    viewBox="0 0 200 200"
+    viewBox="0 0 400 400"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <circle cx="100" cy="100" r="100" fill="#e62528" />
+    <circle cx="200" cy="200" r="195" fill="#c13a2f" />
+    {/* "s" - thin serif style, positioned lower-right in circle */}
     <text
-      x="52"
-      y="138"
+      x="128"
+      y="295"
       fill="white"
-      fontFamily="Georgia, 'Times New Roman', serif"
-      fontSize="120"
-      fontWeight="400"
-      letterSpacing="-4"
+      fontFamily="'Didot', 'Bodoni MT', 'Playfair Display', 'Times New Roman', serif"
+      fontSize="220"
+      fontWeight="300"
+      fontStyle="normal"
     >
-      sp
+      s
+    </text>
+    {/* "p" - slightly to the right */}
+    <text
+      x="235"
+      y="295"
+      fill="white"
+      fontFamily="'Didot', 'Bodoni MT', 'Playfair Display', 'Times New Roman', serif"
+      fontSize="220"
+      fontWeight="300"
+      fontStyle="normal"
+    >
+      p
     </text>
   </svg>
 );
