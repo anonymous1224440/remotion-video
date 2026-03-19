@@ -78,8 +78,8 @@ export const AIReceptionistScene: React.FC = () => {
   ];
 
   // Conversation is fully visible from the start, just scrolls slowly
-  const scrollDuration = 12 * fps; // slow scroll over 12 seconds
-  const maxScroll = 1400;
+  const scrollDuration = 10 * fps; // slow scroll over 10 seconds
+  const maxScroll = 680;
   const scrollAmount = interpolate(
     frame,
     [detailStart, detailStart + scrollDuration],
