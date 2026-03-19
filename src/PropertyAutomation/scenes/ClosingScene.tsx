@@ -1,199 +1,258 @@
-import React from 'react';
-import { AbsoluteFill, useCurrentFrame, spring, interpolate } from 'remotion';
-import { loadFont } from '@remotion/google-fonts/Inter';
-import { colors } from '../theme';
-import { Background } from '../components/Background';
-import { PhoneIcon, MailIcon, WrenchIcon } from '../components/Icons';
-
-const { fontFamily } = loadFont();
-
-const workflowIcons = [
-  { icon: <PhoneIcon size={28} color={colors.blue} />, label: 'AI Receptionist', color: colors.blue, startX: -300 },
-  { icon: <MailIcon size={28} color={colors.purple} />, label: 'Property Outreach', color: colors.purple, startX: 0 },
-  { icon: <WrenchIcon size={28} color={colors.green} />, label: 'Repair Automation', color: colors.green, startX: 300 },
-];
+import React from "react";
+import {
+  AbsoluteFill,
+  interpolate,
+  spring,
+  useCurrentFrame,
+  useVideoConfig,
+} from "remotion";
+import { COLORS } from "../theme";
+import { PhoneIcon, MailIcon, WrenchIcon } from "../components/Icons";
 
 export const ClosingScene: React.FC = () => {
   const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
 
-  // Phase 1: Converge animation (0-30 frames)
-  const convergeProgress = spring({ frame, fps: 30, config: { damping: 200 } });
-  const convergeFade = interpolate(frame, [25, 40], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
+  // Three workflow icons converging to center
+  const convergeProgress = spring({
+    frame,
+    fps,
+    config: { damping: 200 },
+    durationInFrames: 30,
+  });
 
-  // Phase 2: Static content (after frame 40)
-  const contentDelay = 50;
-  const contentProgress = spring({ frame: frame - contentDelay, fps: 30, config: { damping: 200 } });
+  // Icons fade out after converging
+  const iconsFadeOut = interpolate(convergeProgress, [0.7, 1], [1, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 
-  const iconsRowProgress = spring({ frame: frame - (contentDelay + 5), fps: 30, config: { damping: 200 } });
-  const logoProgress = spring({ frame: frame - (contentDelay + 15), fps: 30, config: { damping: 200 } });
-  const titleProgress = spring({ frame: frame - (contentDelay + 25), fps: 30, config: { damping: 200 } });
-  const subtitleProgress = spring({ frame: frame - (contentDelay + 35), fps: 30, config: { damping: 200 } });
-  const dividerProgress = spring({ frame: frame - (contentDelay + 45), fps: 30, config: { damping: 200 } });
-  const taglineProgress = spring({ frame: frame - (contentDelay + 55), fps: 30, config: { damping: 200 } });
+  // Static content appears after converge
+  const contentEntrance = spring({
+    frame,
+    fps,
+    delay: 25,
+    config: { damping: 200 },
+  });
+
+  // Title
+  const titleEntrance = spring({
+    frame,
+    fps,
+    delay: 35,
+    config: { damping: 200 },
+  });
+
+  // Subtitle
+  const subEntrance = spring({
+    frame,
+    fps,
+    delay: 50,
+    config: { damping: 200 },
+  });
+
+  // Tagline + divider
+  const tagEntrance = spring({
+    frame,
+    fps,
+    delay: 65,
+    config: { damping: 200 },
+  });
+
+  const workflows = [
+    { icon: <PhoneIcon size={28} color={COLORS.blue} />, color: COLORS.blue, label: "AI Receptionist", startX: -300, startY: -300 },
+    { icon: <MailIcon size={28} color={COLORS.purple} />, color: COLORS.purple, label: "Property Outreach", startX: 300, startY: -300 },
+    { icon: <WrenchIcon size={28} color={COLORS.green} />, color: COLORS.green, label: "Repair Automation", startX: 0, startY: 300 },
+  ];
 
   return (
-    <AbsoluteFill style={{ fontFamily }}>
-      <Background />
-
-      {/* Phase 1: Converging icons */}
-      {frame < 45 && (
-        <AbsoluteFill style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: convergeFade }}>
-          {workflowIcons.map((item, i) => {
-            const x = interpolate(convergeProgress, [0, 1], [item.startX * 2, 0]);
-            return (
-              <div
-                key={i}
-                style={{
-                  position: 'absolute',
-                  transform: `translateX(${x}px)`,
-                  opacity: convergeProgress,
-                }}
-              >
-                <div
-                  style={{
-                    width: 56,
-                    height: 56,
-                    borderRadius: 16,
-                    background: item.color + '22',
-                    border: `1px solid ${item.color}44`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {item.icon}
-                </div>
-              </div>
-            );
-          })}
-        </AbsoluteFill>
-      )}
-
-      {/* Phase 2: Static content */}
-      <AbsoluteFill
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          opacity: contentProgress,
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          {/* Workflow Icons Row */}
+    <AbsoluteFill
+      style={{
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      {/* Converging workflow icons - moving phase */}
+      {workflows.map((wf, i) => {
+        const x = interpolate(convergeProgress, [0, 1], [wf.startX, 0]);
+        const y = interpolate(convergeProgress, [0, 1], [wf.startY, 0]);
+        return (
           <div
+            key={`moving-${i}`}
             style={{
-              display: 'flex',
-              gap: 60,
-              marginBottom: 36,
-              opacity: iconsRowProgress,
-              transform: `translateY(${(1 - iconsRowProgress) * 20}px)`,
+              position: "absolute",
+              transform: `translate(${x}px, ${y}px)`,
+              opacity: iconsFadeOut,
             }}
           >
-            {workflowIcons.map((item, i) => (
-              <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
-                <div
-                  style={{
-                    width: 56,
-                    height: 56,
-                    borderRadius: 16,
-                    background: item.color + '22',
-                    border: `1px solid ${item.color}44`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: `0 0 20px ${item.color}40`,
-                  }}
-                >
-                  {item.icon}
-                </div>
-                <span style={{ fontSize: 14, color: colors.secondary, whiteSpace: 'nowrap' as const }}>{item.label}</span>
-              </div>
-            ))}
+            <div
+              style={{
+                width: 56,
+                height: 56,
+                borderRadius: 16,
+                background: `${wf.color}22`,
+                border: `1.5px solid ${wf.color}66`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: `0 0 20px ${wf.color}40`,
+              }}
+            >
+              {wf.icon}
+            </div>
           </div>
+        );
+      })}
 
-          {/* SP Logo */}
+      {/* Static content - pure flex column, NO absolute positioning for children */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        {/* Workflow icons row */}
+        <div
+          style={{
+            display: "flex",
+            gap: 60,
+            marginBottom: 36,
+            opacity: contentEntrance,
+            transform: `translateY(${(1 - contentEntrance) * 20}px)`,
+          }}
+        >
+          {workflows.map((wf, i) => (
+            <div
+              key={`final-${i}`}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              <div
+                style={{
+                  width: 56,
+                  height: 56,
+                  borderRadius: 16,
+                  background: `${wf.color}22`,
+                  border: `1.5px solid ${wf.color}66`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: `0 0 20px ${wf.color}40`,
+                }}
+              >
+                {wf.icon}
+              </div>
+              <span style={{ color: COLORS.textSecondary, fontSize: 14, fontWeight: 500 }}>
+                {wf.label}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* Central SP logo */}
+        <div
+          style={{
+            opacity: contentEntrance,
+            transform: `scale(${interpolate(contentEntrance, [0, 1], [0.5, 1])})`,
+            marginBottom: 24,
+          }}
+        >
           <div
             style={{
               width: 64,
               height: 64,
               borderRadius: 20,
-              background: colors.gradient,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: `0 0 40px ${colors.blueGlow}`,
-              marginBottom: 24,
-              opacity: logoProgress,
-              transform: `scale(${0.8 + logoProgress * 0.2})`,
+              background: COLORS.gradient1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              boxShadow: `0 0 40px ${COLORS.blueGlow}, 0 0 80px ${COLORS.purpleGlow}`,
             }}
           >
-            <span style={{ fontSize: 26, fontWeight: 700, color: '#fff' }}>SP</span>
-          </div>
-
-          {/* Title */}
-          <div
-            style={{
-              fontSize: 44,
-              fontWeight: 700,
-              marginBottom: 12,
-              opacity: titleProgress,
-              transform: `translateY(${(1 - titleProgress) * 15}px)`,
-            }}
-          >
-            <span style={{ color: colors.text }}>Three systems. </span>
             <span
               style={{
-                background: colors.gradient,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
+                color: "#fff",
+                fontSize: 26,
+                fontWeight: 800,
+                letterSpacing: "-0.02em",
               }}
             >
-              Fully automated.
+              SP
             </span>
           </div>
-
-          {/* Subtitle */}
-          <div
-            style={{
-              fontSize: 26,
-              fontWeight: 600,
-              color: colors.text,
-              marginBottom: 16,
-              opacity: subtitleProgress,
-              transform: `translateY(${(1 - subtitleProgress) * 10}px)`,
-            }}
-          >
-            Automate your growth.
-          </div>
-
-          {/* Divider */}
-          <div
-            style={{
-              width: 160 * dividerProgress,
-              height: 2,
-              background: colors.gradient,
-              marginBottom: 16,
-            }}
-          />
-
-          {/* Tagline */}
-          <div
-            style={{
-              fontSize: 16,
-              color: colors.secondary,
-              opacity: taglineProgress,
-            }}
-          >
-            Built around how you already work.
-          </div>
         </div>
-      </AbsoluteFill>
+
+        {/* Title */}
+        <h1
+          style={{
+            color: COLORS.text,
+            fontSize: 44,
+            fontWeight: 700,
+            letterSpacing: "-0.03em",
+            margin: 0,
+            marginBottom: 12,
+            textAlign: "center",
+            opacity: titleEntrance,
+            transform: `translateY(${(1 - titleEntrance) * 20}px)`,
+          }}
+        >
+          Three systems.{" "}
+          <span
+            style={{
+              background: COLORS.gradient1,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            Fully automated.
+          </span>
+        </h1>
+
+        {/* Subtitle */}
+        <p
+          style={{
+            color: COLORS.text,
+            fontSize: 26,
+            fontWeight: 600,
+            margin: 0,
+            marginBottom: 16,
+            opacity: subEntrance,
+            transform: `translateY(${(1 - subEntrance) * 15}px)`,
+          }}
+        >
+          Automate your growth.
+        </p>
+
+        {/* Divider */}
+        <div
+          style={{
+            width: interpolate(tagEntrance, [0, 1], [0, 160]),
+            height: 2,
+            background: COLORS.gradient1,
+            borderRadius: 1,
+            marginBottom: 16,
+          }}
+        />
+
+        {/* Tagline */}
+        <p
+          style={{
+            color: COLORS.textSecondary,
+            fontSize: 16,
+            fontWeight: 400,
+            margin: 0,
+            opacity: tagEntrance,
+            transform: `translateY(${(1 - tagEntrance) * 10}px)`,
+          }}
+        >
+          Built around how you already work.
+        </p>
+      </div>
     </AbsoluteFill>
   );
 };

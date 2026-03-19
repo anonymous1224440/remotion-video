@@ -1,204 +1,454 @@
-import React from 'react';
-import { AbsoluteFill, useCurrentFrame, spring, interpolate } from 'remotion';
-import { loadFont } from '@remotion/google-fonts/Inter';
-import { colors } from '../theme';
-import { Background } from '../components/Background';
-import { FlowStep } from '../components/FlowStep';
-import { KeyMessage } from '../components/KeyMessage';
-import { DatabaseIcon, SearchIcon, MailIcon, SendIcon, ClockIcon, ChartIcon } from '../components/Icons';
-
-const { fontFamily } = loadFont();
-
-const emailText = `Subject: Quick question about your property
-
-Hi David,
-
-I noticed your property on South Western Avenue has been on the market for a while.
-
-At Secured Properties Management Group, we help property owners in Los Angeles reduce vacancy and secure qualified tenants faster through targeted outreach and automation.
-
-We've been working with owners in similar situations and have helped increase inquiries and booked viewings within a few weeks.
-
-Happy to share a few ideas tailored to your property if you're open to it.
-
-Would you be available for a quick 10-minute call this week?
-
-Best,
-Jay Chu
-Secured Properties Management Group`;
-
-const dashboardStats = [
-  { label: 'Contacts Scraped', value: '2,847', color: colors.purple },
-  { label: 'Open Rate', value: '67%', color: colors.blue },
-  { label: 'Reply Rate', value: '23%', color: colors.cyan },
-  { label: 'Booked Calls', value: '41', color: colors.green },
-];
+import React from "react";
+import {
+  AbsoluteFill,
+  interpolate,
+  spring,
+  useCurrentFrame,
+  useVideoConfig,
+} from "remotion";
+import { COLORS } from "../theme";
+import {
+  DatabaseIcon,
+  SearchIcon,
+  MailIcon,
+  SendIcon,
+  ClockIcon,
+  ChartIcon,
+} from "../components/Icons";
+import { FlowStep } from "../components/FlowStep";
+import { KeyMessage } from "../components/KeyMessage";
 
 export const PropertyOutreachScene: React.FC = () => {
   const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
 
-  const headerProgress = spring({ frame: frame - 5, fps: 30, config: { damping: 200 } });
-  const flowDelay = 20;
-  const detailDelay = 60;
-  const detailProgress = spring({ frame: frame - detailDelay, fps: 30, config: { damping: 200 } });
+  const headerEntrance = spring({
+    frame,
+    fps,
+    config: { damping: 200 },
+  });
 
-  // Typing animation: show characters over 3 seconds (90 frames)
-  const typingStart = detailDelay + 20;
-  const typingDuration = 150;
-  const typingProgress = interpolate(frame, [typingStart, typingStart + typingDuration], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
-  const visibleChars = Math.floor(typingProgress * emailText.length);
-  const displayedText = emailText.slice(0, visibleChars);
-  const showCursor = typingProgress < 1 && frame > typingStart && Math.floor(frame / 8) % 2 === 0;
+  const flowStart = 1.5 * fps;
+  const detailStart = 7 * fps;
+  const followUpStart = 11 * fps;
+  const dashboardStart = 15 * fps;
+  const messagesStart = 17 * fps;
 
-  const flowSteps = [
-    { icon: <DatabaseIcon size={28} color={colors.purple} />, label: 'Scrape', color: colors.purple },
-    { icon: <SearchIcon size={28} color={colors.purple} />, label: 'Filter', color: colors.purple },
-    { icon: <MailIcon size={28} color={colors.blue} />, label: 'Personalize', color: colors.blue },
-    { icon: <SendIcon size={28} color={colors.blue} />, label: 'Send', color: colors.blue },
-    { icon: <ClockIcon size={28} color={colors.cyan} />, label: 'Follow-Up', color: colors.cyan },
-    { icon: <ChartIcon size={28} color={colors.green} />, label: 'Dashboard', color: colors.green },
-  ];
+  // Email generation animation - typing effect
+  const emailTypingProgress = interpolate(
+    frame,
+    [detailStart, detailStart + 3 * fps],
+    [0, 1],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+  );
 
-  const followUpSteps = [
-    { day: '1', label: 'Initial Send', color: colors.purple },
-    { day: '3', label: 'Follow-up', color: colors.blue },
-    { day: '7', label: 'Final Nudge', color: colors.cyan },
-  ];
+  // Follow up timeline
+  const followUp1 = spring({
+    frame,
+    fps,
+    delay: followUpStart,
+    config: { damping: 200 },
+  });
+  const followUp2 = spring({
+    frame,
+    fps,
+    delay: followUpStart + 20,
+    config: { damping: 200 },
+  });
+  const followUp3 = spring({
+    frame,
+    fps,
+    delay: followUpStart + 40,
+    config: { damping: 200 },
+  });
+
+  // Dashboard
+  const dashEntrance = spring({
+    frame,
+    fps,
+    delay: dashboardStart,
+    config: { damping: 200 },
+  });
+
+  const emailText =
+    "Subject: Quick question about your property\n\nHi David,\n\nI noticed your property on South Western Avenue has been on the market for a while.\n\nAt Secured Properties Management Group, we help property owners in Los Angeles reduce vacancy and secure qualified tenants faster through targeted outreach and automation.\n\nWe've been working with owners in similar situations and have helped increase inquiries and booked viewings within a few weeks.\n\nHappy to share a few ideas tailored to your property if you're open to it.\n\nWould you be available for a quick 10-minute call this week?\n\nBest,\nJay Chu\nSecured Properties Management Group";
+  const visibleChars = Math.floor(emailTypingProgress * emailText.length);
 
   return (
-    <AbsoluteFill style={{ fontFamily }}>
-      <Background />
-      <div style={{ padding: '40px 60px', display: 'flex', flexDirection: 'column', height: '100%' }}>
-        {/* Header */}
-        <div style={{ opacity: headerProgress, transform: `translateY(${(1 - headerProgress) * 20}px)`, marginBottom: 24 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-            <div style={{ width: 10, height: 10, borderRadius: '50%', background: colors.purple }} />
-            <span style={{ fontSize: 16, fontWeight: 700, color: colors.purple, textTransform: 'uppercase' as const, letterSpacing: 2 }}>WORKFLOW 2</span>
-          </div>
-          <div style={{ fontSize: 44, fontWeight: 700, color: colors.text }}>Automated Property Outreach</div>
-        </div>
+    <AbsoluteFill
+      style={{
+        padding: "40px 60px",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      {/* Header */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 16,
+          marginBottom: 24,
+          opacity: headerEntrance,
+          transform: `translateY(${(1 - headerEntrance) * 20}px)`,
+        }}
+      >
+        <div
+          style={{
+            width: 10,
+            height: 10,
+            borderRadius: "50%",
+            background: COLORS.purple,
+            boxShadow: `0 0 12px ${COLORS.purpleGlow}`,
+          }}
+        />
+        <span
+          style={{
+            color: COLORS.purple,
+            fontSize: 16,
+            fontWeight: 600,
+            textTransform: "uppercase",
+            letterSpacing: "0.1em",
+          }}
+        >
+          Workflow 2
+        </span>
+      </div>
 
-        {/* Flow Diagram */}
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', marginBottom: 24 }}>
-          {flowSteps.map((step, i) => (
-            <FlowStep key={i} icon={step.icon} label={step.label} color={step.color} index={i} showConnector={i < flowSteps.length - 1} appearDelay={flowDelay} />
-          ))}
-        </div>
+      <h2
+        style={{
+          color: COLORS.text,
+          fontSize: 44,
+          fontWeight: 700,
+          letterSpacing: "-0.03em",
+          margin: 0,
+          marginBottom: 20,
+          opacity: headerEntrance,
+          transform: `translateY(${(1 - headerEntrance) * 20}px)`,
+        }}
+      >
+        Automated Property Outreach
+      </h2>
 
-        {/* Detail Area */}
-        <div style={{ display: 'flex', flex: 1, gap: 24, minHeight: 0 }}>
-          {/* Left: Email Preview */}
+      {/* Flow */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "center",
+          gap: 0,
+          marginBottom: 20,
+        }}
+      >
+        <FlowStep
+          icon={<DatabaseIcon size={28} color={COLORS.purple} />}
+          label="Scrape"
+          delay={flowStart}
+          color={COLORS.purple}
+          glowColor={COLORS.purpleGlow}
+        />
+        <FlowStep
+          icon={<SearchIcon size={28} color={COLORS.purple} />}
+          label="Filter"
+          delay={flowStart + 6}
+          color={COLORS.purple}
+          glowColor={COLORS.purpleGlow}
+        />
+        <FlowStep
+          icon={<MailIcon size={28} color={COLORS.blue} />}
+          label="Personalize"
+          delay={flowStart + 12}
+          color={COLORS.blue}
+          glowColor={COLORS.blueGlow}
+        />
+        <FlowStep
+          icon={<SendIcon size={28} color={COLORS.blue} />}
+          label="Send"
+          delay={flowStart + 18}
+          color={COLORS.blue}
+          glowColor={COLORS.blueGlow}
+        />
+        <FlowStep
+          icon={<ClockIcon size={28} color={COLORS.cyan} />}
+          label="Follow-Up"
+          delay={flowStart + 24}
+          color={COLORS.cyan}
+          glowColor={COLORS.cyanDim}
+        />
+        <FlowStep
+          icon={<ChartIcon size={28} color={COLORS.green} />}
+          label="Dashboard"
+          delay={flowStart + 30}
+          color={COLORS.green}
+          glowColor={COLORS.greenGlow}
+          showConnector={false}
+        />
+      </div>
+
+      {/* Detail area */}
+      <div style={{ display: "flex", gap: 32, flex: 1 }}>
+        {/* Left - Email preview */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
           <div
             style={{
-              flex: 1,
-              background: colors.card,
-              border: `1px solid ${colors.purple}33`,
+              opacity: interpolate(
+                frame,
+                [detailStart - 10, detailStart],
+                [0, 1],
+                { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+              ),
+              background: COLORS.bgCard,
+              border: `1px solid ${COLORS.purple}33`,
               borderRadius: 16,
               padding: 24,
-              display: 'flex',
-              flexDirection: 'column',
-              opacity: detailProgress,
-              overflow: 'hidden',
+              flex: 1,
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-              <MailIcon size={18} color={colors.purple} />
-              <span style={{ fontSize: 13, fontWeight: 700, color: colors.purple }}>AI-Generated Email</span>
+            {/* Email header */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                marginBottom: 12,
+                borderBottom: `1px solid ${COLORS.surface}`,
+                paddingBottom: 12,
+              }}
+            >
+              <MailIcon size={16} color={COLORS.purple} />
+              <span
+                style={{
+                  color: COLORS.purple,
+                  fontSize: 13,
+                  fontWeight: 600,
+                }}
+              >
+                AI-Generated Email
+              </span>
+              <div style={{ flex: 1 }} />
+              <span
+                style={{
+                  color: COLORS.textMuted,
+                  fontSize: 12,
+                }}
+              >
+                To: david.owner@email.com
+              </span>
             </div>
-            <div style={{ fontSize: 12, color: colors.muted, marginBottom: 16 }}>
-              To: <span style={{ textDecoration: 'underline', color: colors.secondary }}>david.owner@email.com</span>
+            {/* Email body - typing animation with line breaks */}
+            <div
+              style={{
+                color: COLORS.textSecondary,
+                fontSize: 14,
+                lineHeight: 1.5,
+                margin: 0,
+                whiteSpace: "pre-wrap",
+              }}
+            >
+              {emailText.slice(0, visibleChars)}
+              {emailTypingProgress < 1 && (
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: 2,
+                    height: 14,
+                    background: COLORS.purple,
+                    marginLeft: 2,
+                    opacity: Math.sin(frame * 0.3) > 0 ? 1 : 0,
+                    verticalAlign: "middle",
+                  }}
+                />
+              )}
             </div>
-            <div style={{ flex: 1, overflow: 'hidden' }}>
-              <div style={{ fontSize: 14, lineHeight: 1.5, color: colors.text, whiteSpace: 'pre-wrap' as const }}>
-                {displayedText}
-                {showCursor && <span style={{ color: colors.purple, fontWeight: 700 }}>|</span>}
-              </div>
+          </div>
+        </div>
+
+        {/* Right - Follow-up + Dashboard + Messages */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
+          {/* Follow-up timeline - appears when content comes in */}
+          <div
+            style={{
+              background: COLORS.bgCard,
+              border: `1px solid ${COLORS.purple}22`,
+              borderRadius: 16,
+              padding: 20,
+              opacity: followUp1,
+              transform: `translateY(${(1 - followUp1) * 20}px)`,
+            }}
+          >
+            <span
+              style={{
+                color: COLORS.text,
+                fontSize: 16,
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: "0.08em",
+                display: "block",
+                marginBottom: 16,
+              }}
+            >
+              Follow-Up Sequence
+            </span>
+            <div
+              style={{
+                display: "flex",
+                gap: 16,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {[
+                { label: "Initial Send", time: "Day 1", progress: followUp1, color: COLORS.purple },
+                { label: "Follow-up", time: "Day 3", progress: followUp2, color: COLORS.blue },
+                { label: "Final Nudge", time: "Day 7", progress: followUp3, color: COLORS.cyan },
+              ].map((step, i) => (
+                <React.Fragment key={i}>
+                  <div
+                    style={{
+                      opacity: step.progress,
+                      transform: `scale(${interpolate(step.progress, [0, 1], [0.8, 1])})`,
+                      background: `${step.color}15`,
+                      border: `2px solid ${step.color}66`,
+                      borderRadius: 12,
+                      padding: "14px 24px",
+                      textAlign: "center",
+                      flex: 1,
+                    }}
+                  >
+                    <div style={{ color: step.color, fontSize: 22, fontWeight: 700 }}>
+                      {step.time}
+                    </div>
+                    <div style={{ color: COLORS.textSecondary, fontSize: 13, marginTop: 4, fontWeight: 500 }}>
+                      {step.label}
+                    </div>
+                  </div>
+                  {i < 2 && (
+                    <div
+                      style={{
+                        width: 28,
+                        height: 3,
+                        background: `${step.color}66`,
+                        opacity: step.progress,
+                        borderRadius: 2,
+                        flexShrink: 0,
+                      }}
+                    />
+                  )}
+                </React.Fragment>
+              ))}
             </div>
           </div>
 
-          {/* Right: 3 Cards */}
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {/* Card 1: Follow-Up Sequence */}
-            <div
+          {/* Stats dashboard */}
+          <div
+            style={{
+              opacity: dashEntrance,
+              transform: `translateY(${(1 - dashEntrance) * 20}px)`,
+              background: COLORS.bgCard,
+              border: `1px solid ${COLORS.purple}22`,
+              borderRadius: 16,
+              padding: 24,
+              flex: 1,
+            }}
+          >
+            <span
               style={{
-                background: colors.card,
-                border: `1px solid ${colors.purple}22`,
-                borderRadius: 16,
-                padding: 20,
-                opacity: spring({ frame: frame - (detailDelay + 10), fps: 30, config: { damping: 200 } }),
+                color: COLORS.textMuted,
+                fontSize: 12,
+                fontWeight: 600,
+                textTransform: "uppercase",
+                letterSpacing: "0.08em",
               }}
             >
-              <div style={{ fontSize: 16, fontWeight: 700, color: colors.text, textTransform: 'uppercase' as const, marginBottom: 16, letterSpacing: 1 }}>
-                Follow-Up Sequence
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 0, justifyContent: 'center' }}>
-                {followUpSteps.map((step, i) => (
-                  <React.Fragment key={i}>
+              Campaign Dashboard
+            </span>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 16,
+                marginTop: 16,
+              }}
+            >
+              {[
+                { label: "Contacts Scraped", value: "2,847", color: COLORS.purple },
+                { label: "Open Rate", value: "67%", color: COLORS.blue },
+                { label: "Reply Rate", value: "23%", color: COLORS.cyan },
+                { label: "Booked Calls", value: "41", color: COLORS.green },
+              ].map((stat, i) => {
+                const statEntrance = spring({
+                  frame,
+                  fps,
+                  delay: dashboardStart + 8 + i * 8,
+                  config: { damping: 200 },
+                });
+                return (
+                  <div
+                    key={i}
+                    style={{
+                      opacity: statEntrance,
+                      transform: `translateY(${(1 - statEntrance) * 10}px)`,
+                      background: COLORS.surface,
+                      borderRadius: 10,
+                      padding: 16,
+                      textAlign: "center",
+                    }}
+                  >
                     <div
                       style={{
-                        background: step.color + '22',
-                        border: `1px solid ${step.color}44`,
-                        borderRadius: 12,
-                        padding: '12px 20px',
-                        textAlign: 'center' as const,
+                        color: stat.color,
+                        fontSize: 34,
+                        fontWeight: 700,
+                        letterSpacing: "-0.02em",
                       }}
                     >
-                      <div style={{ fontSize: 22, fontWeight: 700, color: step.color }}>Day {step.day}</div>
-                      <div style={{ fontSize: 13, color: colors.secondary }}>{step.label}</div>
+                      {stat.value}
                     </div>
-                    {i < followUpSteps.length - 1 && (
-                      <div style={{ width: 30, height: 2, background: colors.muted + '44', margin: '0 4px' }} />
-                    )}
-                  </React.Fragment>
-                ))}
-              </div>
-            </div>
-
-            {/* Card 2: Campaign Dashboard */}
-            <div
-              style={{
-                flex: 1,
-                background: colors.card,
-                border: `1px solid ${colors.purple}22`,
-                borderRadius: 16,
-                padding: 20,
-                display: 'flex',
-                flexDirection: 'column',
-                opacity: spring({ frame: frame - (detailDelay + 20), fps: 30, config: { damping: 200 } }),
-              }}
-            >
-              <div style={{ fontSize: 16, fontWeight: 700, color: colors.secondary, textTransform: 'uppercase' as const, marginBottom: 14, letterSpacing: 1 }}>
-                Campaign Dashboard
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, flex: 1 }}>
-                {dashboardStats.map((stat, i) => (
-                  <div key={i} style={{ background: colors.surface, borderRadius: 12, padding: '16px 20px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <div style={{ fontSize: 34, fontWeight: 700, color: stat.color }}>{stat.value}</div>
-                    <div style={{ fontSize: 14, color: colors.muted, marginTop: 4 }}>{stat.label}</div>
+                    <div
+                      style={{
+                        color: COLORS.textMuted,
+                        fontSize: 14,
+                        marginTop: 4,
+                      }}
+                    >
+                      {stat.label}
+                    </div>
                   </div>
-                ))}
-              </div>
+                );
+              })}
             </div>
+          </div>
 
-            {/* Card 3: Key Messages */}
-            <div
-              style={{
-                flex: 1,
-                background: colors.card,
-                border: `1px solid ${colors.purple}22`,
-                borderRadius: 16,
-                padding: 24,
-                display: 'flex',
-                flexDirection: 'column',
-                opacity: spring({ frame: frame - (detailDelay + 30), fps: 30, config: { damping: 200 } }),
-              }}
-            >
-              <KeyMessage
-                messages={['Finds owners automatically', 'Personalized outreach at scale', 'Growth on autopilot']}
-                color={colors.purple}
-                startFrame={detailDelay + 40}
-              />
-            </div>
+          {/* Key messages - appear when content comes in */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 12,
+              background: COLORS.bgCard,
+              border: `1px solid ${COLORS.purple}22`,
+              borderRadius: 16,
+              padding: 24,
+              flex: 1,
+              opacity: spring({ frame, fps, delay: messagesStart, config: { damping: 200 } }),
+              transform: `translateY(${(1 - spring({ frame, fps, delay: messagesStart, config: { damping: 200 } })) * 20}px)`,
+            }}
+          >
+            <KeyMessage
+              text="Finds owners automatically"
+              delay={messagesStart}
+              color={COLORS.purple}
+            />
+            <KeyMessage
+              text="Personalized outreach at scale"
+              delay={messagesStart + 6}
+              color={COLORS.purple}
+            />
+            <KeyMessage
+              text="Growth on autopilot"
+              delay={messagesStart + 12}
+              color={COLORS.purple}
+            />
           </div>
         </div>
       </div>

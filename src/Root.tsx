@@ -4,6 +4,9 @@ import { MyComposition } from "./Composition";
 import { FinancialVerificationVideo } from "./FinancialVerification/FinancialVerificationVideo";
 import { PropertyAutomationVideo } from "./PropertyAutomation/PropertyAutomationVideo";
 
+// Total duration: 75s at 30fps = 2250 frames, minus 4 transitions of 15 frames each = 2190
+const PROPERTY_AUTOMATION_DURATION = 2250 - 4 * 15;
+
 export const RemotionRoot: React.FC = () => {
   return (
     <>
@@ -26,7 +29,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="PropertyAutomationVideo"
         component={PropertyAutomationVideo}
-        durationInFrames={2190}
+        durationInFrames={PROPERTY_AUTOMATION_DURATION}
         fps={30}
         width={1920}
         height={1080}

@@ -1,263 +1,508 @@
-import React from 'react';
-import { AbsoluteFill, useCurrentFrame, spring } from 'remotion';
-import { loadFont } from '@remotion/google-fonts/Inter';
-import { colors } from '../theme';
-import { Background } from '../components/Background';
-import { FlowStep } from '../components/FlowStep';
-import { KeyMessage } from '../components/KeyMessage';
-import { MailIcon, SearchIcon, WrenchIcon, SendIcon, CheckIcon, ShieldIcon } from '../components/Icons';
-
-const { fontFamily } = loadFont();
-
-const timelineEntries = [
-  { text: 'Request received', time: '9:02 AM' },
-  { text: 'Plumber assigned: Mike R.', time: '9:05 AM' },
-  { text: 'Tenant notified', time: '9:06 AM' },
-  { text: 'Scheduled: Tomorrow 10 AM', time: '9:10 AM' },
-  { text: 'Job completed & logged', time: '10:45 AM' },
-];
+import React from "react";
+import {
+  AbsoluteFill,
+  interpolate,
+  spring,
+  useCurrentFrame,
+  useVideoConfig,
+} from "remotion";
+import { COLORS } from "../theme";
+import {
+  MailIcon,
+  SearchIcon,
+  WrenchIcon,
+  SendIcon,
+  CheckIcon,
+  ShieldIcon,
+} from "../components/Icons";
+import { FlowStep } from "../components/FlowStep";
+import { KeyMessage } from "../components/KeyMessage";
 
 export const RepairRequestScene: React.FC = () => {
   const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
 
-  const headerProgress = spring({ frame: frame - 5, fps: 30, config: { damping: 200 } });
-  const flowDelay = 20;
-  const detailDelay = 60;
-  const flowSteps = [
-    { icon: <MailIcon size={28} color={colors.green} />, label: 'Request', color: colors.green },
-    { icon: <SearchIcon size={28} color={colors.green} />, label: 'Analyze', color: colors.green },
-    { icon: <WrenchIcon size={28} color={colors.cyan} />, label: 'Match Pro', color: colors.cyan },
-    { icon: <SendIcon size={28} color={colors.blue} />, label: 'Work Order', color: colors.blue },
-    { icon: <CheckIcon size={28} color={colors.green} />, label: 'Complete', color: colors.green },
-  ];
+  const headerEntrance = spring({
+    frame,
+    fps,
+    config: { damping: 200 },
+  });
 
-  const analysisTags = [
-    { label: 'Type', value: 'Plumbing', color: colors.blue },
-    { label: 'Urgency', value: 'High', color: colors.orange },
-    { label: 'Unit', value: '4B', color: colors.green },
-  ];
+  const flowStart = 1.5 * fps;
+  const detailStart = 7 * fps;
+  const approvalStart = 12 * fps;
+  const statusStart = 15 * fps;
+  const messagesStart = 17 * fps;
+
+  // Email card entrance
+  const emailEntrance = spring({
+    frame,
+    fps,
+    delay: detailStart,
+    config: { damping: 200 },
+  });
+
+  // AI analysis
+  const analysisEntrance = spring({
+    frame,
+    fps,
+    delay: detailStart + 20,
+    config: { damping: 200 },
+  });
+
+  // Approval split
+  const approvalEntrance = spring({
+    frame,
+    fps,
+    delay: approvalStart,
+    config: { damping: 200 },
+  });
+
+  // Status timeline
+  const statusEntrance = spring({
+    frame,
+    fps,
+    delay: statusStart,
+    config: { damping: 200 },
+  });
 
   return (
-    <AbsoluteFill style={{ fontFamily }}>
-      <Background />
-      <div style={{ padding: '40px 60px', display: 'flex', flexDirection: 'column', height: '100%' }}>
-        {/* Header */}
-        <div style={{ opacity: headerProgress, transform: `translateY(${(1 - headerProgress) * 20}px)`, marginBottom: 24 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-            <div style={{ width: 10, height: 10, borderRadius: '50%', background: colors.green }} />
-            <span style={{ fontSize: 16, fontWeight: 700, color: colors.green, textTransform: 'uppercase' as const, letterSpacing: 2 }}>WORKFLOW 3</span>
-          </div>
-          <div style={{ fontSize: 44, fontWeight: 700, color: colors.text }}>Repair Request Automation</div>
-        </div>
+    <AbsoluteFill
+      style={{
+        padding: "40px 60px",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      {/* Header */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 16,
+          marginBottom: 24,
+          opacity: headerEntrance,
+          transform: `translateY(${(1 - headerEntrance) * 20}px)`,
+        }}
+      >
+        <div
+          style={{
+            width: 10,
+            height: 10,
+            borderRadius: "50%",
+            background: COLORS.green,
+            boxShadow: `0 0 12px ${COLORS.greenGlow}`,
+          }}
+        />
+        <span
+          style={{
+            color: COLORS.green,
+            fontSize: 16,
+            fontWeight: 600,
+            textTransform: "uppercase",
+            letterSpacing: "0.1em",
+          }}
+        >
+          Workflow 3
+        </span>
+      </div>
 
-        {/* Flow Diagram */}
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', marginBottom: 24 }}>
-          {flowSteps.map((step, i) => (
-            <FlowStep key={i} icon={step.icon} label={step.label} color={step.color} index={i} showConnector={i < flowSteps.length - 1} appearDelay={flowDelay} />
-          ))}
-        </div>
+      <h2
+        style={{
+          color: COLORS.text,
+          fontSize: 44,
+          fontWeight: 700,
+          letterSpacing: "-0.03em",
+          margin: 0,
+          marginBottom: 20,
+          opacity: headerEntrance,
+          transform: `translateY(${(1 - headerEntrance) * 20}px)`,
+        }}
+      >
+        Repair Request Automation
+      </h2>
 
-        {/* Detail Area */}
-        <div style={{ display: 'flex', flex: 1, gap: 24, minHeight: 0 }}>
-          {/* Left: 3 Cards */}
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {/* Card 1: Incoming Request */}
+      {/* Flow */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "center",
+          gap: 0,
+          marginBottom: 20,
+        }}
+      >
+        <FlowStep
+          icon={<MailIcon size={28} color={COLORS.green} />}
+          label="Request"
+          delay={flowStart}
+          color={COLORS.green}
+          glowColor={COLORS.greenGlow}
+        />
+        <FlowStep
+          icon={<SearchIcon size={28} color={COLORS.green} />}
+          label="Analyze"
+          delay={flowStart + 6}
+          color={COLORS.green}
+          glowColor={COLORS.greenGlow}
+        />
+        <FlowStep
+          icon={<WrenchIcon size={28} color={COLORS.cyan} />}
+          label="Match Pro"
+          delay={flowStart + 12}
+          color={COLORS.cyan}
+          glowColor={COLORS.cyanDim}
+        />
+        <FlowStep
+          icon={<SendIcon size={28} color={COLORS.blue} />}
+          label="Work Order"
+          delay={flowStart + 18}
+          color={COLORS.blue}
+          glowColor={COLORS.blueGlow}
+        />
+        <FlowStep
+          icon={<CheckIcon size={28} color={COLORS.green} />}
+          label="Complete"
+          delay={flowStart + 24}
+          color={COLORS.green}
+          glowColor={COLORS.greenGlow}
+          showConnector={false}
+        />
+      </div>
+
+      {/* Detail area */}
+      <div style={{ display: "flex", gap: 32, flex: 1 }}>
+        {/* Left column */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
+          {/* Tenant email */}
+          <div
+            style={{
+              opacity: emailEntrance,
+              transform: `translateY(${(1 - emailEntrance) * 20}px)`,
+              background: COLORS.bgCard,
+              border: `1px solid ${COLORS.green}33`,
+              borderRadius: 16,
+              padding: 20,
+            }}
+          >
             <div
               style={{
-                background: colors.card,
-                border: `1px solid ${colors.green}33`,
-                borderRadius: 16,
-                padding: 20,
-                opacity: spring({ frame: frame - (detailDelay), fps: 30, config: { damping: 200 } }),
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                marginBottom: 12,
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                <MailIcon size={18} color={colors.green} />
-                <span style={{ fontSize: 14, fontWeight: 700, color: colors.green }}>Incoming Request</span>
+              <MailIcon size={16} color={COLORS.green} />
+              <span style={{ color: COLORS.green, fontSize: 13, fontWeight: 600 }}>
+                Incoming Request
+              </span>
+            </div>
+            <div
+              style={{
+                background: COLORS.surface,
+                borderRadius: 10,
+                padding: 14,
+              }}
+            >
+              <div style={{ color: COLORS.textMuted, fontSize: 12, marginBottom: 6 }}>
+                From: tenant@email.com — Unit 4B
               </div>
-              <div style={{ background: colors.surface, borderRadius: 10, padding: '14px 18px' }}>
-                <div style={{ fontSize: 12, color: colors.muted, marginBottom: 6 }}>
-                  From: <span style={{ textDecoration: 'underline' }}>tenant@email.com</span> — Unit 4B
-                </div>
-                <div style={{ fontSize: 16, color: colors.text, lineHeight: 1.4 }}>
-                  The kitchen sink is leaking badly. Water is pooling on the floor.
-                </div>
+              <div style={{ color: COLORS.text, fontSize: 16 }}>
+                "The kitchen sink is leaking badly. Water is pooling on the floor."
               </div>
             </div>
+          </div>
 
-            {/* Card 2: AI Analysis */}
+          {/* AI Analysis */}
+          <div
+            style={{
+              opacity: analysisEntrance,
+              transform: `translateY(${(1 - analysisEntrance) * 20}px)`,
+              background: COLORS.bgCard,
+              border: `1px solid ${COLORS.cyan}22`,
+              borderRadius: 16,
+              padding: 20,
+            }}
+          >
             <div
               style={{
-                background: colors.card,
-                border: `1px solid ${colors.cyan}33`,
-                borderRadius: 16,
-                padding: 20,
-                opacity: spring({ frame: frame - (detailDelay + 15), fps: 30, config: { damping: 200 } }),
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                marginBottom: 12,
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
-                <SearchIcon size={18} color={colors.cyan} />
-                <span style={{ fontSize: 14, fontWeight: 700, color: colors.cyan }}>AI Analysis</span>
-              </div>
-              <div style={{ display: 'flex', gap: 16 }}>
-                {analysisTags.map((tag, i) => (
-                  <div key={i} style={{ flex: 1, textAlign: 'center' as const }}>
-                    <div style={{ fontSize: 14, color: colors.muted, marginBottom: 6 }}>{tag.label}</div>
+              <SearchIcon size={16} color={COLORS.cyan} />
+              <span style={{ color: COLORS.cyan, fontSize: 13, fontWeight: 600 }}>
+                AI Analysis
+              </span>
+            </div>
+            <div style={{ display: "flex", gap: 12 }}>
+              {[
+                { label: "Type", value: "Plumbing", color: COLORS.blue },
+                { label: "Urgency", value: "High", color: COLORS.orange },
+                { label: "Unit", value: "4B", color: COLORS.green },
+              ].map((tag, i) => {
+                const tagEntrance = spring({
+                  frame,
+                  fps,
+                  delay: detailStart + 25 + i * 8,
+                  config: { damping: 200 },
+                });
+                return (
+                  <div
+                    key={i}
+                    style={{
+                      opacity: tagEntrance,
+                      transform: `scale(${interpolate(tagEntrance, [0, 1], [0.8, 1])})`,
+                      flex: 1,
+                      background: COLORS.surface,
+                      borderRadius: 8,
+                      padding: "10px 14px",
+                      textAlign: "center",
+                    }}
+                  >
                     <div
                       style={{
-                        fontSize: 22,
-                        fontWeight: 700,
+                        color: COLORS.textMuted,
+                        fontSize: 13,
+                        fontWeight: 500,
+                        marginBottom: 4,
+                      }}
+                    >
+                      {tag.label}
+                    </div>
+                    <div
+                      style={{
                         color: tag.color,
-                        background: tag.color + '18',
-                        borderRadius: 10,
-                        padding: '10px 16px',
-                        border: `1px solid ${tag.color}33`,
+                        fontSize: 20,
+                        fontWeight: 700,
                       }}
                     >
                       {tag.value}
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Card 3: Key Messages */}
-            <div
-              style={{
-                flex: 1,
-                background: colors.card,
-                border: `1px solid ${colors.green}22`,
-                borderRadius: 16,
-                padding: 24,
-                display: 'flex',
-                flexDirection: 'column',
-                opacity: spring({ frame: frame - (detailDelay + 30), fps: 30, config: { damping: 200 } }),
-              }}
-            >
-              <KeyMessage
-                messages={['No manual coordination', 'Smart contractor matching', 'You control approvals']}
-                color={colors.green}
-                startFrame={detailDelay + 40}
-              />
+                );
+              })}
             </div>
           </div>
 
-          {/* Right: 2 Cards */}
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {/* Card 1: Approval Logic */}
+          {/* Key messages */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 12,
+              flex: 1,
+              background: COLORS.bgCard,
+              border: `1px solid ${COLORS.green}22`,
+              borderRadius: 16,
+              padding: 24,
+              opacity: spring({ frame, fps, delay: messagesStart, config: { damping: 200 } }),
+              transform: `translateY(${(1 - spring({ frame, fps, delay: messagesStart, config: { damping: 200 } })) * 20}px)`,
+            }}
+          >
+            <KeyMessage
+              text="No manual coordination"
+              delay={messagesStart}
+              color={COLORS.green}
+            />
+            <KeyMessage
+              text="Smart contractor matching"
+              delay={messagesStart + 6}
+              color={COLORS.green}
+            />
+            <KeyMessage
+              text="You control approvals"
+              delay={messagesStart + 12}
+              color={COLORS.green}
+            />
+          </div>
+        </div>
+
+        {/* Right column */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
+          {/* Approval logic - split card */}
+          <div
+            style={{
+              opacity: approvalEntrance,
+              transform: `translateY(${(1 - approvalEntrance) * 20}px)`,
+              background: COLORS.bgCard,
+              border: `1px solid ${COLORS.blue}22`,
+              borderRadius: 16,
+              padding: 20,
+            }}
+          >
             <div
               style={{
-                background: colors.card,
-                border: `1px solid ${colors.blue}33`,
-                borderRadius: 16,
-                padding: 20,
-                opacity: spring({ frame: frame - (detailDelay + 10), fps: 30, config: { damping: 200 } }),
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                marginBottom: 14,
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
-                <ShieldIcon size={18} color={colors.blue} />
-                <span style={{ fontSize: 14, fontWeight: 700, color: colors.blue }}>Approval Logic</span>
-              </div>
-              <div style={{ display: 'flex', gap: 16 }}>
+              <ShieldIcon size={16} color={COLORS.blue} />
+              <span style={{ color: COLORS.blue, fontSize: 13, fontWeight: 600 }}>
+                Approval Logic
+              </span>
+            </div>
+            <div style={{ display: "flex", gap: 12 }}>
+              {/* Auto-approved */}
+              <div
+                style={{
+                  flex: 1,
+                  background: COLORS.greenDim,
+                  border: `1px solid ${COLORS.green}44`,
+                  borderRadius: 10,
+                  padding: 14,
+                  textAlign: "center",
+                }}
+              >
+                <CheckIcon size={24} color={COLORS.green} />
                 <div
                   style={{
-                    flex: 1,
-                    background: colors.greenDim,
-                    borderRadius: 12,
-                    padding: '18px 16px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: 8,
-                    border: `1px solid ${colors.green}33`,
+                    color: COLORS.green,
+                    fontSize: 14,
+                    fontWeight: 600,
+                    marginTop: 6,
                   }}
                 >
-                  <CheckIcon size={28} color={colors.green} />
-                  <div style={{ fontSize: 16, fontWeight: 700, color: colors.green }}>Auto-Approved</div>
-                  <div style={{ fontSize: 13, color: colors.muted }}>Under $500</div>
+                  Auto-Approved
                 </div>
                 <div
                   style={{
-                    flex: 1,
-                    background: colors.orangeDim,
-                    borderRadius: 12,
-                    padding: '18px 16px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: 8,
-                    border: `1px solid ${colors.orange}33`,
+                    color: COLORS.textMuted,
+                    fontSize: 12,
+                    marginTop: 4,
                   }}
                 >
-                  <ShieldIcon size={28} color={colors.orange} />
-                  <div style={{ fontSize: 16, fontWeight: 700, color: colors.orange }}>Needs Approval</div>
-                  <div style={{ fontSize: 13, color: colors.muted }}>Over $500</div>
+                  Under $500
+                </div>
+              </div>
+              {/* Requires approval */}
+              <div
+                style={{
+                  flex: 1,
+                  background: COLORS.orangeDim,
+                  border: `1px solid ${COLORS.orange}44`,
+                  borderRadius: 10,
+                  padding: 14,
+                  textAlign: "center",
+                }}
+              >
+                <ShieldIcon size={24} color={COLORS.orange} />
+                <div
+                  style={{
+                    color: COLORS.orange,
+                    fontSize: 14,
+                    fontWeight: 600,
+                    marginTop: 6,
+                  }}
+                >
+                  Needs Approval
+                </div>
+                <div
+                  style={{
+                    color: COLORS.textMuted,
+                    fontSize: 12,
+                    marginTop: 4,
+                  }}
+                >
+                  Over $500
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Card 2: Live Status */}
+          {/* Status timeline */}
+          <div
+            style={{
+              opacity: statusEntrance,
+              transform: `translateY(${(1 - statusEntrance) * 20}px)`,
+              background: COLORS.bgCard,
+              border: `1px solid ${COLORS.green}22`,
+              borderRadius: 16,
+              padding: 20,
+              flex: 1,
+            }}
+          >
             <div
               style={{
-                flex: 1,
-                background: colors.card,
-                border: `1px solid ${colors.green}33`,
-                borderRadius: 16,
-                padding: 20,
-                display: 'flex',
-                flexDirection: 'column',
-                opacity: spring({ frame: frame - (detailDelay + 20), fps: 30, config: { damping: 200 } }),
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                marginBottom: 14,
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-                <WrenchIcon size={18} color={colors.green} />
-                <span style={{ fontSize: 14, fontWeight: 700, color: colors.green }}>Live Status</span>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 0, flex: 1, justifyContent: 'space-around' }}>
-                {timelineEntries.map((entry, i) => {
-                  const entryDelay = detailDelay + 30 + i * 15;
-                  const entryProgress = spring({ frame: frame - entryDelay, fps: 30, config: { damping: 200 } });
-                  const isLast = i === timelineEntries.length - 1;
-                  const lastGreenDelay = entryDelay + 60; // 2s delay for last check turning green
-                  const lastGreen = isLast ? spring({ frame: frame - lastGreenDelay, fps: 30, config: { damping: 200 } }) : 1;
-                  const checkColor = isLast ? (lastGreen > 0.5 ? colors.green : colors.muted) : colors.green;
-
-                  return (
-                    <div
-                      key={i}
+              <WrenchIcon size={16} color={COLORS.green} />
+              <span style={{ color: COLORS.green, fontSize: 13, fontWeight: 600 }}>
+                Live Status
+              </span>
+            </div>
+            {[
+              { text: "Request received", time: "9:02 AM", done: true },
+              { text: "Plumber assigned: Mike R.", time: "9:05 AM", done: true },
+              { text: "Tenant notified", time: "9:06 AM", done: true },
+              { text: "Scheduled: Tomorrow 10 AM", time: "9:10 AM", done: true },
+              { text: "Job completed & logged", time: "10:45 AM", done: frame > statusStart + 2 * fps },
+            ].map((item, i) => {
+              const itemEntrance = spring({
+                frame,
+                fps,
+                delay: statusStart + 8 + i * 10,
+                config: { damping: 200 },
+              });
+              return (
+                <div
+                  key={i}
+                  style={{
+                    opacity: itemEntrance,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    padding: "6px 0",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 20,
+                      height: 20,
+                      borderRadius: "50%",
+                      background: item.done
+                        ? COLORS.greenDim
+                        : COLORS.surface,
+                      border: `1.5px solid ${item.done ? COLORS.green : COLORS.textMuted}44`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
+                  >
+                    {item.done && <CheckIcon size={12} color={COLORS.green} />}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <span
                       style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 12,
-                        padding: '8px 0',
-                        opacity: entryProgress,
-                        transform: `translateX(${(1 - entryProgress) * 20}px)`,
+                        color: COLORS.text,
+                        fontSize: 15,
+                        fontWeight: 500,
                       }}
                     >
-                      <div
-                        style={{
-                          width: 28,
-                          height: 28,
-                          borderRadius: '50%',
-                          background: checkColor + '22',
-                          border: `2px solid ${checkColor}`,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          flexShrink: 0,
-                        }}
-                      >
-                        <CheckIcon size={14} color={checkColor} />
-                      </div>
-                      <div style={{ flex: 1 }}>
-                        <span style={{ fontSize: 16, color: colors.text, fontWeight: 500 }}>{entry.text}</span>
-                      </div>
-                      <span style={{ fontSize: 14, color: colors.muted, flexShrink: 0 }}>{entry.time}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+                      {item.text}
+                    </span>
+                  </div>
+                  <span
+                    style={{
+                      color: COLORS.textMuted,
+                      fontSize: 13,
+                    }}
+                  >
+                    {item.time}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

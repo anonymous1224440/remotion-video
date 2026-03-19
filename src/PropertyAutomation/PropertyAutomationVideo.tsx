@@ -1,64 +1,102 @@
-import React from 'react';
-import { TransitionSeries, linearTiming } from '@remotion/transitions';
-import { fade } from '@remotion/transitions/fade';
-import { slide } from '@remotion/transitions/slide';
-import { HookScene } from './scenes/HookScene';
-import { AIReceptionistScene } from './scenes/AIReceptionistScene';
-import { PropertyOutreachScene } from './scenes/PropertyOutreachScene';
-import { RepairRequestScene } from './scenes/RepairRequestScene';
-import { ClosingScene } from './scenes/ClosingScene';
+import React from "react";
+import { AbsoluteFill } from "remotion";
+import { TransitionSeries, linearTiming } from "@remotion/transitions";
+import { fade } from "@remotion/transitions/fade";
+import { slide } from "@remotion/transitions/slide";
+import { Background } from "./components/Background";
+import { HookScene } from "./scenes/HookScene";
+import { AIReceptionistScene } from "./scenes/AIReceptionistScene";
+import { PropertyOutreachScene } from "./scenes/PropertyOutreachScene";
+import { RepairRequestScene } from "./scenes/RepairRequestScene";
+import { ClosingScene } from "./scenes/ClosingScene";
+import { loadFont } from "@remotion/google-fonts/Inter";
+
+const { fontFamily } = loadFont("normal", {
+  weights: ["300", "400", "500", "600", "700", "800"],
+  subsets: ["latin"],
+});
+
+const FPS = 30;
+const TRANSITION = 15; // frames
+
+// Scene durations in frames
+const HOOK_DURATION = 5 * FPS;
+const WF1_DURATION = 20 * FPS;
+const WF2_DURATION = 20 * FPS;
+const WF3_DURATION = 20 * FPS;
+const CLOSING_DURATION = 10 * FPS;
 
 export const PropertyAutomationVideo: React.FC = () => {
   return (
-    <TransitionSeries>
-      {/* Scene 1: Hook (0-5s = 150 frames) */}
-      <TransitionSeries.Sequence durationInFrames={150}>
-        <HookScene />
-      </TransitionSeries.Sequence>
+    <AbsoluteFill
+      style={{
+        fontFamily,
+        WebkitFontSmoothing: "antialiased",
+      }}
+    >
+      <Background />
 
-      {/* Transition: Fade (15 frames) */}
-      <TransitionSeries.Transition
-        presentation={fade()}
-        timing={linearTiming({ durationInFrames: 15 })}
-      />
+      <TransitionSeries>
+        {/* Hook scene */}
+        <TransitionSeries.Sequence
+          durationInFrames={HOOK_DURATION}
+          style={{ overflow: "hidden" }}
+        >
+          <HookScene />
+        </TransitionSeries.Sequence>
 
-      {/* Scene 2: AI Receptionist (5-25s = 600 frames) */}
-      <TransitionSeries.Sequence durationInFrames={600}>
-        <AIReceptionistScene />
-      </TransitionSeries.Sequence>
+        <TransitionSeries.Transition
+          presentation={fade()}
+          timing={linearTiming({ durationInFrames: TRANSITION })}
+        />
 
-      {/* Transition: Slide from right (15 frames) */}
-      <TransitionSeries.Transition
-        presentation={slide({ direction: 'from-right' })}
-        timing={linearTiming({ durationInFrames: 15 })}
-      />
+        {/* Workflow 1 - AI Receptionist */}
+        <TransitionSeries.Sequence
+          durationInFrames={WF1_DURATION}
+          style={{ overflow: "hidden" }}
+        >
+          <AIReceptionistScene />
+        </TransitionSeries.Sequence>
 
-      {/* Scene 3: Property Outreach (25-45s = 600 frames) */}
-      <TransitionSeries.Sequence durationInFrames={600}>
-        <PropertyOutreachScene />
-      </TransitionSeries.Sequence>
+        <TransitionSeries.Transition
+          presentation={slide({ direction: "from-right" })}
+          timing={linearTiming({ durationInFrames: TRANSITION })}
+        />
 
-      {/* Transition: Slide from right (15 frames) */}
-      <TransitionSeries.Transition
-        presentation={slide({ direction: 'from-right' })}
-        timing={linearTiming({ durationInFrames: 15 })}
-      />
+        {/* Workflow 2 - Property Outreach */}
+        <TransitionSeries.Sequence
+          durationInFrames={WF2_DURATION}
+          style={{ overflow: "hidden" }}
+        >
+          <PropertyOutreachScene />
+        </TransitionSeries.Sequence>
 
-      {/* Scene 4: Repair Request (45-65s = 600 frames) */}
-      <TransitionSeries.Sequence durationInFrames={600}>
-        <RepairRequestScene />
-      </TransitionSeries.Sequence>
+        <TransitionSeries.Transition
+          presentation={slide({ direction: "from-right" })}
+          timing={linearTiming({ durationInFrames: TRANSITION })}
+        />
 
-      {/* Transition: Fade (15 frames) */}
-      <TransitionSeries.Transition
-        presentation={fade()}
-        timing={linearTiming({ durationInFrames: 15 })}
-      />
+        {/* Workflow 3 - Repair Request */}
+        <TransitionSeries.Sequence
+          durationInFrames={WF3_DURATION}
+          style={{ overflow: "hidden" }}
+        >
+          <RepairRequestScene />
+        </TransitionSeries.Sequence>
 
-      {/* Scene 5: Closing (65-75s = 300 frames) */}
-      <TransitionSeries.Sequence durationInFrames={300}>
-        <ClosingScene />
-      </TransitionSeries.Sequence>
-    </TransitionSeries>
+        <TransitionSeries.Transition
+          presentation={fade()}
+          timing={linearTiming({ durationInFrames: TRANSITION })}
+        />
+
+        {/* Closing */}
+        <TransitionSeries.Sequence
+          durationInFrames={CLOSING_DURATION}
+          style={{ overflow: "hidden" }}
+        >
+          <ClosingScene />
+        </TransitionSeries.Sequence>
+      </TransitionSeries>
+    </AbsoluteFill>
   );
 };

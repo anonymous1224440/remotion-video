@@ -1,82 +1,120 @@
-import React from 'react';
-import { useCurrentFrame, spring } from 'remotion';
-import { colors } from '../theme';
+import React from "react";
+import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { COLORS } from "../theme";
 
 type FlowStepProps = {
   icon: React.ReactNode;
   label: string;
-  color: string;
-  index: number;
+  delay: number;
+  color?: string;
+  glowColor?: string;
   showConnector?: boolean;
-  appearDelay?: number;
 };
 
 export const FlowStep: React.FC<FlowStepProps> = ({
   icon,
   label,
-  color,
-  index,
+  delay,
+  color = COLORS.blue,
+  glowColor = COLORS.blueGlow,
   showConnector = true,
-  appearDelay = 0,
 }) => {
   const frame = useCurrentFrame();
-  const delay = appearDelay + index * 8;
+  const { fps } = useVideoConfig();
 
-  const progress = spring({
-    frame: frame - delay,
-    fps: 30,
+  const entrance = spring({
+    frame,
+    fps,
+    delay,
     config: { damping: 200 },
   });
 
-  const dimColor = color + '26'; // ~15% opacity
-  const glowColor = color + '59'; // ~35% opacity
+  const scale = interpolate(entrance, [0, 1], [0.5, 1]);
+  const opacity = entrance;
+
+  // Connector arrow animation
+  const connectorProgress = spring({
+    frame,
+    fps,
+    delay: delay + 8,
+    config: { damping: 200 },
+  });
 
   return (
     <div
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        opacity: progress,
-        transform: `translateY(${(1 - progress) * 20}px)`,
+        display: "flex",
+        alignItems: "center",
+        gap: 0,
+        opacity,
+        transform: `scale(${scale})`,
       }}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 8,
+          minWidth: 100,
+        }}
+      >
+        {/* Icon circle */}
         <div
           style={{
             width: 64,
             height: 64,
-            borderRadius: 16,
-            background: dimColor,
-            border: `1px solid ${color}33`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            borderRadius: 18,
+            background: `linear-gradient(135deg, ${color}22, ${color}44)`,
+            border: `1.5px solid ${color}66`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             boxShadow: `0 0 20px ${glowColor}`,
           }}
         >
           {icon}
         </div>
-        <span style={{ fontSize: 15, color: colors.secondary, whiteSpace: 'nowrap' }}>{label}</span>
+        {/* Label */}
+        <span
+          style={{
+            color: COLORS.textSecondary,
+            fontSize: 15,
+            fontWeight: 600,
+            textAlign: "center",
+            lineHeight: 1.2,
+            maxWidth: 100,
+          }}
+        >
+          {label}
+        </span>
       </div>
+      {/* Connector arrow */}
       {showConnector && (
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: 24 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            opacity: connectorProgress,
+            marginBottom: 20,
+            marginLeft: 4,
+            marginRight: 4,
+          }}
+        >
           <div
             style={{
-              width: 40,
+              width: 32,
               height: 2,
-              background: `linear-gradient(90deg, ${color}66, ${color}22)`,
-              marginLeft: 8,
-              marginRight: 4,
+              background: `linear-gradient(90deg, ${color}88, ${color}22)`,
             }}
           />
           <div
             style={{
               width: 0,
               height: 0,
-              borderTop: '5px solid transparent',
-              borderBottom: '5px solid transparent',
-              borderLeft: `8px solid ${color}44`,
-              marginRight: 8,
+              borderTop: "5px solid transparent",
+              borderBottom: "5px solid transparent",
+              borderLeft: `6px solid ${color}88`,
             }}
           />
         </div>

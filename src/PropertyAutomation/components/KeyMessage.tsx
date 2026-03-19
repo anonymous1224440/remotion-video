@@ -1,50 +1,58 @@
-import React from 'react';
-import { useCurrentFrame, spring } from 'remotion';
+import React from "react";
+import { spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { COLORS } from "../theme";
 
 type KeyMessageProps = {
-  messages: string[];
-  color: string;
-  startFrame?: number;
+  text: string;
+  delay: number;
+  color?: string;
 };
 
-export const KeyMessage: React.FC<KeyMessageProps> = ({ messages, color, startFrame = 30 }) => {
+export const KeyMessage: React.FC<KeyMessageProps> = ({
+  text,
+  delay,
+  color = COLORS.blue,
+}) => {
   const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  const entrance = spring({
+    frame,
+    fps,
+    delay,
+    config: { damping: 200 },
+  });
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16, flex: 1, justifyContent: 'center' }}>
-      {messages.map((msg, i) => {
-        const delay = startFrame + i * 10;
-        const progress = spring({
-          frame: frame - delay,
-          fps: 30,
-          config: { damping: 200 },
-        });
-
-        return (
-          <div
-            key={i}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 14,
-              opacity: progress,
-              transform: `translateX(${(1 - progress) * 20}px)`,
-            }}
-          >
-            <div
-              style={{
-                width: 10,
-                height: 10,
-                borderRadius: '50%',
-                background: color,
-                boxShadow: `0 0 12px ${color}80`,
-                flexShrink: 0,
-              }}
-            />
-            <span style={{ fontSize: 22, fontWeight: 700, color: '#ffffff' }}>{msg}</span>
-          </div>
-        );
-      })}
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        opacity: entrance,
+        transform: `translateX(${(1 - entrance) * 20}px)`,
+      }}
+    >
+      <div
+        style={{
+          width: 8,
+          height: 8,
+          borderRadius: "50%",
+          background: color,
+          boxShadow: `0 0 8px ${color}`,
+          flexShrink: 0,
+        }}
+      />
+      <span
+        style={{
+          color: COLORS.text,
+          fontSize: 22,
+          fontWeight: 600,
+          letterSpacing: "-0.01em",
+        }}
+      >
+        {text}
+      </span>
     </div>
   );
 };
