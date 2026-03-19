@@ -78,11 +78,11 @@ export const AIReceptionistScene: React.FC = () => {
   ];
 
   // Message timing - appear one by one
-  const msgInterval = 22; // frames between each message
-  const scrollStart = detailStart + 4 * msgInterval; // start scrolling after 4 messages visible
+  const msgInterval = 18; // frames between each message
+  const scrollStart = detailStart + 3 * msgInterval; // start scrolling after 3 messages visible
 
   // Calculate scroll amount - needs to be large enough so last messages sit at bottom
-  const maxScroll = 950;
+  const maxScroll = 1200;
   const scrollAmount = Math.max(
     0,
     interpolate(
@@ -282,7 +282,7 @@ export const AIReceptionistScene: React.FC = () => {
                         <span
                           style={{
                             color: COLORS.text,
-                            fontSize: 18,
+                            fontSize: 22,
                             fontWeight: 400,
                             lineHeight: 1.4,
                           }}

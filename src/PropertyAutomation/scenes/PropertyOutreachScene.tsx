@@ -239,8 +239,8 @@ export const PropertyOutreachScene: React.FC = () => {
             <div
               style={{
                 color: COLORS.textSecondary,
-                fontSize: 14,
-                lineHeight: 1.5,
+                fontSize: 18,
+                lineHeight: 1.55,
                 margin: 0,
                 whiteSpace: "pre-wrap",
               }}
@@ -279,7 +279,7 @@ export const PropertyOutreachScene: React.FC = () => {
             <span
               style={{
                 color: COLORS.text,
-                fontSize: 16,
+                fontSize: 18,
                 fontWeight: 700,
                 textTransform: "uppercase",
                 letterSpacing: "0.08em",
@@ -315,10 +315,10 @@ export const PropertyOutreachScene: React.FC = () => {
                       flex: 1,
                     }}
                   >
-                    <div style={{ color: step.color, fontSize: 22, fontWeight: 700 }}>
+                    <div style={{ color: step.color, fontSize: 26, fontWeight: 700 }}>
                       {step.time}
                     </div>
-                    <div style={{ color: COLORS.textSecondary, fontSize: 13, marginTop: 4, fontWeight: 500 }}>
+                    <div style={{ color: COLORS.textSecondary, fontSize: 15, marginTop: 4, fontWeight: 500 }}>
                       {step.label}
                     </div>
                   </div>

@@ -205,10 +205,10 @@ export const RepairRequestScene: React.FC = () => {
                 padding: 14,
               }}
             >
-              <div style={{ color: COLORS.textMuted, fontSize: 12, marginBottom: 6 }}>
+              <div style={{ color: COLORS.textMuted, fontSize: 14, marginBottom: 6 }}>
                 From: tenant@email.com — Unit 4B
               </div>
-              <div style={{ color: COLORS.text, fontSize: 16 }}>
+              <div style={{ color: COLORS.text, fontSize: 20 }}>
                 "The kitchen sink is leaking badly. Water is pooling on the floor."
               </div>
             </div>
@@ -233,8 +233,8 @@ export const RepairRequestScene: React.FC = () => {
                 marginBottom: 12,
               }}
             >
-              <SearchIcon size={16} color={COLORS.cyan} />
-              <span style={{ color: COLORS.cyan, fontSize: 13, fontWeight: 600 }}>
+              <SearchIcon size={18} color={COLORS.cyan} />
+              <span style={{ color: COLORS.cyan, fontSize: 15, fontWeight: 600 }}>
                 AI Analysis
               </span>
             </div>
@@ -259,14 +259,14 @@ export const RepairRequestScene: React.FC = () => {
                       flex: 1,
                       background: COLORS.surface,
                       borderRadius: 8,
-                      padding: "10px 14px",
+                      padding: "14px 18px",
                       textAlign: "center",
                     }}
                   >
                     <div
                       style={{
                         color: COLORS.textMuted,
-                        fontSize: 13,
+                        fontSize: 15,
                         fontWeight: 500,
                         marginBottom: 4,
                       }}
@@ -276,7 +276,7 @@ export const RepairRequestScene: React.FC = () => {
                     <div
                       style={{
                         color: tag.color,
-                        fontSize: 20,
+                        fontSize: 24,
                         fontWeight: 700,
                       }}
                     >
@@ -359,11 +359,11 @@ export const RepairRequestScene: React.FC = () => {
                   textAlign: "center",
                 }}
               >
-                <CheckIcon size={24} color={COLORS.green} />
+                <CheckIcon size={28} color={COLORS.green} />
                 <div
                   style={{
                     color: COLORS.green,
-                    fontSize: 14,
+                    fontSize: 18,
                     fontWeight: 600,
                     marginTop: 6,
                   }}
@@ -373,7 +373,7 @@ export const RepairRequestScene: React.FC = () => {
                 <div
                   style={{
                     color: COLORS.textMuted,
-                    fontSize: 12,
+                    fontSize: 14,
                     marginTop: 4,
                   }}
                 >
@@ -391,11 +391,11 @@ export const RepairRequestScene: React.FC = () => {
                   textAlign: "center",
                 }}
               >
-                <ShieldIcon size={24} color={COLORS.orange} />
+                <ShieldIcon size={28} color={COLORS.orange} />
                 <div
                   style={{
                     color: COLORS.orange,
-                    fontSize: 14,
+                    fontSize: 18,
                     fontWeight: 600,
                     marginTop: 6,
                   }}
@@ -405,7 +405,7 @@ export const RepairRequestScene: React.FC = () => {
                 <div
                   style={{
                     color: COLORS.textMuted,
-                    fontSize: 12,
+                    fontSize: 14,
                     marginTop: 4,
                   }}
                 >
@@ -435,8 +435,8 @@ export const RepairRequestScene: React.FC = () => {
                 marginBottom: 14,
               }}
             >
-              <WrenchIcon size={16} color={COLORS.green} />
-              <span style={{ color: COLORS.green, fontSize: 13, fontWeight: 600 }}>
+              <WrenchIcon size={18} color={COLORS.green} />
+              <span style={{ color: COLORS.green, fontSize: 15, fontWeight: 600 }}>
                 Live Status
               </span>
             </div>
@@ -460,8 +460,8 @@ export const RepairRequestScene: React.FC = () => {
                     opacity: itemEntrance,
                     display: "flex",
                     alignItems: "center",
-                    gap: 10,
-                    padding: "6px 0",
+                    gap: 12,
+                    padding: "8px 0",
                   }}
                 >
                   <div
@@ -485,7 +485,7 @@ export const RepairRequestScene: React.FC = () => {
                     <span
                       style={{
                         color: COLORS.text,
-                        fontSize: 15,
+                        fontSize: 19,
                         fontWeight: 500,
                       }}
                     >
@@ -495,7 +495,7 @@ export const RepairRequestScene: React.FC = () => {
                   <span
                     style={{
                       color: COLORS.textMuted,
-                      fontSize: 13,
+                      fontSize: 15,
                     }}
                   >
                     {item.time}
