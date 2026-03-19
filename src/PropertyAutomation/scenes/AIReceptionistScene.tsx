@@ -79,13 +79,13 @@ export const AIReceptionistScene: React.FC = () => {
   ];
 
   // Calculate which messages are visible based on frame - scroll through conversation
-  const msgInterval = 8; // frames between each message appearing
-  const scrollStart = detailStart + 6 * msgInterval; // start scrolling after 6 messages
+  const msgInterval = 14; // frames between each message appearing (slower for readability)
+  const scrollStart = detailStart + 5 * msgInterval; // start scrolling after 5 messages
 
   return (
     <AbsoluteFill
       style={{
-        padding: "60px 80px",
+        padding: "40px 60px",
         display: "flex",
         flexDirection: "column",
       }}
@@ -130,7 +130,7 @@ export const AIReceptionistScene: React.FC = () => {
           fontWeight: 700,
           letterSpacing: "-0.03em",
           margin: 0,
-          marginBottom: 40,
+          marginBottom: 20,
           opacity: headerEntrance,
           transform: `translateY(${(1 - headerEntrance) * 20}px)`,
         }}
@@ -145,7 +145,7 @@ export const AIReceptionistScene: React.FC = () => {
           alignItems: "flex-start",
           justifyContent: "center",
           gap: 0,
-          marginBottom: 36,
+          marginBottom: 20,
         }}
       >
         <FlowStep
@@ -237,8 +237,8 @@ export const AIReceptionistScene: React.FC = () => {
                   gap: 6,
                   transform: `translateY(${-Math.max(0, interpolate(
                     frame,
-                    [scrollStart, scrollStart + 12 * msgInterval],
-                    [0, 380],
+                    [scrollStart, scrollStart + 20 * msgInterval],
+                    [0, 520],
                     { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
                   ))}px)`,
                 }}
@@ -266,14 +266,14 @@ export const AIReceptionistScene: React.FC = () => {
                             msg.role === "ai" ? COLORS.blueDim : COLORS.purpleDim,
                           border: `1px solid ${msg.role === "ai" ? COLORS.blue : COLORS.purple}33`,
                           borderRadius: 10,
-                          padding: "6px 12px",
+                          padding: "8px 14px",
                           maxWidth: "85%",
                         }}
                       >
                         <span
                           style={{
                             color: COLORS.text,
-                            fontSize: 12,
+                            fontSize: 15,
                             fontWeight: 400,
                             lineHeight: 1.4,
                           }}
@@ -432,7 +432,7 @@ export const AIReceptionistScene: React.FC = () => {
             </div>
           </div>
 
-          {/* Key messages - bigger with more focus */}
+          {/* Key messages - appear when content comes in */}
           <div
             style={{
               display: "flex",
@@ -442,6 +442,8 @@ export const AIReceptionistScene: React.FC = () => {
               border: `1px solid ${COLORS.blue}22`,
               borderRadius: 16,
               padding: 20,
+              opacity: spring({ frame, fps, delay: messagesStart, config: { damping: 200 } }),
+              transform: `translateY(${(1 - spring({ frame, fps, delay: messagesStart, config: { damping: 200 } })) * 20}px)`,
             }}
           >
             <KeyMessage text="Never miss a call" delay={messagesStart} color={COLORS.blue} />

@@ -77,7 +77,7 @@ export const PropertyOutreachScene: React.FC = () => {
   return (
     <AbsoluteFill
       style={{
-        padding: "60px 80px",
+        padding: "40px 60px",
         display: "flex",
         flexDirection: "column",
       }}
@@ -122,7 +122,7 @@ export const PropertyOutreachScene: React.FC = () => {
           fontWeight: 700,
           letterSpacing: "-0.03em",
           margin: 0,
-          marginBottom: 40,
+          marginBottom: 20,
           opacity: headerEntrance,
           transform: `translateY(${(1 - headerEntrance) * 20}px)`,
         }}
@@ -137,7 +137,7 @@ export const PropertyOutreachScene: React.FC = () => {
           alignItems: "flex-start",
           justifyContent: "center",
           gap: 0,
-          marginBottom: 36,
+          marginBottom: 20,
         }}
       >
         <FlowStep
@@ -265,13 +265,15 @@ export const PropertyOutreachScene: React.FC = () => {
 
         {/* Right - Follow-up + Dashboard + Messages */}
         <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
-          {/* Follow-up timeline - moved up and made bigger */}
+          {/* Follow-up timeline - appears when content comes in */}
           <div
             style={{
               background: COLORS.bgCard,
               border: `1px solid ${COLORS.purple}22`,
               borderRadius: 16,
               padding: 20,
+              opacity: followUp1,
+              transform: `translateY(${(1 - followUp1) * 20}px)`,
             }}
           >
             <span
@@ -417,7 +419,7 @@ export const PropertyOutreachScene: React.FC = () => {
             </div>
           </div>
 
-          {/* Key messages - bigger with card background */}
+          {/* Key messages - appear when content comes in */}
           <div
             style={{
               display: "flex",
@@ -427,6 +429,8 @@ export const PropertyOutreachScene: React.FC = () => {
               border: `1px solid ${COLORS.purple}22`,
               borderRadius: 16,
               padding: 20,
+              opacity: spring({ frame, fps, delay: messagesStart, config: { damping: 200 } }),
+              transform: `translateY(${(1 - spring({ frame, fps, delay: messagesStart, config: { damping: 200 } })) * 20}px)`,
             }}
           >
             <KeyMessage

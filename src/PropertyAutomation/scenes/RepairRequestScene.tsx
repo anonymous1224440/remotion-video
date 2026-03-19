@@ -69,7 +69,7 @@ export const RepairRequestScene: React.FC = () => {
   return (
     <AbsoluteFill
       style={{
-        padding: "60px 80px",
+        padding: "40px 60px",
         display: "flex",
         flexDirection: "column",
       }}
@@ -114,7 +114,7 @@ export const RepairRequestScene: React.FC = () => {
           fontWeight: 700,
           letterSpacing: "-0.03em",
           margin: 0,
-          marginBottom: 40,
+          marginBottom: 20,
           opacity: headerEntrance,
           transform: `translateY(${(1 - headerEntrance) * 20}px)`,
         }}
@@ -129,7 +129,7 @@ export const RepairRequestScene: React.FC = () => {
           alignItems: "flex-start",
           justifyContent: "center",
           gap: 0,
-          marginBottom: 36,
+          marginBottom: 20,
         }}
       >
         <FlowStep
