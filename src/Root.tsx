@@ -2,6 +2,7 @@ import "./index.css";
 import { Composition } from "remotion";
 import { MyComposition } from "./Composition";
 import { FinancialVerificationVideo } from "./FinancialVerification/FinancialVerificationVideo";
+import { PropertyAutomationVideo } from "./PropertyAutomation/PropertyAutomationVideo";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -18,6 +19,14 @@ export const RemotionRoot: React.FC = () => {
         id="FinancialVerificationVideo"
         component={FinancialVerificationVideo}
         durationInFrames={2700}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="PropertyAutomationVideo"
+        component={PropertyAutomationVideo}
+        durationInFrames={2190}
         fps={30}
         width={1920}
         height={1080}

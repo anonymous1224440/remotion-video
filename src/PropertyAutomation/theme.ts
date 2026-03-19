@@ -1,0 +1,36 @@
+export const colors = {
+  background: '#0a0e1a',
+  card: '#111827',
+  surface: '#1e293b',
+  text: '#ffffff',
+  secondary: '#94a3b8',
+  muted: '#64748b',
+  blue: '#3b82f6',
+  purple: '#8b5cf6',
+  green: '#22c55e',
+  cyan: '#06b6d4',
+  orange: '#f59e0b',
+  blueDim: 'rgba(59, 130, 246, 0.15)',
+  purpleDim: 'rgba(139, 92, 246, 0.15)',
+  greenDim: 'rgba(34, 197, 94, 0.15)',
+  cyanDim: 'rgba(6, 182, 212, 0.15)',
+  orangeDim: 'rgba(245, 158, 11, 0.15)',
+  blueGlow: 'rgba(59, 130, 246, 0.35)',
+  purpleGlow: 'rgba(139, 92, 246, 0.35)',
+  greenGlow: 'rgba(34, 197, 94, 0.35)',
+  cyanGlow: 'rgba(6, 182, 212, 0.35)',
+  orangeGlow: 'rgba(245, 158, 11, 0.35)',
+  gradient: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
+} as const;
+
+// Scene timing in frames (30fps)
+export const timing = {
+  fps: 30,
+  hook: { start: 0, duration: 150 },
+  workflow1: { start: 150, duration: 600 },
+  workflow2: { start: 750, duration: 600 },
+  workflow3: { start: 1350, duration: 600 },
+  closing: { start: 1950, duration: 300 },
+  transitionDuration: 15,
+  totalDuration: 2190,
+} as const;
