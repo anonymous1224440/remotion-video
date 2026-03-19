@@ -1,4 +1,5 @@
 import React from "react";
+import { staticFile } from "remotion";
 
 type IconProps = {
   size?: number;
@@ -274,37 +275,10 @@ export const ZapIcon: React.FC<IconProps> = ({
 );
 
 export const SPLogo: React.FC<{ size?: number }> = ({ size = 100 }) => (
-  <svg
+  <img
+    src={staticFile("sp-logo.webp")}
     width={size}
     height={size}
-    viewBox="0 0 400 400"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <circle cx="200" cy="200" r="195" fill="#c13a2f" />
-    {/* "s" - thin serif style, positioned lower-right in circle */}
-    <text
-      x="128"
-      y="295"
-      fill="white"
-      fontFamily="'Didot', 'Bodoni MT', 'Playfair Display', 'Times New Roman', serif"
-      fontSize="220"
-      fontWeight="300"
-      fontStyle="normal"
-    >
-      s
-    </text>
-    {/* "p" - slightly to the right */}
-    <text
-      x="235"
-      y="295"
-      fill="white"
-      fontFamily="'Didot', 'Bodoni MT', 'Playfair Display', 'Times New Roman', serif"
-      fontSize="220"
-      fontWeight="300"
-      fontStyle="normal"
-    >
-      p
-    </text>
-  </svg>
+    style={{ objectFit: "contain" }}
+  />
 );
