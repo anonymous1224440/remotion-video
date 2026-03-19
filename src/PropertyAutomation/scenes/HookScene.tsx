@@ -7,7 +7,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { COLORS } from "../theme";
-import { PhoneIcon, MailIcon } from "../components/Icons";
+import { PhoneIcon, MailIcon, SPLogo } from "../components/Icons";
 
 export const HookScene: React.FC = () => {
   const frame = useCurrentFrame();
@@ -170,29 +170,9 @@ export const HookScene: React.FC = () => {
             gap: 16,
           }}
         >
-          {/* Secured Properties Logo instead of ZapIcon */}
-          <div
-            style={{
-              width: 80,
-              height: 80,
-              borderRadius: 24,
-              background: COLORS.gradient1,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              boxShadow: `0 0 40px ${COLORS.blueGlow}`,
-            }}
-          >
-            <span
-              style={{
-                color: "#fff",
-                fontSize: 32,
-                fontWeight: 800,
-                letterSpacing: "-0.02em",
-              }}
-            >
-              SP
-            </span>
+          {/* Secured Properties Logo */}
+          <div style={{ filter: "drop-shadow(0 0 30px rgba(230, 37, 40, 0.4))" }}>
+            <SPLogo size={100} />
           </div>
           <h1
             style={{

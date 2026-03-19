@@ -7,7 +7,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { COLORS } from "../theme";
-import { PhoneIcon, MailIcon, WrenchIcon } from "../components/Icons";
+import { PhoneIcon, MailIcon, WrenchIcon, SPLogo } from "../components/Icons";
 
 export const ClosingScene: React.FC = () => {
   const frame = useCurrentFrame();
@@ -154,37 +154,16 @@ export const ClosingScene: React.FC = () => {
           ))}
         </div>
 
-        {/* Central SP logo */}
+        {/* Central SP logo - red circle */}
         <div
           style={{
             opacity: contentEntrance,
             transform: `scale(${interpolate(contentEntrance, [0, 1], [0.5, 1])})`,
             marginBottom: 24,
+            filter: "drop-shadow(0 0 30px rgba(230, 37, 40, 0.4))",
           }}
         >
-          <div
-            style={{
-              width: 64,
-              height: 64,
-              borderRadius: 20,
-              background: COLORS.gradient1,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              boxShadow: `0 0 40px ${COLORS.blueGlow}, 0 0 80px ${COLORS.purpleGlow}`,
-            }}
-          >
-            <span
-              style={{
-                color: "#fff",
-                fontSize: 26,
-                fontWeight: 800,
-                letterSpacing: "-0.02em",
-              }}
-            >
-              SP
-            </span>
-          </div>
+          <SPLogo size={80} />
         </div>
 
         {/* Title */}
