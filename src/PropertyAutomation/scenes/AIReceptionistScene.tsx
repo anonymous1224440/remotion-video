@@ -32,8 +32,8 @@ export const AIReceptionistScene: React.FC = () => {
 
   // Phase timing
   const flowStart = 1.5 * fps;
-  const detailStart = 8 * fps;
-  const dashboardStart = 13 * fps;
+  const detailStart = 6 * fps;
+  const dashboardStart = 10 * fps;
   const messagesStart = 16 * fps;
 
   // Speech bubble animation
@@ -44,7 +44,7 @@ export const AIReceptionistScene: React.FC = () => {
     config: { damping: 200 },
   });
 
-  // Dashboard card
+  // Dashboard card - earlier appearance
   const dashboardEntrance = spring({
     frame,
     fps,
@@ -52,12 +52,35 @@ export const AIReceptionistScene: React.FC = () => {
     config: { damping: 200 },
   });
 
-  // Intent cards
+  // Intent cards - use green/orange/cyan for better contrast on dark bg
   const intentItems = [
-    { label: "Prospect Inquiry", color: COLORS.blue },
+    { label: "Prospect Inquiry", color: COLORS.green },
     { label: "Tenant Issue", color: COLORS.orange },
-    { label: "General Question", color: COLORS.purple },
+    { label: "General Question", color: COLORS.cyan },
   ];
+
+  // Conversation messages - updated realistic version
+  const conversationMessages = [
+    { role: "ai", text: "Good morning, thank you for calling Secured Properties Management Group. This is your AI assistant, how can I help you today?" },
+    { role: "user", text: "Hi, I'm looking for a two-bedroom apartment in Koreatown, Los Angeles." },
+    { role: "ai", text: "Got it, thanks. Are you looking to move in soon, or just exploring options for now?" },
+    { role: "user", text: "Ideally within the next month." },
+    { role: "ai", text: "Perfect. And do you have a target monthly budget in mind?" },
+    { role: "user", text: "Around $2,500." },
+    { role: "ai", text: "Great, that helps. We currently have three available units that match your criteria. Would you like me to schedule a viewing for you?" },
+    { role: "user", text: "Yes, that would be great." },
+    { role: "ai", text: "Awesome. Could I get your full name, please?" },
+    { role: "user", text: "Michael Thompson." },
+    { role: "ai", text: "Thanks, Michael. And what's the best phone number to reach you?" },
+    { role: "user", text: "It's (323) 555-7429." },
+    { role: "ai", text: "Got it. I've scheduled you for a viewing this Thursday at 5 PM. You'll receive a confirmation shortly." },
+    { role: "user", text: "Perfect, thank you." },
+    { role: "ai", text: "You're welcome, Michael. Looking forward to seeing you." },
+  ];
+
+  // Calculate which messages are visible based on frame - scroll through conversation
+  const msgInterval = 8; // frames between each message appearing
+  const scrollStart = detailStart + 6 * msgInterval; // start scrolling after 6 messages
 
   return (
     <AbsoluteFill
@@ -126,42 +149,42 @@ export const AIReceptionistScene: React.FC = () => {
         }}
       >
         <FlowStep
-          icon={<PhoneIcon size={24} color={COLORS.blue} />}
+          icon={<PhoneIcon size={28} color={COLORS.blue} />}
           label="Call In"
           delay={flowStart}
           color={COLORS.blue}
           glowColor={COLORS.blueGlow}
         />
         <FlowStep
-          icon={<BotIcon size={24} color={COLORS.blue} />}
+          icon={<BotIcon size={28} color={COLORS.blue} />}
           label="AI Picks Up"
           delay={flowStart + 6}
           color={COLORS.blue}
           glowColor={COLORS.blueGlow}
         />
         <FlowStep
-          icon={<UserIcon size={24} color={COLORS.purple} />}
+          icon={<UserIcon size={28} color={COLORS.purple} />}
           label="Understands"
           delay={flowStart + 12}
           color={COLORS.purple}
           glowColor={COLORS.purpleGlow}
         />
         <FlowStep
-          icon={<CheckIcon size={24} color={COLORS.green} />}
+          icon={<CheckIcon size={28} color={COLORS.green} />}
           label="Handles"
           delay={flowStart + 18}
           color={COLORS.green}
           glowColor={COLORS.greenGlow}
         />
         <FlowStep
-          icon={<CalendarIcon size={24} color={COLORS.cyan} />}
+          icon={<CalendarIcon size={28} color={COLORS.cyan} />}
           label="Schedules"
           delay={flowStart + 24}
           color={COLORS.cyan}
           glowColor={COLORS.cyanDim}
         />
         <FlowStep
-          icon={<ChartIcon size={24} color={COLORS.blue} />}
+          icon={<ChartIcon size={28} color={COLORS.blue} />}
           label="Reports"
           delay={flowStart + 30}
           color={COLORS.blue}
@@ -194,7 +217,9 @@ export const AIReceptionistScene: React.FC = () => {
               padding: 24,
               display: "flex",
               flexDirection: "column",
-              gap: 12,
+              gap: 8,
+              height: "100%",
+              overflow: "hidden",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
@@ -203,75 +228,94 @@ export const AIReceptionistScene: React.FC = () => {
                 AI Assistant
               </span>
             </div>
-            {/* Conversation */}
-            {[
-              { role: "ai", text: "Good morning! How can I help you today?" },
-              { role: "user", text: "I'm looking for a 2-bed flat in Kensington." },
-              { role: "ai", text: "I have 3 available. Would you like to book a viewing?" },
-            ].map((msg, i) => {
-              const msgEntrance = spring({
-                frame,
-                fps,
-                delay: detailStart + i * 15,
-                config: { damping: 200 },
-              });
-              return (
-                <div
-                  key={i}
-                  style={{
-                    opacity: msgEntrance,
-                    transform: `translateY(${(1 - msgEntrance) * 10}px)`,
-                    display: "flex",
-                    justifyContent: msg.role === "user" ? "flex-end" : "flex-start",
-                  }}
-                >
-                  <div
-                    style={{
-                      background:
-                        msg.role === "ai" ? COLORS.blueDim : COLORS.purpleDim,
-                      border: `1px solid ${msg.role === "ai" ? COLORS.blue : COLORS.purple}33`,
-                      borderRadius: 10,
-                      padding: "8px 14px",
-                      maxWidth: "80%",
-                    }}
-                  >
-                    <span
+            {/* Scrolling conversation container */}
+            <div style={{ flex: 1, overflow: "hidden", position: "relative" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 6,
+                  transform: `translateY(${-Math.max(0, interpolate(
+                    frame,
+                    [scrollStart, scrollStart + 12 * msgInterval],
+                    [0, 380],
+                    { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+                  ))}px)`,
+                }}
+              >
+                {conversationMessages.map((msg, i) => {
+                  const msgEntrance = spring({
+                    frame,
+                    fps,
+                    delay: detailStart + i * msgInterval,
+                    config: { damping: 200 },
+                  });
+                  return (
+                    <div
+                      key={i}
                       style={{
-                        color: COLORS.text,
-                        fontSize: 14,
-                        fontWeight: 400,
+                        opacity: msgEntrance,
+                        transform: `translateY(${(1 - msgEntrance) * 10}px)`,
+                        display: "flex",
+                        justifyContent: msg.role === "user" ? "flex-end" : "flex-start",
                       }}
                     >
-                      {msg.text}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
+                      <div
+                        style={{
+                          background:
+                            msg.role === "ai" ? COLORS.blueDim : COLORS.purpleDim,
+                          border: `1px solid ${msg.role === "ai" ? COLORS.blue : COLORS.purple}33`,
+                          borderRadius: 10,
+                          padding: "6px 12px",
+                          maxWidth: "85%",
+                        }}
+                      >
+                        <span
+                          style={{
+                            color: COLORS.text,
+                            fontSize: 12,
+                            fontWeight: 400,
+                            lineHeight: 1.4,
+                          }}
+                        >
+                          {msg.text}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Right column - Intent + Dashboard */}
         <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 20 }}>
-          {/* Intent detection */}
+          {/* Intent detection - bigger and more visible */}
           <div
             style={{
               opacity: bubbleEntrance,
               transform: `translateY(${(1 - bubbleEntrance) * 20}px)`,
+              background: COLORS.bgCard,
+              border: `1px solid ${COLORS.green}33`,
+              borderRadius: 16,
+              padding: 20,
             }}
           >
             <span
               style={{
-                color: COLORS.textMuted,
-                fontSize: 12,
-                fontWeight: 600,
+                color: COLORS.text,
+                fontSize: 18,
+                fontWeight: 700,
                 textTransform: "uppercase",
                 letterSpacing: "0.08em",
+                display: "block",
+                marginBottom: 14,
               }}
             >
               Intent Detected
             </span>
-            <div style={{ display: "flex", gap: 10, marginTop: 10 }}>
+            <div style={{ display: "flex", gap: 12 }}>
               {intentItems.map((item, i) => {
                 const tagEntrance = spring({
                   frame,
@@ -286,18 +330,18 @@ export const AIReceptionistScene: React.FC = () => {
                     style={{
                       opacity: tagEntrance,
                       transform: `scale(${interpolate(tagEntrance, [0, 1], [0.8, 1])})`,
-                      padding: "8px 16px",
-                      borderRadius: 8,
+                      padding: "12px 20px",
+                      borderRadius: 10,
                       background: isActive ? `${item.color}22` : COLORS.bgCard,
-                      border: `1px solid ${isActive ? item.color : COLORS.textMuted}44`,
-                      boxShadow: isActive ? `0 0 12px ${item.color}33` : "none",
+                      border: `2px solid ${isActive ? item.color : COLORS.textMuted}44`,
+                      boxShadow: isActive ? `0 0 20px ${item.color}44` : "none",
                     }}
                   >
                     <span
                       style={{
                         color: isActive ? item.color : COLORS.textMuted,
-                        fontSize: 13,
-                        fontWeight: 500,
+                        fontSize: 16,
+                        fontWeight: 600,
                       }}
                     >
                       {item.label}
@@ -323,7 +367,7 @@ export const AIReceptionistScene: React.FC = () => {
             <span
               style={{
                 color: COLORS.textMuted,
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: 600,
                 textTransform: "uppercase",
                 letterSpacing: "0.08em",
@@ -340,15 +384,17 @@ export const AIReceptionistScene: React.FC = () => {
               }}
             >
               {[
-                { label: "Name", value: "Sarah Mitchell" },
-                { label: "Contact", value: "+44 7911..." },
-                { label: "Intent", value: "Viewing" },
-                { label: "Budget", value: "£2,500/mo" },
+                { label: "Name", value: "Michael Thompson" },
+                { label: "Contact", value: "(323) 555-7429" },
+                { label: "Intent", value: "Viewing Request" },
+                { label: "Budget", value: "$2,500/mo" },
+                { label: "Location", value: "Koreatown, LA" },
+                { label: "Scheduled", value: "Thu 5 PM" },
               ].map((item, i) => {
                 const cardEntrance = spring({
                   frame,
                   fps,
-                  delay: dashboardStart + 8 + i * 6,
+                  delay: dashboardStart + 5 + i * 5,
                   config: { damping: 200 },
                 });
                 return (
@@ -386,8 +432,18 @@ export const AIReceptionistScene: React.FC = () => {
             </div>
           </div>
 
-          {/* Key messages */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          {/* Key messages - bigger with more focus */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 10,
+              background: COLORS.bgCard,
+              border: `1px solid ${COLORS.blue}22`,
+              borderRadius: 16,
+              padding: 20,
+            }}
+          >
             <KeyMessage text="Never miss a call" delay={messagesStart} color={COLORS.blue} />
             <KeyMessage
               text="24/7 AI answering"

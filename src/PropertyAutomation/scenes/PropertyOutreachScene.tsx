@@ -71,7 +71,7 @@ export const PropertyOutreachScene: React.FC = () => {
   });
 
   const emailText =
-    "Hi David, I noticed your property at 42 Kings Road has been on the market for 3 months. We specialize in premium lettings and could help you find quality tenants faster...";
+    "Subject: Quick question about your property\n\nHi David,\n\nI noticed your property on South Western Avenue has been on the market for a while.\n\nAt Secured Properties Management Group, we help property owners in Los Angeles reduce vacancy and secure qualified tenants faster through targeted outreach and automation.\n\nWe've been working with owners in similar situations and have helped increase inquiries and booked viewings within a few weeks.\n\nHappy to share a few ideas tailored to your property if you're open to it.\n\nWould you be available for a quick 10-minute call this week?\n\nBest,\nJay Chu\nSecured Properties Management Group";
   const visibleChars = Math.floor(emailTypingProgress * emailText.length);
 
   return (
@@ -141,42 +141,42 @@ export const PropertyOutreachScene: React.FC = () => {
         }}
       >
         <FlowStep
-          icon={<DatabaseIcon size={24} color={COLORS.purple} />}
+          icon={<DatabaseIcon size={28} color={COLORS.purple} />}
           label="Scrape"
           delay={flowStart}
           color={COLORS.purple}
           glowColor={COLORS.purpleGlow}
         />
         <FlowStep
-          icon={<SearchIcon size={24} color={COLORS.purple} />}
+          icon={<SearchIcon size={28} color={COLORS.purple} />}
           label="Filter"
           delay={flowStart + 6}
           color={COLORS.purple}
           glowColor={COLORS.purpleGlow}
         />
         <FlowStep
-          icon={<MailIcon size={24} color={COLORS.blue} />}
+          icon={<MailIcon size={28} color={COLORS.blue} />}
           label="Personalize"
           delay={flowStart + 12}
           color={COLORS.blue}
           glowColor={COLORS.blueGlow}
         />
         <FlowStep
-          icon={<SendIcon size={24} color={COLORS.blue} />}
+          icon={<SendIcon size={28} color={COLORS.blue} />}
           label="Send"
           delay={flowStart + 18}
           color={COLORS.blue}
           glowColor={COLORS.blueGlow}
         />
         <FlowStep
-          icon={<ClockIcon size={24} color={COLORS.cyan} />}
+          icon={<ClockIcon size={28} color={COLORS.cyan} />}
           label="Follow-Up"
           delay={flowStart + 24}
           color={COLORS.cyan}
           glowColor={COLORS.cyanDim}
         />
         <FlowStep
-          icon={<ChartIcon size={24} color={COLORS.green} />}
+          icon={<ChartIcon size={28} color={COLORS.green} />}
           label="Dashboard"
           delay={flowStart + 30}
           color={COLORS.green}
@@ -235,13 +235,14 @@ export const PropertyOutreachScene: React.FC = () => {
                 To: david.owner@email.com
               </span>
             </div>
-            {/* Email body - typing animation */}
-            <p
+            {/* Email body - typing animation with line breaks */}
+            <div
               style={{
                 color: COLORS.textSecondary,
-                fontSize: 14,
-                lineHeight: 1.6,
+                fontSize: 13,
+                lineHeight: 1.5,
                 margin: 0,
+                whiteSpace: "pre-wrap",
               }}
             >
               {emailText.slice(0, visibleChars)}
@@ -250,7 +251,7 @@ export const PropertyOutreachScene: React.FC = () => {
                   style={{
                     display: "inline-block",
                     width: 2,
-                    height: 16,
+                    height: 14,
                     background: COLORS.purple,
                     marginLeft: 2,
                     opacity: Math.sin(frame * 0.3) > 0 ? 1 : 0,
@@ -258,58 +259,84 @@ export const PropertyOutreachScene: React.FC = () => {
                   }}
                 />
               )}
-            </p>
-          </div>
-
-          {/* Follow-up timeline */}
-          <div
-            style={{
-              display: "flex",
-              gap: 12,
-              alignItems: "center",
-            }}
-          >
-            {[
-              { label: "Sent", time: "Day 1", progress: followUp1, color: COLORS.purple },
-              { label: "Follow-up", time: "Day 3", progress: followUp2, color: COLORS.blue },
-              { label: "Final", time: "Day 7", progress: followUp3, color: COLORS.cyan },
-            ].map((step, i) => (
-              <React.Fragment key={i}>
-                <div
-                  style={{
-                    opacity: step.progress,
-                    transform: `scale(${interpolate(step.progress, [0, 1], [0.8, 1])})`,
-                    background: `${step.color}15`,
-                    border: `1px solid ${step.color}44`,
-                    borderRadius: 10,
-                    padding: "8px 16px",
-                    textAlign: "center",
-                  }}
-                >
-                  <div style={{ color: step.color, fontSize: 12, fontWeight: 600 }}>
-                    {step.time}
-                  </div>
-                  <div style={{ color: COLORS.textSecondary, fontSize: 11, marginTop: 2 }}>
-                    {step.label}
-                  </div>
-                </div>
-                {i < 2 && (
-                  <div
-                    style={{
-                      width: 24,
-                      height: 2,
-                      background: `${step.color}44`,
-                      opacity: step.progress,
-                    }}
-                  />
-                )}
-              </React.Fragment>
-            ))}
+            </div>
           </div>
         </div>
 
-        {/* Right - Dashboard + Messages */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 20 }}>
+        {/* Right - Follow-up + Dashboard + Messages */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
+          {/* Follow-up timeline - moved up and made bigger */}
+          <div
+            style={{
+              background: COLORS.bgCard,
+              border: `1px solid ${COLORS.purple}22`,
+              borderRadius: 16,
+              padding: 20,
+            }}
+          >
+            <span
+              style={{
+                color: COLORS.text,
+                fontSize: 16,
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: "0.08em",
+                display: "block",
+                marginBottom: 16,
+              }}
+            >
+              Follow-Up Sequence
+            </span>
+            <div
+              style={{
+                display: "flex",
+                gap: 16,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {[
+                { label: "Initial Send", time: "Day 1", progress: followUp1, color: COLORS.purple },
+                { label: "Follow-up", time: "Day 3", progress: followUp2, color: COLORS.blue },
+                { label: "Final Nudge", time: "Day 7", progress: followUp3, color: COLORS.cyan },
+              ].map((step, i) => (
+                <React.Fragment key={i}>
+                  <div
+                    style={{
+                      opacity: step.progress,
+                      transform: `scale(${interpolate(step.progress, [0, 1], [0.8, 1])})`,
+                      background: `${step.color}15`,
+                      border: `2px solid ${step.color}66`,
+                      borderRadius: 12,
+                      padding: "14px 24px",
+                      textAlign: "center",
+                      flex: 1,
+                    }}
+                  >
+                    <div style={{ color: step.color, fontSize: 22, fontWeight: 700 }}>
+                      {step.time}
+                    </div>
+                    <div style={{ color: COLORS.textSecondary, fontSize: 13, marginTop: 4, fontWeight: 500 }}>
+                      {step.label}
+                    </div>
+                  </div>
+                  {i < 2 && (
+                    <div
+                      style={{
+                        width: 28,
+                        height: 3,
+                        background: `${step.color}66`,
+                        opacity: step.progress,
+                        borderRadius: 2,
+                        flexShrink: 0,
+                      }}
+                    />
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+
           {/* Stats dashboard */}
           <div
             style={{
@@ -390,8 +417,18 @@ export const PropertyOutreachScene: React.FC = () => {
             </div>
           </div>
 
-          {/* Key messages */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          {/* Key messages - bigger with card background */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 10,
+              background: COLORS.bgCard,
+              border: `1px solid ${COLORS.purple}22`,
+              borderRadius: 16,
+              padding: 20,
+            }}
+          >
             <KeyMessage
               text="Finds owners automatically"
               delay={messagesStart}

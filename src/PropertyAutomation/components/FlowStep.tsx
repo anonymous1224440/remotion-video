@@ -56,15 +56,15 @@ export const FlowStep: React.FC<FlowStepProps> = ({
           flexDirection: "column",
           alignItems: "center",
           gap: 8,
-          minWidth: 90,
+          minWidth: 100,
         }}
       >
         {/* Icon circle */}
         <div
           style={{
-            width: 56,
-            height: 56,
-            borderRadius: 16,
+            width: 64,
+            height: 64,
+            borderRadius: 18,
             background: `linear-gradient(135deg, ${color}22, ${color}44)`,
             border: `1.5px solid ${color}66`,
             display: "flex",
@@ -79,11 +79,11 @@ export const FlowStep: React.FC<FlowStepProps> = ({
         <span
           style={{
             color: COLORS.textSecondary,
-            fontSize: 13,
-            fontWeight: 500,
+            fontSize: 15,
+            fontWeight: 600,
             textAlign: "center",
             lineHeight: 1.2,
-            maxWidth: 90,
+            maxWidth: 100,
           }}
         >
           {label}

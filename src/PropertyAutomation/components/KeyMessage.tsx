@@ -35,8 +35,8 @@ export const KeyMessage: React.FC<KeyMessageProps> = ({
     >
       <div
         style={{
-          width: 6,
-          height: 6,
+          width: 8,
+          height: 8,
           borderRadius: "50%",
           background: color,
           boxShadow: `0 0 8px ${color}`,
@@ -46,8 +46,8 @@ export const KeyMessage: React.FC<KeyMessageProps> = ({
       <span
         style={{
           color: COLORS.text,
-          fontSize: 18,
-          fontWeight: 500,
+          fontSize: 22,
+          fontWeight: 600,
           letterSpacing: "-0.01em",
         }}
       >

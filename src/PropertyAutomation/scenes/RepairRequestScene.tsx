@@ -133,35 +133,35 @@ export const RepairRequestScene: React.FC = () => {
         }}
       >
         <FlowStep
-          icon={<MailIcon size={24} color={COLORS.green} />}
+          icon={<MailIcon size={28} color={COLORS.green} />}
           label="Request"
           delay={flowStart}
           color={COLORS.green}
           glowColor={COLORS.greenGlow}
         />
         <FlowStep
-          icon={<SearchIcon size={24} color={COLORS.green} />}
+          icon={<SearchIcon size={28} color={COLORS.green} />}
           label="Analyze"
           delay={flowStart + 6}
           color={COLORS.green}
           glowColor={COLORS.greenGlow}
         />
         <FlowStep
-          icon={<WrenchIcon size={24} color={COLORS.cyan} />}
+          icon={<WrenchIcon size={28} color={COLORS.cyan} />}
           label="Match Pro"
           delay={flowStart + 12}
           color={COLORS.cyan}
           glowColor={COLORS.cyanDim}
         />
         <FlowStep
-          icon={<SendIcon size={24} color={COLORS.blue} />}
+          icon={<SendIcon size={28} color={COLORS.blue} />}
           label="Work Order"
           delay={flowStart + 18}
           color={COLORS.blue}
           glowColor={COLORS.blueGlow}
         />
         <FlowStep
-          icon={<CheckIcon size={24} color={COLORS.green} />}
+          icon={<CheckIcon size={28} color={COLORS.green} />}
           label="Complete"
           delay={flowStart + 24}
           color={COLORS.green}
@@ -364,7 +364,7 @@ export const RepairRequestScene: React.FC = () => {
                     marginTop: 4,
                   }}
                 >
-                  Under £500
+                  Under $500
                 </div>
               </div>
               {/* Requires approval */}
@@ -396,7 +396,7 @@ export const RepairRequestScene: React.FC = () => {
                     marginTop: 4,
                   }}
                 >
-                  Over £500
+                  Over $500
                 </div>
               </div>
             </div>

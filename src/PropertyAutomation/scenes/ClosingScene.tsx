@@ -7,7 +7,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { COLORS } from "../theme";
-import { PhoneIcon, MailIcon, WrenchIcon, ZapIcon } from "../components/Icons";
+import { PhoneIcon, MailIcon, WrenchIcon } from "../components/Icons";
 
 export const ClosingScene: React.FC = () => {
   const frame = useCurrentFrame();
@@ -139,7 +139,7 @@ export const ClosingScene: React.FC = () => {
         );
       })}
 
-      {/* Central merge icon */}
+      {/* Central Secured Properties logo instead of ZapIcon */}
       <div
         style={{
           position: "absolute",
@@ -150,9 +150,9 @@ export const ClosingScene: React.FC = () => {
       >
         <div
           style={{
-            width: 80,
-            height: 80,
-            borderRadius: 24,
+            width: 90,
+            height: 90,
+            borderRadius: 28,
             background: COLORS.gradient1,
             display: "flex",
             alignItems: "center",
@@ -160,7 +160,16 @@ export const ClosingScene: React.FC = () => {
             boxShadow: `0 0 60px ${COLORS.blueGlow}, 0 0 120px ${COLORS.purpleGlow}`,
           }}
         >
-          <ZapIcon size={40} color="#fff" />
+          <span
+            style={{
+              color: "#fff",
+              fontSize: 36,
+              fontWeight: 800,
+              letterSpacing: "-0.02em",
+            }}
+          >
+            SP
+          </span>
         </div>
       </div>
 
@@ -209,7 +218,7 @@ export const ClosingScene: React.FC = () => {
             transform: `translateY(${(1 - subEntrance) * 15}px)`,
           }}
         >
-          Live in weeks.
+          Automate your growth.
         </p>
 
         {/* Divider */}

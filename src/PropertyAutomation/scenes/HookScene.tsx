@@ -7,17 +7,17 @@ import {
   useVideoConfig,
 } from "remotion";
 import { COLORS } from "../theme";
-import { PhoneIcon, MailIcon, ZapIcon } from "../components/Icons";
+import { PhoneIcon, MailIcon } from "../components/Icons";
 
 export const HookScene: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // Phase 1: Chaos (0-2.5s)
-  const chaosEnd = 2.5 * fps;
+  // Phase 1: Chaos (0-2s)
+  const chaosEnd = 2 * fps;
   const inChaos = frame < chaosEnd;
 
-  // Phase 2: Clean transition (2.5-5s)
+  // Phase 2: Clean transition (2-5s)
   const cleanProgress = spring({
     frame: Math.max(0, frame - chaosEnd),
     fps,
@@ -48,12 +48,22 @@ export const HookScene: React.FC = () => {
     config: { damping: 200 },
   });
 
-  // "Automated" text
+  // "It can" text - appears after chaos, but exits before scene end
   const autoTextEntrance = spring({
     frame: Math.max(0, frame - chaosEnd - 10),
     fps,
     config: { damping: 200 },
   });
+
+  // "It can" exits earlier so it doesn't bleed into next shot
+  const autoTextExit = interpolate(
+    frame,
+    [4 * fps, 4.5 * fps],
+    [0, 1],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+  );
+
+  const autoTextOpacity = autoTextEntrance * (1 - autoTextExit);
 
   return (
     <AbsoluteFill
@@ -148,23 +158,24 @@ export const HookScene: React.FC = () => {
           </h1>
         </div>
 
-        {/* Second text - appears after chaos clears */}
+        {/* Second text - appears after chaos, exits before scene end */}
         <div
           style={{
             position: "absolute",
-            opacity: autoTextEntrance,
+            opacity: autoTextOpacity,
             transform: `scale(${interpolate(autoTextEntrance, [0, 1], [0.8, 1])})`,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: 12,
+            gap: 16,
           }}
         >
+          {/* Secured Properties Logo instead of ZapIcon */}
           <div
             style={{
-              width: 64,
-              height: 64,
-              borderRadius: 20,
+              width: 80,
+              height: 80,
+              borderRadius: 24,
               background: COLORS.gradient1,
               display: "flex",
               alignItems: "center",
@@ -172,7 +183,16 @@ export const HookScene: React.FC = () => {
               boxShadow: `0 0 40px ${COLORS.blueGlow}`,
             }}
           >
-            <ZapIcon size={32} color="#fff" />
+            <span
+              style={{
+                color: "#fff",
+                fontSize: 32,
+                fontWeight: 800,
+                letterSpacing: "-0.02em",
+              }}
+            >
+              SP
+            </span>
           </div>
           <h1
             style={{
