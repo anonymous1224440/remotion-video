@@ -154,7 +154,7 @@ export const ClosingScene: React.FC = () => {
           ))}
         </div>
 
-        {/* Central SP logo */}
+        {/* Central SP logo - red circle */}
         <div
           style={{
             opacity: contentEntrance,
@@ -164,25 +164,26 @@ export const ClosingScene: React.FC = () => {
         >
           <div
             style={{
-              width: 64,
-              height: 64,
-              borderRadius: 20,
-              background: COLORS.gradient1,
+              width: 80,
+              height: 80,
+              borderRadius: "50%",
+              background: "#e62528",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              boxShadow: `0 0 40px ${COLORS.blueGlow}, 0 0 80px ${COLORS.purpleGlow}`,
+              boxShadow: "0 0 40px rgba(230, 37, 40, 0.4), 0 0 80px rgba(230, 37, 40, 0.2)",
             }}
           >
             <span
               style={{
                 color: "#fff",
-                fontSize: 26,
-                fontWeight: 800,
+                fontSize: 36,
+                fontWeight: 700,
                 letterSpacing: "-0.02em",
+                fontFamily: "sans-serif",
               }}
             >
-              SP
+              sp
             </span>
           </div>
         </div>
