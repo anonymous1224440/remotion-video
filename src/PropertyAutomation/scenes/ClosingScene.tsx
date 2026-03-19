@@ -21,12 +21,18 @@ export const ClosingScene: React.FC = () => {
     durationInFrames: 30,
   });
 
-  // Central icon
-  const centralEntrance = spring({
+  // Icons fade out after converging
+  const iconsFadeOut = interpolate(convergeProgress, [0.7, 1], [1, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  // Static content appears after converge
+  const contentEntrance = spring({
     frame,
     fps,
-    delay: 20,
-    config: { damping: 15, stiffness: 80 },
+    delay: 25,
+    config: { damping: 200 },
   });
 
   // Title
@@ -45,7 +51,7 @@ export const ClosingScene: React.FC = () => {
     config: { damping: 200 },
   });
 
-  // Tagline
+  // Tagline + divider
   const tagEntrance = spring({
     frame,
     fps,
@@ -76,7 +82,7 @@ export const ClosingScene: React.FC = () => {
             style={{
               position: "absolute",
               transform: `translate(${x}px, ${y}px)`,
-              opacity: Math.max(0, 1 - convergeProgress * 1.5),
+              opacity: iconsFadeOut,
             }}
           >
             <div
@@ -98,20 +104,12 @@ export const ClosingScene: React.FC = () => {
         );
       })}
 
-      {/* Static content - proper flex column layout to prevent overlap */}
+      {/* Static content - pure flex column, NO absolute positioning for children */}
       <div
         style={{
-          position: "absolute",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 0,
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
-          justifyContent: "center",
-          padding: "60px 80px",
         }}
       >
         {/* Workflow icons row */}
@@ -119,11 +117,9 @@ export const ClosingScene: React.FC = () => {
           style={{
             display: "flex",
             gap: 60,
-            marginBottom: 40,
-            opacity: interpolate(convergeProgress, [0.8, 1], [0, 1], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-            }),
+            marginBottom: 36,
+            opacity: contentEntrance,
+            transform: `translateY(${(1 - contentEntrance) * 20}px)`,
           }}
         >
           {workflows.map((wf, i) => (
@@ -161,16 +157,16 @@ export const ClosingScene: React.FC = () => {
         {/* Central SP logo */}
         <div
           style={{
-            opacity: centralEntrance,
-            transform: `scale(${interpolate(centralEntrance, [0, 1], [0.5, 1])})`,
-            marginBottom: 28,
+            opacity: contentEntrance,
+            transform: `scale(${interpolate(contentEntrance, [0, 1], [0.5, 1])})`,
+            marginBottom: 24,
           }}
         >
           <div
             style={{
-              width: 72,
-              height: 72,
-              borderRadius: 22,
+              width: 64,
+              height: 64,
+              borderRadius: 20,
               background: COLORS.gradient1,
               display: "flex",
               alignItems: "center",
@@ -181,7 +177,7 @@ export const ClosingScene: React.FC = () => {
             <span
               style={{
                 color: "#fff",
-                fontSize: 30,
+                fontSize: 26,
                 fontWeight: 800,
                 letterSpacing: "-0.02em",
               }}
@@ -195,11 +191,11 @@ export const ClosingScene: React.FC = () => {
         <h1
           style={{
             color: COLORS.text,
-            fontSize: 48,
+            fontSize: 44,
             fontWeight: 700,
             letterSpacing: "-0.03em",
             margin: 0,
-            marginBottom: 14,
+            marginBottom: 12,
             textAlign: "center",
             opacity: titleEntrance,
             transform: `translateY(${(1 - titleEntrance) * 20}px)`,
@@ -221,10 +217,10 @@ export const ClosingScene: React.FC = () => {
         <p
           style={{
             color: COLORS.text,
-            fontSize: 28,
+            fontSize: 26,
             fontWeight: 600,
             margin: 0,
-            marginBottom: 18,
+            marginBottom: 16,
             opacity: subEntrance,
             transform: `translateY(${(1 - subEntrance) * 15}px)`,
           }}
@@ -235,11 +231,11 @@ export const ClosingScene: React.FC = () => {
         {/* Divider */}
         <div
           style={{
-            width: interpolate(tagEntrance, [0, 1], [0, 180]),
+            width: interpolate(tagEntrance, [0, 1], [0, 160]),
             height: 2,
             background: COLORS.gradient1,
             borderRadius: 1,
-            marginBottom: 18,
+            marginBottom: 16,
           }}
         />
 
@@ -247,7 +243,7 @@ export const ClosingScene: React.FC = () => {
         <p
           style={{
             color: COLORS.textSecondary,
-            fontSize: 18,
+            fontSize: 16,
             fontWeight: 400,
             margin: 0,
             opacity: tagEntrance,

@@ -239,7 +239,7 @@ export const PropertyOutreachScene: React.FC = () => {
             <div
               style={{
                 color: COLORS.textSecondary,
-                fontSize: 13,
+                fontSize: 14,
                 lineHeight: 1.5,
                 margin: 0,
                 whiteSpace: "pre-wrap",

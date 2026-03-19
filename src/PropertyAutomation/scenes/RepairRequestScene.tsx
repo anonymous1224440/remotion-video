@@ -205,10 +205,10 @@ export const RepairRequestScene: React.FC = () => {
                 padding: 14,
               }}
             >
-              <div style={{ color: COLORS.textMuted, fontSize: 11, marginBottom: 6 }}>
+              <div style={{ color: COLORS.textMuted, fontSize: 12, marginBottom: 6 }}>
                 From: tenant@email.com — Unit 4B
               </div>
-              <div style={{ color: COLORS.text, fontSize: 15 }}>
+              <div style={{ color: COLORS.text, fontSize: 16 }}>
                 "The kitchen sink is leaking badly. Water is pooling on the floor."
               </div>
             </div>
