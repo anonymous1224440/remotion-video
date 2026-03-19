@@ -77,20 +77,14 @@ export const AIReceptionistScene: React.FC = () => {
     { role: "ai", text: "You're welcome, Michael. Looking forward to seeing you." },
   ];
 
-  // Message timing - appear one by one
-  const msgInterval = 18; // frames between each message
-  const scrollStart = detailStart + 3 * msgInterval; // start scrolling after 3 messages visible
-
-  // Calculate scroll amount - needs to be large enough so last messages sit at bottom
-  const maxScroll = 1200;
-  const scrollAmount = Math.max(
-    0,
-    interpolate(
-      frame,
-      [scrollStart, scrollStart + (conversationMessages.length - 4) * msgInterval],
-      [0, maxScroll],
-      { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
-    ),
+  // Conversation is fully visible from the start, just scrolls slowly
+  const scrollDuration = 12 * fps; // slow scroll over 12 seconds
+  const maxScroll = 1400;
+  const scrollAmount = interpolate(
+    frame,
+    [detailStart, detailStart + scrollDuration],
+    [0, maxScroll],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
   );
 
   return (
@@ -253,18 +247,10 @@ export const AIReceptionistScene: React.FC = () => {
                 }}
               >
                 {conversationMessages.map((msg, i) => {
-                  const msgEntrance = spring({
-                    frame,
-                    fps,
-                    delay: detailStart + i * msgInterval,
-                    config: { damping: 200 },
-                  });
                   return (
                     <div
                       key={i}
                       style={{
-                        opacity: msgEntrance,
-                        transform: `translateY(${(1 - msgEntrance) * 10}px)`,
                         display: "flex",
                         justifyContent: msg.role === "user" ? "flex-end" : "flex-start",
                       }}
