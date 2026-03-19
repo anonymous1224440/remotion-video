@@ -7,7 +7,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { COLORS } from "../theme";
-import { PhoneIcon, MailIcon } from "../components/Icons";
+import { PhoneIcon, MailIcon, SPLogo } from "../components/Icons";
 
 export const HookScene: React.FC = () => {
   const frame = useCurrentFrame();
@@ -170,30 +170,9 @@ export const HookScene: React.FC = () => {
             gap: 16,
           }}
         >
-          {/* Secured Properties Logo - red circle with sp */}
-          <div
-            style={{
-              width: 100,
-              height: 100,
-              borderRadius: "50%",
-              background: "#e62528",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              boxShadow: "0 0 40px rgba(230, 37, 40, 0.4)",
-            }}
-          >
-            <span
-              style={{
-                color: "#fff",
-                fontSize: 46,
-                fontWeight: 700,
-                letterSpacing: "-0.02em",
-                fontFamily: "sans-serif",
-              }}
-            >
-              sp
-            </span>
+          {/* Secured Properties Logo */}
+          <div style={{ filter: "drop-shadow(0 0 30px rgba(230, 37, 40, 0.4))" }}>
+            <SPLogo size={100} />
           </div>
           <h1
             style={{
