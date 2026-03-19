@@ -54,9 +54,9 @@ export const ClosingScene: React.FC = () => {
   });
 
   const workflows = [
-    { icon: <PhoneIcon size={28} color={COLORS.blue} />, color: COLORS.blue, label: "AI Receptionist", startX: -300, startY: -200 },
-    { icon: <MailIcon size={28} color={COLORS.purple} />, color: COLORS.purple, label: "Property Outreach", startX: 300, startY: -200 },
-    { icon: <WrenchIcon size={28} color={COLORS.green} />, color: COLORS.green, label: "Repair Automation", startX: 0, startY: 200 },
+    { icon: <PhoneIcon size={28} color={COLORS.blue} />, color: COLORS.blue, label: "AI Receptionist", startX: -300, startY: -300 },
+    { icon: <MailIcon size={28} color={COLORS.purple} />, color: COLORS.purple, label: "Property Outreach", startX: 300, startY: -300 },
+    { icon: <WrenchIcon size={28} color={COLORS.green} />, color: COLORS.green, label: "Repair Automation", startX: 0, startY: 300 },
   ];
 
   return (
@@ -163,25 +163,25 @@ export const ClosingScene: React.FC = () => {
           style={{
             opacity: centralEntrance,
             transform: `scale(${interpolate(centralEntrance, [0, 1], [0.5, 1])})`,
-            marginBottom: 32,
+            marginBottom: 28,
           }}
         >
           <div
             style={{
-              width: 90,
-              height: 90,
-              borderRadius: 28,
+              width: 72,
+              height: 72,
+              borderRadius: 22,
               background: COLORS.gradient1,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              boxShadow: `0 0 60px ${COLORS.blueGlow}, 0 0 120px ${COLORS.purpleGlow}`,
+              boxShadow: `0 0 40px ${COLORS.blueGlow}, 0 0 80px ${COLORS.purpleGlow}`,
             }}
           >
             <span
               style={{
                 color: "#fff",
-                fontSize: 36,
+                fontSize: 30,
                 fontWeight: 800,
                 letterSpacing: "-0.02em",
               }}
@@ -195,11 +195,11 @@ export const ClosingScene: React.FC = () => {
         <h1
           style={{
             color: COLORS.text,
-            fontSize: 52,
+            fontSize: 48,
             fontWeight: 700,
             letterSpacing: "-0.03em",
             margin: 0,
-            marginBottom: 16,
+            marginBottom: 14,
             textAlign: "center",
             opacity: titleEntrance,
             transform: `translateY(${(1 - titleEntrance) * 20}px)`,
@@ -221,10 +221,10 @@ export const ClosingScene: React.FC = () => {
         <p
           style={{
             color: COLORS.text,
-            fontSize: 32,
+            fontSize: 28,
             fontWeight: 600,
             margin: 0,
-            marginBottom: 20,
+            marginBottom: 18,
             opacity: subEntrance,
             transform: `translateY(${(1 - subEntrance) * 15}px)`,
           }}
@@ -235,11 +235,11 @@ export const ClosingScene: React.FC = () => {
         {/* Divider */}
         <div
           style={{
-            width: interpolate(tagEntrance, [0, 1], [0, 200]),
+            width: interpolate(tagEntrance, [0, 1], [0, 180]),
             height: 2,
             background: COLORS.gradient1,
             borderRadius: 1,
-            marginBottom: 20,
+            marginBottom: 18,
           }}
         />
 
@@ -247,7 +247,7 @@ export const ClosingScene: React.FC = () => {
         <p
           style={{
             color: COLORS.textSecondary,
-            fontSize: 20,
+            fontSize: 18,
             fontWeight: 400,
             margin: 0,
             opacity: tagEntrance,

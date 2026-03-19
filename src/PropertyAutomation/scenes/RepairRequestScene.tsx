@@ -266,7 +266,7 @@ export const RepairRequestScene: React.FC = () => {
                     <div
                       style={{
                         color: COLORS.textMuted,
-                        fontSize: 11,
+                        fontSize: 13,
                         fontWeight: 500,
                         marginBottom: 4,
                       }}
@@ -276,7 +276,7 @@ export const RepairRequestScene: React.FC = () => {
                     <div
                       style={{
                         color: tag.color,
-                        fontSize: 16,
+                        fontSize: 20,
                         fontWeight: 700,
                       }}
                     >
@@ -289,7 +289,20 @@ export const RepairRequestScene: React.FC = () => {
           </div>
 
           {/* Key messages */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 12,
+              flex: 1,
+              background: COLORS.bgCard,
+              border: `1px solid ${COLORS.green}22`,
+              borderRadius: 16,
+              padding: 24,
+              opacity: spring({ frame, fps, delay: messagesStart, config: { damping: 200 } }),
+              transform: `translateY(${(1 - spring({ frame, fps, delay: messagesStart, config: { damping: 200 } })) * 20}px)`,
+            }}
+          >
             <KeyMessage
               text="No manual coordination"
               delay={messagesStart}
@@ -472,7 +485,7 @@ export const RepairRequestScene: React.FC = () => {
                     <span
                       style={{
                         color: COLORS.text,
-                        fontSize: 13,
+                        fontSize: 15,
                         fontWeight: 500,
                       }}
                     >
@@ -482,7 +495,7 @@ export const RepairRequestScene: React.FC = () => {
                   <span
                     style={{
                       color: COLORS.textMuted,
-                      fontSize: 11,
+                      fontSize: 13,
                     }}
                   >
                     {item.time}

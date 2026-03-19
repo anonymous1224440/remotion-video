@@ -397,7 +397,7 @@ export const PropertyOutreachScene: React.FC = () => {
                     <div
                       style={{
                         color: stat.color,
-                        fontSize: 28,
+                        fontSize: 34,
                         fontWeight: 700,
                         letterSpacing: "-0.02em",
                       }}
@@ -407,7 +407,7 @@ export const PropertyOutreachScene: React.FC = () => {
                     <div
                       style={{
                         color: COLORS.textMuted,
-                        fontSize: 12,
+                        fontSize: 14,
                         marginTop: 4,
                       }}
                     >
@@ -424,11 +424,12 @@ export const PropertyOutreachScene: React.FC = () => {
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: 10,
+              gap: 12,
               background: COLORS.bgCard,
               border: `1px solid ${COLORS.purple}22`,
               borderRadius: 16,
-              padding: 20,
+              padding: 24,
+              flex: 1,
               opacity: spring({ frame, fps, delay: messagesStart, config: { damping: 200 } }),
               transform: `translateY(${(1 - spring({ frame, fps, delay: messagesStart, config: { damping: 200 } })) * 20}px)`,
             }}

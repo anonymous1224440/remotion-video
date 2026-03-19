@@ -79,8 +79,8 @@ export const AIReceptionistScene: React.FC = () => {
   ];
 
   // Calculate which messages are visible based on frame - scroll through conversation
-  const msgInterval = 14; // frames between each message appearing (slower for readability)
-  const scrollStart = detailStart + 5 * msgInterval; // start scrolling after 5 messages
+  const msgInterval = 18; // frames between each message appearing (slower for readability)
+  const scrollStart = detailStart + 4 * msgInterval; // start scrolling after 4 messages
 
   return (
     <AbsoluteFill
@@ -234,11 +234,11 @@ export const AIReceptionistScene: React.FC = () => {
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  gap: 6,
+                  gap: 10,
                   transform: `translateY(${-Math.max(0, interpolate(
                     frame,
                     [scrollStart, scrollStart + 20 * msgInterval],
-                    [0, 520],
+                    [0, 800],
                     { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
                   ))}px)`,
                 }}
@@ -266,14 +266,14 @@ export const AIReceptionistScene: React.FC = () => {
                             msg.role === "ai" ? COLORS.blueDim : COLORS.purpleDim,
                           border: `1px solid ${msg.role === "ai" ? COLORS.blue : COLORS.purple}33`,
                           borderRadius: 10,
-                          padding: "8px 14px",
+                          padding: "10px 16px",
                           maxWidth: "85%",
                         }}
                       >
                         <span
                           style={{
                             color: COLORS.text,
-                            fontSize: 15,
+                            fontSize: 17,
                             fontWeight: 400,
                             lineHeight: 1.4,
                           }}
@@ -290,7 +290,7 @@ export const AIReceptionistScene: React.FC = () => {
         </div>
 
         {/* Right column - Intent + Dashboard */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 20 }}>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
           {/* Intent detection - bigger and more visible */}
           <div
             style={{
@@ -299,7 +299,7 @@ export const AIReceptionistScene: React.FC = () => {
               background: COLORS.bgCard,
               border: `1px solid ${COLORS.green}33`,
               borderRadius: 16,
-              padding: 20,
+              padding: 24,
             }}
           >
             <span
@@ -330,7 +330,7 @@ export const AIReceptionistScene: React.FC = () => {
                     style={{
                       opacity: tagEntrance,
                       transform: `scale(${interpolate(tagEntrance, [0, 1], [0.8, 1])})`,
-                      padding: "12px 20px",
+                      padding: "14px 22px",
                       borderRadius: 10,
                       background: isActive ? `${item.color}22` : COLORS.bgCard,
                       border: `2px solid ${isActive ? item.color : COLORS.textMuted}44`,
@@ -340,7 +340,7 @@ export const AIReceptionistScene: React.FC = () => {
                     <span
                       style={{
                         color: isActive ? item.color : COLORS.textMuted,
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: 600,
                       }}
                     >
@@ -404,13 +404,13 @@ export const AIReceptionistScene: React.FC = () => {
                       opacity: cardEntrance,
                       background: COLORS.surface,
                       borderRadius: 8,
-                      padding: "10px 14px",
+                      padding: "12px 16px",
                     }}
                   >
                     <div
                       style={{
                         color: COLORS.textMuted,
-                        fontSize: 11,
+                        fontSize: 12,
                         fontWeight: 500,
                         marginBottom: 4,
                       }}
@@ -420,7 +420,7 @@ export const AIReceptionistScene: React.FC = () => {
                     <div
                       style={{
                         color: COLORS.text,
-                        fontSize: 15,
+                        fontSize: 17,
                         fontWeight: 600,
                       }}
                     >
@@ -437,11 +437,12 @@ export const AIReceptionistScene: React.FC = () => {
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: 10,
+              gap: 12,
               background: COLORS.bgCard,
               border: `1px solid ${COLORS.blue}22`,
               borderRadius: 16,
-              padding: 20,
+              padding: 24,
+              flex: 1,
               opacity: spring({ frame, fps, delay: messagesStart, config: { damping: 200 } }),
               transform: `translateY(${(1 - spring({ frame, fps, delay: messagesStart, config: { damping: 200 } })) * 20}px)`,
             }}
