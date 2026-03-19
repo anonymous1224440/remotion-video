@@ -460,14 +460,14 @@ export const RepairRequestScene: React.FC = () => {
                     opacity: itemEntrance,
                     display: "flex",
                     alignItems: "center",
-                    gap: 12,
-                    padding: "8px 0",
+                    gap: 14,
+                    padding: "12px 0",
                   }}
                 >
                   <div
                     style={{
-                      width: 20,
-                      height: 20,
+                      width: 26,
+                      height: 26,
                       borderRadius: "50%",
                       background: item.done
                         ? COLORS.greenDim
@@ -479,13 +479,13 @@ export const RepairRequestScene: React.FC = () => {
                       flexShrink: 0,
                     }}
                   >
-                    {item.done && <CheckIcon size={12} color={COLORS.green} />}
+                    {item.done && <CheckIcon size={16} color={COLORS.green} />}
                   </div>
                   <div style={{ flex: 1 }}>
                     <span
                       style={{
                         color: COLORS.text,
-                        fontSize: 19,
+                        fontSize: 24,
                         fontWeight: 500,
                       }}
                     >
@@ -495,7 +495,7 @@ export const RepairRequestScene: React.FC = () => {
                   <span
                     style={{
                       color: COLORS.textMuted,
-                      fontSize: 15,
+                      fontSize: 18,
                     }}
                   >
                     {item.time}
