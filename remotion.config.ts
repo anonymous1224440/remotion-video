@@ -14,6 +14,7 @@ Config.overrideWebpackConfig((currentConfig) => {
   const withTailwind = enableTailwind(currentConfig);
   return {
     ...withTailwind,
+    cache: false,
     output: {
       ...withTailwind.output,
       hashFunction: "xxhash64",
