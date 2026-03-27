@@ -27,11 +27,11 @@ const POSITIONS = [
 ];
 
 const PAIN_POINTS = [
-  "Hours wasted",
-  "Money slipping away",
-  "Constant stress",
-  "Mistakes happen",
-  "All from manual work",
+  { text: "Hours wasted", color: COLORS.red },
+  { text: "Money slipping away", color: COLORS.orange },
+  { text: "Constant stress", color: COLORS.red },
+  { text: "Mistakes happen", color: COLORS.orange },
+  { text: "All from manual work", color: COLORS.red },
 ];
 
 export const Scene1Hook: React.FC = () => {
@@ -49,7 +49,7 @@ export const Scene1Hook: React.FC = () => {
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
   );
 
-  // Phase 2: Hook text "Manual work is killing your growth" (2-3s)
+  // Phase 2: Hook text (2-3s)
   const hookStart = chaosEnd;
   const hookEntrance = spring({
     frame: frame - hookStart - 3,
@@ -61,7 +61,7 @@ export const Scene1Hook: React.FC = () => {
   // Phase 3: Pain points (3-6s)
   const painStart = Math.round(3 * fps);
 
-  // Phase 4: Everything fades, "We fix that" appears (6-8s)
+  // Phase 4: Everything fades, "We fix that" (6-8s)
   const hookAndPainFade = interpolate(
     frame,
     [Math.round(5.5 * fps), Math.round(6 * fps)],
@@ -97,8 +97,8 @@ export const Scene1Hook: React.FC = () => {
             durationInFrames: Math.round(0.5 * fps),
           });
 
-          const shakeX = Math.sin((frame + i * 17) * 0.3) * 4;
-          const shakeY = Math.cos((frame + i * 23) * 0.25) * 3;
+          const shakeX = Math.sin((frame + i * 17) * 0.3) * 6;
+          const shakeY = Math.cos((frame + i * 23) * 0.25) * 5;
           const floatY = Math.sin((frame + i * 40) / (fps * 0.8)) * 12;
 
           return (
@@ -111,13 +111,13 @@ export const Scene1Hook: React.FC = () => {
                 transform: `translate(${shakeX}px, ${shakeY}px) scale(${staggerEntrance})`,
                 opacity: chaosOpacity * staggerEntrance,
                 backgroundColor: COLORS.bgCard,
-                border: `1px solid ${COLORS.border}`,
+                border: `1px solid ${COLORS.red}40`,
                 borderRadius: 12,
                 padding: "12px 20px",
                 display: "flex",
                 alignItems: "center",
                 gap: 10,
-                boxShadow: `0 4px 20px rgba(0,0,0,0.3)`,
+                boxShadow: `0 4px 20px rgba(239, 68, 68, 0.15)`,
               }}
             >
               <span style={{ fontSize: 20 }}>{notif.emoji}</span>
@@ -141,14 +141,14 @@ export const Scene1Hook: React.FC = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: 32,
+            gap: 40,
             opacity: hookAndPainFade,
           }}
         >
           {/* Hook headline */}
           <h1
             style={{
-              fontSize: 50,
+              fontSize: 54,
               fontWeight: 800,
               color: COLORS.textPrimary,
               textAlign: "center",
@@ -163,13 +163,13 @@ export const Scene1Hook: React.FC = () => {
             <span style={{ color: COLORS.red }}>killing your growth</span>
           </h1>
 
-          {/* Pain points */}
+          {/* Pain points — large, impactful */}
           <div
             style={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              gap: 14,
+              gap: 18,
             }}
           >
             {PAIN_POINTS.map((point, i) => {
@@ -181,24 +181,42 @@ export const Scene1Hook: React.FC = () => {
               });
 
               const isLast = i === PAIN_POINTS.length - 1;
+              const pulse = isLast
+                ? 1 + Math.sin(frame * 0.15) * 0.03
+                : 1;
 
               return (
                 <div
                   key={i}
                   style={{
                     opacity: pointEntrance,
-                    transform: `translateY(${interpolate(pointEntrance, [0, 1], [15, 0])}px)`,
+                    transform: `translateY(${interpolate(pointEntrance, [0, 1], [20, 0])}px) scale(${pulse})`,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 14,
                   }}
                 >
+                  {/* Red bar accent */}
+                  <div
+                    style={{
+                      width: 4,
+                      height: isLast ? 32 : 24,
+                      borderRadius: 2,
+                      backgroundColor: point.color,
+                      boxShadow: `0 0 12px ${point.color}60`,
+                      opacity: 0.8,
+                    }}
+                  />
                   <span
                     style={{
-                      fontSize: isLast ? 22 : 20,
-                      fontWeight: isLast ? 700 : 400,
-                      color: isLast ? COLORS.orange : COLORS.textSecondary,
-                      letterSpacing: isLast ? 0.5 : 0,
+                      fontSize: isLast ? 30 : 26,
+                      fontWeight: isLast ? 800 : 500,
+                      color: isLast ? point.color : COLORS.textSecondary,
+                      letterSpacing: isLast ? 1 : 0.3,
+                      textTransform: isLast ? "uppercase" : "none",
                     }}
                   >
-                    {point}
+                    {point.text}
                   </span>
                 </div>
               );
@@ -221,7 +239,7 @@ export const Scene1Hook: React.FC = () => {
         >
           <h1
             style={{
-              fontSize: 56,
+              fontSize: 60,
               fontWeight: 800,
               color: COLORS.textPrimary,
               textAlign: "center",
@@ -241,7 +259,6 @@ export const Scene1Hook: React.FC = () => {
             </span>
           </h1>
 
-          {/* Logo */}
           <div
             style={{
               display: "flex",

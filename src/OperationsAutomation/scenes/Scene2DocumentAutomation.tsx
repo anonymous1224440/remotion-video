@@ -40,12 +40,29 @@ const EMAILS = [
     status: "Sent to owner",
     statusColor: COLORS.blue,
   },
+  {
+    subject: "Lease Agreement \u2014 88 Greenwich St",
+    status: "Auto-filed",
+    statusColor: COLORS.green,
+  },
+  {
+    subject: "Inspection Report \u2014 200 Park Ave",
+    status: "Sent to owner",
+    statusColor: COLORS.blue,
+  },
+  {
+    subject: "Utility Bill \u2014 55 Water St",
+    status: "Auto-filed",
+    statusColor: COLORS.green,
+  },
 ];
 
 const DOC_TAGS = [
   { label: "Bank Statement", color: COLORS.green, action: "\u2192 Filed to OneDrive" },
   { label: "Insurance Doc", color: COLORS.orange, action: "\u2192 Sent to Owner" },
   { label: "Tax Filing", color: COLORS.cyan, action: "\u2192 Filed & Logged" },
+  { label: "Lease Agreement", color: COLORS.blue, action: "\u2192 Filed to OneDrive" },
+  { label: "Inspection Report", color: COLORS.purple, action: "\u2192 Sent to Owner" },
 ];
 
 const DASHBOARD_ITEMS = [
@@ -94,8 +111,10 @@ export const Scene2DocumentAutomation: React.FC = () => {
   return (
     <AbsoluteFill
       style={{
-        padding: "50px 70px",
+        padding: "40px 60px",
         opacity: fadeIn * fadeOut,
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       {/* Header */}
@@ -104,7 +123,7 @@ export const Scene2DocumentAutomation: React.FC = () => {
           display: "flex",
           alignItems: "center",
           gap: 14,
-          marginBottom: 24,
+          marginBottom: 20,
           opacity: headerEntrance,
           transform: `translateX(${interpolate(headerEntrance, [0, 1], [-30, 0])}px)`,
         }}
@@ -146,7 +165,7 @@ export const Scene2DocumentAutomation: React.FC = () => {
         style={{
           display: "flex",
           alignItems: "flex-start",
-          marginBottom: 30,
+          marginBottom: 24,
           transform: `translateX(${slideFromRight}px)`,
         }}
       >
@@ -158,106 +177,110 @@ export const Scene2DocumentAutomation: React.FC = () => {
         <FlowStep icon={<ChartIcon color={COLORS.green} size={20} />} label="Log" color={COLORS.green} index={5} isLast />
       </div>
 
-      {/* Two columns */}
+      {/* Two columns — fill remaining space */}
       <div
         style={{
           display: "flex",
-          gap: 30,
+          gap: 24,
           flex: 1,
+          minHeight: 0,
         }}
       >
         {/* Left column — Email Inbox */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
-          {/* Email list */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
           <div
             style={{
               backgroundColor: COLORS.bgCard,
               border: `1px solid ${COLORS.border}`,
               borderRadius: 12,
-              padding: 16,
+              padding: "16px 18px",
               flex: 1,
+              display: "flex",
+              flexDirection: "column",
             }}
           >
             <div
               style={{
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: 600,
                 color: COLORS.textMuted,
                 letterSpacing: 1,
                 textTransform: "uppercase",
-                marginBottom: 12,
+                marginBottom: 14,
               }}
             >
               Incoming Emails
             </div>
 
-            {EMAILS.map((email, i) => {
-              const emailDelay = Math.round(3.5 * fps) + i * 12;
-              const emailEntrance = spring({
-                frame: frame - emailDelay,
-                fps,
-                config: { damping: 200, stiffness: 170 },
-                durationInFrames: Math.round(0.6 * fps),
-              });
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+              {EMAILS.map((email, i) => {
+                const emailDelay = Math.round(3.5 * fps) + i * 10;
+                const emailEntrance = spring({
+                  frame: frame - emailDelay,
+                  fps,
+                  config: { damping: 200, stiffness: 170 },
+                  durationInFrames: Math.round(0.6 * fps),
+                });
 
-              return (
-                <div
-                  key={i}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    padding: "10px 12px",
-                    borderRadius: 8,
-                    backgroundColor:
-                      i % 2 === 0
-                        ? "rgba(255,255,255,0.02)"
-                        : "transparent",
-                    marginBottom: 4,
-                    opacity: emailEntrance,
-                    transform: `translateX(${interpolate(emailEntrance, [0, 1], [-20, 0])}px)`,
-                  }}
-                >
-                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                    <div
-                      style={{
-                        width: 6,
-                        height: 6,
-                        borderRadius: "50%",
-                        backgroundColor: COLORS.blue,
-                      }}
-                    />
-                    <span
-                      style={{
-                        fontSize: 13,
-                        fontWeight: 500,
-                        color: COLORS.textSecondary,
-                      }}
-                    >
-                      {email.subject}
-                    </span>
-                  </div>
+                return (
                   <div
+                    key={i}
                     style={{
-                      fontSize: 11,
-                      fontWeight: 600,
-                      color: email.statusColor,
-                      backgroundColor: email.statusColor + "15",
-                      padding: "3px 10px",
-                      borderRadius: 20,
-                      border: `1px solid ${email.statusColor}30`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      padding: "12px 14px",
+                      borderRadius: 8,
+                      backgroundColor:
+                        i % 2 === 0
+                          ? "rgba(255,255,255,0.02)"
+                          : "transparent",
+                      opacity: emailEntrance,
+                      transform: `translateX(${interpolate(emailEntrance, [0, 1], [-20, 0])}px)`,
                     }}
                   >
-                    {email.status} \u2713
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <div
+                        style={{
+                          width: 7,
+                          height: 7,
+                          borderRadius: "50%",
+                          backgroundColor: COLORS.blue,
+                        }}
+                      />
+                      <span
+                        style={{
+                          fontSize: 15,
+                          fontWeight: 500,
+                          color: COLORS.textSecondary,
+                        }}
+                      >
+                        {email.subject}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 12,
+                        fontWeight: 600,
+                        color: email.statusColor,
+                        backgroundColor: email.statusColor + "15",
+                        padding: "4px 12px",
+                        borderRadius: 20,
+                        border: `1px solid ${email.statusColor}30`,
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {email.status} \u2713
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
 
         {/* Right column */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 14 }}>
           {/* Document Detection Tags */}
           {(() => {
             const tagsDelay = Math.round(3.5 * fps);
@@ -274,23 +297,26 @@ export const Scene2DocumentAutomation: React.FC = () => {
                   backgroundColor: COLORS.bgCard,
                   border: `1px solid ${COLORS.border}`,
                   borderRadius: 12,
-                  padding: 16,
+                  padding: "16px 18px",
                   opacity: tagsEntrance,
+                  flex: 1,
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <div
                   style={{
-                    fontSize: 12,
+                    fontSize: 13,
                     fontWeight: 600,
                     color: COLORS.textMuted,
                     letterSpacing: 1,
                     textTransform: "uppercase",
-                    marginBottom: 12,
+                    marginBottom: 14,
                   }}
                 >
                   Document Detection
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10, flex: 1, justifyContent: "space-between" }}>
                   {DOC_TAGS.map((tag, i) => {
                     const tagEntrance = spring({
                       frame: frame - tagsDelay - 5 - i * 8,
@@ -305,28 +331,28 @@ export const Scene2DocumentAutomation: React.FC = () => {
                         style={{
                           display: "flex",
                           alignItems: "center",
-                          gap: 10,
+                          gap: 12,
                           opacity: tagEntrance,
                           transform: `translateX(${interpolate(tagEntrance, [0, 1], [15, 0])}px)`,
                         }}
                       >
                         <div
                           style={{
-                            fontSize: 12,
+                            fontSize: 14,
                             fontWeight: 600,
                             color: tag.color,
                             backgroundColor: tag.color + "15",
                             border: `1px solid ${tag.color}30`,
-                            padding: "5px 12px",
+                            padding: "7px 16px",
                             borderRadius: 20,
-                            minWidth: 110,
+                            minWidth: 130,
                           }}
                         >
                           {tag.label}
                         </div>
                         <span
                           style={{
-                            fontSize: 12,
+                            fontSize: 14,
                             fontWeight: 500,
                             color: COLORS.textMuted,
                           }}
@@ -357,19 +383,21 @@ export const Scene2DocumentAutomation: React.FC = () => {
                   backgroundColor: COLORS.bgCard,
                   border: `1px solid ${COLORS.border}`,
                   borderRadius: 12,
-                  padding: 16,
+                  padding: "16px 18px",
                   opacity: dashEntrance,
                   flex: 1,
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <div
                   style={{
-                    fontSize: 12,
+                    fontSize: 13,
                     fontWeight: 600,
                     color: COLORS.textMuted,
                     letterSpacing: 1,
                     textTransform: "uppercase",
-                    marginBottom: 12,
+                    marginBottom: 14,
                   }}
                 >
                   Processing Dashboard
@@ -378,7 +406,8 @@ export const Scene2DocumentAutomation: React.FC = () => {
                   style={{
                     display: "grid",
                     gridTemplateColumns: "1fr 1fr 1fr",
-                    gap: 10,
+                    gap: 12,
+                    flex: 1,
                   }}
                 >
                   {DASHBOARD_ITEMS.map((item, i) => {
@@ -395,24 +424,27 @@ export const Scene2DocumentAutomation: React.FC = () => {
                         style={{
                           backgroundColor: "rgba(255,255,255,0.03)",
                           borderRadius: 8,
-                          padding: "10px 12px",
+                          padding: "14px 14px",
                           opacity: itemEntrance,
                           transform: `translateY(${interpolate(itemEntrance, [0, 1], [10, 0])}px)`,
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
                         }}
                       >
                         <div
                           style={{
-                            fontSize: 20,
+                            fontSize: 26,
                             fontWeight: 700,
                             color: COLORS.textPrimary,
-                            marginBottom: 2,
+                            marginBottom: 4,
                           }}
                         >
                           {item.value}
                         </div>
                         <div
                           style={{
-                            fontSize: 10,
+                            fontSize: 12,
                             fontWeight: 500,
                             color: COLORS.textMuted,
                           }}

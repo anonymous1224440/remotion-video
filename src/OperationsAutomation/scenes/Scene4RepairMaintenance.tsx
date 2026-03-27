@@ -28,22 +28,27 @@ const TENANT_EMAIL_LINES = [
   "this morning. Water is pooling under the",
   "cabinet. Could someone take a look?",
   "",
+  "I've placed a towel underneath but it's",
+  "getting worse. Would appreciate if",
+  "someone could come by today.",
+  "",
   "Thanks,",
   "Sarah",
 ];
 
 const AI_TAGS = [
-  { label: "Plumbing", color: COLORS.blue },
-  { label: "High Priority", color: COLORS.orange },
-  { label: "Unit 4B", color: COLORS.cyan },
+  { label: "Plumbing", color: COLORS.blue, detail: "Category detected" },
+  { label: "High Priority", color: COLORS.orange, detail: "Water damage risk" },
+  { label: "Unit 4B", color: COLORS.cyan, detail: "Location identified" },
+  { label: "Est. $180", color: COLORS.green, detail: "Cost estimate" },
 ];
 
 const STATUS_TIMELINE = [
-  { time: "9:15 AM", label: "Request Received", status: "done" as const },
-  { time: "9:15 AM", label: "AI Analysis Complete", status: "done" as const },
-  { time: "9:16 AM", label: "Auto-Approved (< $500)", status: "done" as const },
-  { time: "9:18 AM", label: "Vendor Dispatched", status: "done" as const },
-  { time: "11:30 AM", label: "Repair Completed", status: "active" as const },
+  { time: "9:15 AM", label: "Request Received", desc: "Email parsed and logged", status: "done" as const },
+  { time: "9:15 AM", label: "AI Analysis Complete", desc: "Category, priority, unit identified", status: "done" as const },
+  { time: "9:16 AM", label: "Auto-Approved (< $500)", desc: "Within auto-approval threshold", status: "done" as const },
+  { time: "9:18 AM", label: "Vendor Dispatched", desc: "Plumber notified via SMS", status: "done" as const },
+  { time: "11:30 AM", label: "Repair Completed", desc: "Tenant confirmed resolution", status: "active" as const },
 ];
 
 export const Scene4RepairMaintenance: React.FC = () => {
@@ -108,8 +113,10 @@ export const Scene4RepairMaintenance: React.FC = () => {
   return (
     <AbsoluteFill
       style={{
-        padding: "50px 70px",
+        padding: "40px 60px",
         opacity: fadeIn * fadeOut,
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       {/* Header */}
@@ -118,7 +125,7 @@ export const Scene4RepairMaintenance: React.FC = () => {
           display: "flex",
           alignItems: "center",
           gap: 14,
-          marginBottom: 24,
+          marginBottom: 20,
           opacity: headerEntrance,
           transform: `translateX(${interpolate(headerEntrance, [0, 1], [-30, 0])}px)`,
         }}
@@ -160,7 +167,7 @@ export const Scene4RepairMaintenance: React.FC = () => {
         style={{
           display: "flex",
           alignItems: "flex-start",
-          marginBottom: 30,
+          marginBottom: 24,
           transform: `translateX(${slideFromRight}px)`,
         }}
       >
@@ -172,28 +179,30 @@ export const Scene4RepairMaintenance: React.FC = () => {
         <FlowStep icon={<CheckIcon color={COLORS.green} size={20} />} label="Complete" color={COLORS.green} index={5} isLast />
       </div>
 
-      {/* Two columns */}
-      <div style={{ display: "flex", gap: 30, flex: 1 }}>
+      {/* Two columns — fill remaining space */}
+      <div style={{ display: "flex", gap: 24, flex: 1, minHeight: 0 }}>
         {/* Left — Tenant Email + AI Tags */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 14 }}>
           {/* Tenant Email */}
           <div
             style={{
               backgroundColor: COLORS.bgCard,
               border: `1px solid ${COLORS.border}`,
               borderRadius: 12,
-              padding: 20,
+              padding: "16px 22px 22px",
               flex: 1,
+              display: "flex",
+              flexDirection: "column",
             }}
           >
             <div
               style={{
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: 600,
                 color: COLORS.textMuted,
                 letterSpacing: 1,
                 textTransform: "uppercase",
-                marginBottom: 16,
+                marginBottom: 14,
               }}
             >
               Tenant Request
@@ -202,15 +211,16 @@ export const Scene4RepairMaintenance: React.FC = () => {
             <div
               style={{
                 fontFamily: "monospace",
-                fontSize: 13,
-                lineHeight: 1.7,
+                fontSize: 16,
+                lineHeight: 1.8,
                 color: COLORS.textSecondary,
+                flex: 1,
               }}
             >
               {typedLines.map((line, i) => (
-                <div key={i} style={{ minHeight: 20 }}>
+                <div key={i} style={{ minHeight: 26 }}>
                   {i === 0 ? (
-                    <span style={{ fontWeight: 700, color: COLORS.textPrimary }}>
+                    <span style={{ fontWeight: 700, color: COLORS.textPrimary, fontSize: 17 }}>
                       {line}
                     </span>
                   ) : (
@@ -222,8 +232,8 @@ export const Scene4RepairMaintenance: React.FC = () => {
                 <span
                   style={{
                     display: "inline-block",
-                    width: 8,
-                    height: 16,
+                    width: 9,
+                    height: 18,
                     backgroundColor: COLORS.green,
                     opacity: Math.sin(frame * 0.3) > 0 ? 1 : 0,
                     verticalAlign: "middle",
@@ -250,13 +260,13 @@ export const Scene4RepairMaintenance: React.FC = () => {
                   backgroundColor: COLORS.bgCard,
                   border: `1px solid ${COLORS.border}`,
                   borderRadius: 12,
-                  padding: 16,
+                  padding: "16px 18px",
                   opacity: tagsEntrance,
                 }}
               >
                 <div
                   style={{
-                    fontSize: 12,
+                    fontSize: 13,
                     fontWeight: 600,
                     color: COLORS.textMuted,
                     letterSpacing: 1,
@@ -266,7 +276,7 @@ export const Scene4RepairMaintenance: React.FC = () => {
                 >
                   AI Analysis
                 </div>
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                   {AI_TAGS.map((tag, i) => {
                     const tagEntrance = spring({
                       frame: frame - tagsDelay - 5 - i * 6,
@@ -279,18 +289,28 @@ export const Scene4RepairMaintenance: React.FC = () => {
                       <div
                         key={i}
                         style={{
-                          fontSize: 12,
-                          fontWeight: 600,
-                          color: tag.color,
-                          backgroundColor: tag.color + "15",
-                          border: `1px solid ${tag.color}30`,
-                          padding: "6px 14px",
-                          borderRadius: 20,
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          gap: 4,
                           opacity: tagEntrance,
                           transform: `scale(${tagEntrance})`,
                         }}
                       >
-                        {tag.label}
+                        <div
+                          style={{
+                            fontSize: 13,
+                            fontWeight: 600,
+                            color: tag.color,
+                            backgroundColor: tag.color + "15",
+                            border: `1px solid ${tag.color}30`,
+                            padding: "6px 16px",
+                            borderRadius: 20,
+                          }}
+                        >
+                          {tag.label}
+                        </div>
+                        <span style={{ fontSize: 10, color: COLORS.textMuted }}>{tag.detail}</span>
                       </div>
                     );
                   })}
@@ -301,7 +321,7 @@ export const Scene4RepairMaintenance: React.FC = () => {
         </div>
 
         {/* Right column */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 14 }}>
           {/* Approval Logic */}
           {(() => {
             const approvalDelay = Math.round(8 * fps);
@@ -318,13 +338,13 @@ export const Scene4RepairMaintenance: React.FC = () => {
                   backgroundColor: COLORS.bgCard,
                   border: `1px solid ${COLORS.border}`,
                   borderRadius: 12,
-                  padding: 16,
+                  padding: "16px 18px",
                   opacity: approvalEntrance,
                 }}
               >
                 <div
                   style={{
-                    fontSize: 12,
+                    fontSize: 13,
                     fontWeight: 600,
                     color: COLORS.textMuted,
                     letterSpacing: 1,
@@ -335,20 +355,20 @@ export const Scene4RepairMaintenance: React.FC = () => {
                   Approval Logic
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   <div
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      gap: 10,
-                      padding: "8px 12px",
+                      gap: 12,
+                      padding: "12px 16px",
                       borderRadius: 8,
                       backgroundColor: COLORS.greenDim,
                       border: `1px solid ${COLORS.green}30`,
                     }}
                   >
-                    <CheckIcon color={COLORS.green} size={16} />
-                    <span style={{ fontSize: 13, fontWeight: 500, color: COLORS.green }}>
+                    <CheckIcon color={COLORS.green} size={18} />
+                    <span style={{ fontSize: 15, fontWeight: 600, color: COLORS.green }}>
                       Under $500 \u2192 Auto-Approved
                     </span>
                   </div>
@@ -356,15 +376,15 @@ export const Scene4RepairMaintenance: React.FC = () => {
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      gap: 10,
-                      padding: "8px 12px",
+                      gap: 12,
+                      padding: "12px 16px",
                       borderRadius: 8,
                       backgroundColor: COLORS.orangeDim,
                       border: `1px solid ${COLORS.orange}30`,
                     }}
                   >
-                    <AlertIcon color={COLORS.orange} size={16} />
-                    <span style={{ fontSize: 13, fontWeight: 500, color: COLORS.orange }}>
+                    <AlertIcon color={COLORS.orange} size={18} />
+                    <span style={{ fontSize: 15, fontWeight: 600, color: COLORS.orange }}>
                       Over $500 \u2192 Manual Review
                     </span>
                   </div>
@@ -389,14 +409,16 @@ export const Scene4RepairMaintenance: React.FC = () => {
                   backgroundColor: COLORS.bgCard,
                   border: `1px solid ${COLORS.border}`,
                   borderRadius: 12,
-                  padding: 16,
+                  padding: "16px 18px",
                   opacity: timelineEntrance,
                   flex: 1,
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <div
                   style={{
-                    fontSize: 12,
+                    fontSize: 13,
                     fontWeight: 600,
                     color: COLORS.textMuted,
                     letterSpacing: 1,
@@ -407,63 +429,78 @@ export const Scene4RepairMaintenance: React.FC = () => {
                   Live Status
                 </div>
 
-                {STATUS_TIMELINE.map((step, i) => {
-                  const stepEntrance = spring({
-                    frame: frame - timelineDelay - 4 - i * 8,
-                    fps,
-                    config: { damping: 200, stiffness: 170 },
-                    durationInFrames: Math.round(0.6 * fps),
-                  });
+                <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                  {STATUS_TIMELINE.map((step, i) => {
+                    const stepEntrance = spring({
+                      frame: frame - timelineDelay - 4 - i * 8,
+                      fps,
+                      config: { damping: 200, stiffness: 170 },
+                      durationInFrames: Math.round(0.6 * fps),
+                    });
 
-                  const isDone = step.status === "done";
-                  const dotColor = isDone ? COLORS.green : COLORS.cyan;
+                    const isDone = step.status === "done";
+                    const dotColor = isDone ? COLORS.green : COLORS.cyan;
 
-                  return (
-                    <div
-                      key={i}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 12,
-                        marginBottom: i < STATUS_TIMELINE.length - 1 ? 10 : 0,
-                        opacity: stepEntrance,
-                        transform: `translateX(${interpolate(stepEntrance, [0, 1], [15, 0])}px)`,
-                      }}
-                    >
+                    return (
                       <div
+                        key={i}
                         style={{
-                          width: 10,
-                          height: 10,
-                          borderRadius: "50%",
-                          backgroundColor: isDone ? dotColor : "transparent",
-                          border: `2px solid ${dotColor}`,
-                          boxShadow: `0 0 6px ${dotColor}40`,
-                          flexShrink: 0,
-                        }}
-                      />
-                      <span
-                        style={{
-                          fontSize: 11,
-                          fontWeight: 600,
-                          color: COLORS.textMuted,
-                          width: 60,
-                          flexShrink: 0,
+                          display: "flex",
+                          alignItems: "flex-start",
+                          gap: 12,
+                          opacity: stepEntrance,
+                          transform: `translateX(${interpolate(stepEntrance, [0, 1], [15, 0])}px)`,
                         }}
                       >
-                        {step.time}
-                      </span>
-                      <span
-                        style={{
-                          fontSize: 13,
-                          fontWeight: 500,
-                          color: isDone ? COLORS.textSecondary : COLORS.cyan,
-                        }}
-                      >
-                        {step.label}
-                      </span>
-                    </div>
-                  );
-                })}
+                        <div
+                          style={{
+                            width: 12,
+                            height: 12,
+                            borderRadius: "50%",
+                            backgroundColor: isDone ? dotColor : "transparent",
+                            border: `2px solid ${dotColor}`,
+                            boxShadow: `0 0 8px ${dotColor}40`,
+                            flexShrink: 0,
+                            marginTop: 3,
+                          }}
+                        />
+                        <span
+                          style={{
+                            fontSize: 12,
+                            fontWeight: 600,
+                            color: COLORS.textMuted,
+                            width: 60,
+                            flexShrink: 0,
+                            marginTop: 1,
+                          }}
+                        >
+                          {step.time}
+                        </span>
+                        <div>
+                          <span
+                            style={{
+                              fontSize: 15,
+                              fontWeight: 600,
+                              color: isDone ? COLORS.textSecondary : COLORS.cyan,
+                            }}
+                          >
+                            {step.label}
+                          </span>
+                          <div
+                            style={{
+                              fontSize: 11,
+                              fontWeight: 400,
+                              color: COLORS.textMuted,
+                              marginTop: 2,
+                            }}
+                          >
+                            {step.desc}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             );
           })()}

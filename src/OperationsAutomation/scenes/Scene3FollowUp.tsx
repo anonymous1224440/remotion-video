@@ -41,9 +41,9 @@ const EMAIL_LINES = [
 ];
 
 const TIMELINE_STEPS = [
-  { day: "Day 1", label: "Friendly Reminder", color: COLORS.purple },
-  { day: "Day 4", label: "Second Follow-Up", color: COLORS.blue },
-  { day: "Day 8", label: "Final Notice", color: COLORS.cyan },
+  { day: "Day 1", label: "Friendly Reminder", desc: "Polite initial request sent automatically", color: COLORS.purple },
+  { day: "Day 4", label: "Second Follow-Up", desc: "Gentle nudge with updated urgency", color: COLORS.blue },
+  { day: "Day 8", label: "Final Notice", desc: "Escalation to property manager", color: COLORS.cyan },
 ];
 
 const DASHBOARD_ITEMS = [
@@ -100,7 +100,7 @@ export const Scene3FollowUp: React.FC = () => {
       if (remaining <= 0) break;
       if (remaining >= line.length) {
         result.push(line);
-        remaining -= line.length + 1; // +1 for newline
+        remaining -= line.length + 1;
       } else {
         result.push(line.slice(0, remaining));
         remaining = 0;
@@ -115,8 +115,10 @@ export const Scene3FollowUp: React.FC = () => {
   return (
     <AbsoluteFill
       style={{
-        padding: "50px 70px",
+        padding: "40px 60px",
         opacity: fadeIn * fadeOut,
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       {/* Header */}
@@ -125,7 +127,7 @@ export const Scene3FollowUp: React.FC = () => {
           display: "flex",
           alignItems: "center",
           gap: 14,
-          marginBottom: 24,
+          marginBottom: 20,
           opacity: headerEntrance,
           transform: `translateX(${interpolate(headerEntrance, [0, 1], [-30, 0])}px)`,
         }}
@@ -167,7 +169,7 @@ export const Scene3FollowUp: React.FC = () => {
         style={{
           display: "flex",
           alignItems: "flex-start",
-          marginBottom: 30,
+          marginBottom: 24,
           transform: `translateX(${slideFromRight}px)`,
         }}
       >
@@ -179,10 +181,10 @@ export const Scene3FollowUp: React.FC = () => {
         <FlowStep icon={<CheckIcon color={COLORS.green} size={20} />} label="Resolved" color={COLORS.green} index={5} isLast />
       </div>
 
-      {/* Two columns */}
-      <div style={{ display: "flex", gap: 30, flex: 1 }}>
+      {/* Two columns — fill remaining space */}
+      <div style={{ display: "flex", gap: 24, flex: 1, minHeight: 0 }}>
         {/* Left — Follow-Up Email */}
-        <div style={{ flex: 1 }}>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
           {(() => {
             const emailEntrance = spring({
               frame: frame - emailStart + 10,
@@ -197,8 +199,8 @@ export const Scene3FollowUp: React.FC = () => {
                   backgroundColor: COLORS.bgCard,
                   border: `1px solid ${COLORS.border}`,
                   borderRadius: 12,
-                  padding: "14px 20px 20px",
-                  height: "100%",
+                  padding: "16px 22px 22px",
+                  flex: 1,
                   opacity: emailEntrance,
                   display: "flex",
                   flexDirection: "column",
@@ -206,12 +208,12 @@ export const Scene3FollowUp: React.FC = () => {
               >
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 13,
                     fontWeight: 600,
                     color: COLORS.textMuted,
                     letterSpacing: 1,
                     textTransform: "uppercase",
-                    marginBottom: 10,
+                    marginBottom: 14,
                   }}
                 >
                   Auto-Generated Follow-Up
@@ -220,16 +222,16 @@ export const Scene3FollowUp: React.FC = () => {
                 <div
                   style={{
                     fontFamily: "monospace",
-                    fontSize: 12.5,
-                    lineHeight: 1.6,
+                    fontSize: 16,
+                    lineHeight: 1.8,
                     color: COLORS.textSecondary,
                     flex: 1,
                   }}
                 >
                   {typedLines.map((line, i) => (
-                    <div key={i} style={{ minHeight: 20 }}>
+                    <div key={i} style={{ minHeight: 26 }}>
                       {i === 0 ? (
-                        <span style={{ fontWeight: 700, color: COLORS.textPrimary }}>
+                        <span style={{ fontWeight: 700, color: COLORS.textPrimary, fontSize: 17 }}>
                           {line}
                         </span>
                       ) : (
@@ -237,13 +239,12 @@ export const Scene3FollowUp: React.FC = () => {
                       )}
                     </div>
                   ))}
-                  {/* Blinking cursor */}
                   {!isTypingDone && frame > emailStart && (
                     <span
                       style={{
                         display: "inline-block",
-                        width: 8,
-                        height: 16,
+                        width: 9,
+                        height: 18,
                         backgroundColor: COLORS.purple,
                         opacity: Math.sin(frame * 0.3) > 0 ? 1 : 0,
                         verticalAlign: "middle",
@@ -258,7 +259,7 @@ export const Scene3FollowUp: React.FC = () => {
         </div>
 
         {/* Right column */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 14 }}>
           {/* Follow-Up Sequence Timeline */}
           {(() => {
             const timelineDelay = Math.round(11 * fps);
@@ -275,88 +276,103 @@ export const Scene3FollowUp: React.FC = () => {
                   backgroundColor: COLORS.bgCard,
                   border: `1px solid ${COLORS.border}`,
                   borderRadius: 12,
-                  padding: 16,
+                  padding: "16px 18px",
                   opacity: timelineEntrance,
+                  flex: 1,
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <div
                   style={{
-                    fontSize: 12,
+                    fontSize: 13,
                     fontWeight: 600,
                     color: COLORS.textMuted,
                     letterSpacing: 1,
                     textTransform: "uppercase",
-                    marginBottom: 14,
+                    marginBottom: 16,
                   }}
                 >
                   Follow-Up Sequence
                 </div>
 
-                {TIMELINE_STEPS.map((step, i) => {
-                  const stepEntrance = spring({
-                    frame: frame - timelineDelay - 4 - i * 8,
-                    fps,
-                    config: { damping: 200, stiffness: 170 },
-                    durationInFrames: Math.round(0.6 * fps),
-                  });
+                <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                  {TIMELINE_STEPS.map((step, i) => {
+                    const stepEntrance = spring({
+                      frame: frame - timelineDelay - 4 - i * 8,
+                      fps,
+                      config: { damping: 200, stiffness: 170 },
+                      durationInFrames: Math.round(0.6 * fps),
+                    });
 
-                  return (
-                    <div
-                      key={i}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 14,
-                        marginBottom: i < TIMELINE_STEPS.length - 1 ? 14 : 0,
-                        opacity: stepEntrance,
-                        transform: `translateX(${interpolate(stepEntrance, [0, 1], [15, 0])}px)`,
-                      }}
-                    >
-                      {/* Dot and line */}
+                    return (
                       <div
+                        key={i}
                         style={{
                           display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          width: 20,
+                          alignItems: "flex-start",
+                          gap: 14,
+                          opacity: stepEntrance,
+                          transform: `translateX(${interpolate(stepEntrance, [0, 1], [15, 0])}px)`,
                         }}
                       >
                         <div
                           style={{
-                            width: 12,
-                            height: 12,
-                            borderRadius: "50%",
-                            backgroundColor: step.color + "30",
-                            border: `2px solid ${step.color}`,
-                            boxShadow: `0 0 8px ${step.color}40`,
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            width: 20,
+                            paddingTop: 3,
                           }}
-                        />
-                      </div>
+                        >
+                          <div
+                            style={{
+                              width: 14,
+                              height: 14,
+                              borderRadius: "50%",
+                              backgroundColor: step.color + "30",
+                              border: `2px solid ${step.color}`,
+                              boxShadow: `0 0 10px ${step.color}40`,
+                            }}
+                          />
+                        </div>
 
-                      <div>
-                        <div
-                          style={{
-                            fontSize: 11,
-                            fontWeight: 700,
-                            color: step.color,
-                            letterSpacing: 0.5,
-                          }}
-                        >
-                          {step.day}
-                        </div>
-                        <div
-                          style={{
-                            fontSize: 13,
-                            fontWeight: 500,
-                            color: COLORS.textSecondary,
-                          }}
-                        >
-                          {step.label}
+                        <div>
+                          <div
+                            style={{
+                              fontSize: 13,
+                              fontWeight: 700,
+                              color: step.color,
+                              letterSpacing: 0.5,
+                              marginBottom: 2,
+                            }}
+                          >
+                            {step.day}
+                          </div>
+                          <div
+                            style={{
+                              fontSize: 16,
+                              fontWeight: 600,
+                              color: COLORS.textSecondary,
+                              marginBottom: 3,
+                            }}
+                          >
+                            {step.label}
+                          </div>
+                          <div
+                            style={{
+                              fontSize: 13,
+                              fontWeight: 400,
+                              color: COLORS.textMuted,
+                            }}
+                          >
+                            {step.desc}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
             );
           })()}
@@ -377,18 +393,21 @@ export const Scene3FollowUp: React.FC = () => {
                   backgroundColor: COLORS.bgCard,
                   border: `1px solid ${COLORS.border}`,
                   borderRadius: 12,
-                  padding: 16,
+                  padding: "16px 18px",
                   opacity: dashEntrance,
+                  flex: 1,
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <div
                   style={{
-                    fontSize: 12,
+                    fontSize: 13,
                     fontWeight: 600,
                     color: COLORS.textMuted,
                     letterSpacing: 1,
                     textTransform: "uppercase",
-                    marginBottom: 12,
+                    marginBottom: 14,
                   }}
                 >
                   Response Tracking
@@ -397,7 +416,8 @@ export const Scene3FollowUp: React.FC = () => {
                   style={{
                     display: "grid",
                     gridTemplateColumns: "1fr 1fr",
-                    gap: 10,
+                    gap: 12,
+                    flex: 1,
                   }}
                 >
                   {DASHBOARD_ITEMS.map((item, i) => {
@@ -414,24 +434,27 @@ export const Scene3FollowUp: React.FC = () => {
                         style={{
                           backgroundColor: "rgba(255,255,255,0.03)",
                           borderRadius: 8,
-                          padding: "10px 12px",
+                          padding: "14px 14px",
                           opacity: itemEntrance,
                           transform: `translateY(${interpolate(itemEntrance, [0, 1], [10, 0])}px)`,
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
                         }}
                       >
                         <div
                           style={{
-                            fontSize: 20,
+                            fontSize: 28,
                             fontWeight: 700,
                             color: COLORS.textPrimary,
-                            marginBottom: 2,
+                            marginBottom: 4,
                           }}
                         >
                           {item.value}
                         </div>
                         <div
                           style={{
-                            fontSize: 10,
+                            fontSize: 12,
                             fontWeight: 500,
                             color: COLORS.textMuted,
                           }}
