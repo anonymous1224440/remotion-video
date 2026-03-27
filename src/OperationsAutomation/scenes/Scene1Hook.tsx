@@ -6,6 +6,7 @@ import {
   interpolate,
   spring,
 } from "remotion";
+import { staticFile, Img } from "remotion";
 import { COLORS } from "../theme";
 
 const NOTIFICATIONS = [
@@ -259,61 +260,16 @@ export const Scene1Hook: React.FC = () => {
             </span>
           </h1>
 
-          <div
+          <Img
+            src={staticFile("logo.jpg")}
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
+              width: 120,
+              height: 120,
+              borderRadius: 16,
               marginTop: 8,
+              objectFit: "contain",
             }}
-          >
-            <div
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 10,
-                backgroundColor: COLORS.blueDim,
-                border: `1.5px solid ${COLORS.blue}`,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: `0 0 20px ${COLORS.blueGlow}`,
-              }}
-            >
-              <span
-                style={{
-                  fontSize: 14,
-                  fontWeight: 800,
-                  color: COLORS.blue,
-                  letterSpacing: -0.5,
-                }}
-              >
-                SP
-              </span>
-            </div>
-            <div>
-              <div
-                style={{
-                  fontSize: 16,
-                  fontWeight: 700,
-                  color: COLORS.textPrimary,
-                  letterSpacing: 1,
-                }}
-              >
-                VPM NYC
-              </div>
-              <div
-                style={{
-                  fontSize: 11,
-                  fontWeight: 400,
-                  color: COLORS.textMuted,
-                  letterSpacing: 0.5,
-                }}
-              >
-                Secured Properties
-              </div>
-            </div>
-          </div>
+          />
         </div>
       )}
     </AbsoluteFill>

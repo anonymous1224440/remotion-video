@@ -7,6 +7,7 @@ import {
   spring,
   Easing,
 } from "remotion";
+import { staticFile, Img } from "remotion";
 import { COLORS } from "../theme";
 
 const WORKFLOW_ICONS = [
@@ -215,32 +216,17 @@ export const Scene5Closing: React.FC = () => {
         }}
       >
         {/* Logo */}
-        <div
+        <Img
+          src={staticFile("logo.jpg")}
           style={{
-            width: 56,
-            height: 56,
-            borderRadius: 14,
-            backgroundColor: COLORS.redDim,
-            border: `2px solid ${COLORS.red}`,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            boxShadow: `0 0 40px ${COLORS.redGlow}`,
+            width: 130,
+            height: 130,
+            borderRadius: 18,
             transform: `scale(${logoEntrance})`,
             marginBottom: 8,
+            objectFit: "contain",
           }}
-        >
-          <span
-            style={{
-              fontSize: 20,
-              fontWeight: 800,
-              color: COLORS.red,
-              letterSpacing: -0.5,
-            }}
-          >
-            SP
-          </span>
-        </div>
+        />
 
         {/* Title */}
         <h1
