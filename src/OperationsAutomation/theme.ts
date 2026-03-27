@@ -35,12 +35,12 @@ export const COLORS = {
 };
 
 export const FPS = 30;
-export const TOTAL_DURATION = 2250;
+export const TOTAL_DURATION = 2400;
 
 export const SCENE_TIMING = {
-  hook: { from: 0, duration: 150 },
-  workflow1: { from: 150, duration: 600 },
-  workflow2: { from: 750, duration: 600 },
-  workflow3: { from: 1350, duration: 600 },
-  closing: { from: 1950, duration: 300 },
+  hook: { from: 0, duration: 240 },
+  workflow1: { from: 240, duration: 600 },
+  workflow2: { from: 840, duration: 600 },
+  workflow3: { from: 1440, duration: 600 },
+  closing: { from: 2040, duration: 360 },
 };

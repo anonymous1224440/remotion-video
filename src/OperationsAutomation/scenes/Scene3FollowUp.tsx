@@ -24,17 +24,20 @@ const EMAIL_LINES = [
   "",
   "Hi David,",
   "",
+  "Hope you're doing well.",
+  "",
   "We're still missing the updated insurance",
-  "certificate for 120 Broadway.",
+  "certificate for your property at 120 Broadway.",
   "",
-  "Could you please send it over at your",
-  "earliest convenience?",
+  "Could you please send it over when you",
+  "have a moment?",
   "",
-  "This is an automated reminder \u2014 no action",
-  "needed if already submitted.",
+  "If you've already submitted it, feel free",
+  "to ignore this message.",
   "",
-  "Best regards,",
-  "VPM NYC Operations",
+  "Thank you,",
+  "Luca Burato",
+  "VPM NYC",
 ];
 
 const TIMELINE_STEPS = [
@@ -194,19 +197,21 @@ export const Scene3FollowUp: React.FC = () => {
                   backgroundColor: COLORS.bgCard,
                   border: `1px solid ${COLORS.border}`,
                   borderRadius: 12,
-                  padding: 20,
+                  padding: "14px 20px 20px",
                   height: "100%",
                   opacity: emailEntrance,
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <div
                   style={{
-                    fontSize: 12,
+                    fontSize: 11,
                     fontWeight: 600,
                     color: COLORS.textMuted,
                     letterSpacing: 1,
                     textTransform: "uppercase",
-                    marginBottom: 16,
+                    marginBottom: 10,
                   }}
                 >
                   Auto-Generated Follow-Up
@@ -215,9 +220,10 @@ export const Scene3FollowUp: React.FC = () => {
                 <div
                   style={{
                     fontFamily: "monospace",
-                    fontSize: 13,
-                    lineHeight: 1.7,
+                    fontSize: 12.5,
+                    lineHeight: 1.6,
                     color: COLORS.textSecondary,
+                    flex: 1,
                   }}
                 >
                   {typedLines.map((line, i) => (

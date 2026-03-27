@@ -43,9 +43,9 @@ const EMAILS = [
 ];
 
 const DOC_TAGS = [
-  { label: "Bank Statement", color: COLORS.green },
-  { label: "Insurance Doc", color: COLORS.orange },
-  { label: "Tax Filing", color: COLORS.cyan },
+  { label: "Bank Statement", color: COLORS.green, action: "\u2192 Filed to OneDrive" },
+  { label: "Insurance Doc", color: COLORS.orange, action: "\u2192 Sent to Owner" },
+  { label: "Tax Filing", color: COLORS.cyan, action: "\u2192 Filed & Logged" },
 ];
 
 const DASHBOARD_ITEMS = [
@@ -53,7 +53,7 @@ const DASHBOARD_ITEMS = [
   { label: "Auto-Filed", value: "43" },
   { label: "Sent to Clients", value: "12" },
   { label: "Storage", value: "OneDrive" },
-  { label: "Accuracy", value: "99.2%" },
+  { label: "Not Recognized", value: "2" },
   { label: "Processing Time", value: "< 3s" },
 ];
 
@@ -137,7 +137,7 @@ export const Scene2DocumentAutomation: React.FC = () => {
             letterSpacing: -0.5,
           }}
         >
-          Document Automation
+          Automated File Saving & Distribution
         </span>
       </div>
 
@@ -290,10 +290,10 @@ export const Scene2DocumentAutomation: React.FC = () => {
                 >
                   Document Detection
                 </div>
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                   {DOC_TAGS.map((tag, i) => {
                     const tagEntrance = spring({
-                      frame: frame - tagsDelay - 5 - i * 6,
+                      frame: frame - tagsDelay - 5 - i * 8,
                       fps,
                       config: { damping: 200, stiffness: 170 },
                       durationInFrames: Math.round(0.5 * fps),
@@ -303,18 +303,36 @@ export const Scene2DocumentAutomation: React.FC = () => {
                       <div
                         key={i}
                         style={{
-                          fontSize: 12,
-                          fontWeight: 600,
-                          color: tag.color,
-                          backgroundColor: tag.color + "15",
-                          border: `1px solid ${tag.color}30`,
-                          padding: "6px 14px",
-                          borderRadius: 20,
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 10,
                           opacity: tagEntrance,
-                          transform: `scale(${tagEntrance})`,
+                          transform: `translateX(${interpolate(tagEntrance, [0, 1], [15, 0])}px)`,
                         }}
                       >
-                        {tag.label}
+                        <div
+                          style={{
+                            fontSize: 12,
+                            fontWeight: 600,
+                            color: tag.color,
+                            backgroundColor: tag.color + "15",
+                            border: `1px solid ${tag.color}30`,
+                            padding: "5px 12px",
+                            borderRadius: 20,
+                            minWidth: 110,
+                          }}
+                        >
+                          {tag.label}
+                        </div>
+                        <span
+                          style={{
+                            fontSize: 12,
+                            fontWeight: 500,
+                            color: COLORS.textMuted,
+                          }}
+                        >
+                          {tag.action}
+                        </span>
                       </div>
                     );
                   })}

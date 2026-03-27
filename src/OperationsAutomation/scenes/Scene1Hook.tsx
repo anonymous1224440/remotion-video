@@ -26,14 +26,22 @@ const POSITIONS = [
   { x: 1300, y: 550 },
 ];
 
+const PAIN_POINTS = [
+  "Hours wasted",
+  "Money slipping away",
+  "Constant stress",
+  "Mistakes happen",
+  "All from manual work",
+];
+
 export const Scene1Hook: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
+  // Phase 1: Chaos notifications (0-2s)
   const chaosEnd = Math.round(2 * fps);
   const isChaos = frame < chaosEnd;
 
-  // Chaos phase: notifications float and shake
   const chaosOpacity = interpolate(
     frame,
     [chaosEnd - 10, chaosEnd],
@@ -41,21 +49,36 @@ export const Scene1Hook: React.FC = () => {
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
   );
 
-  // Clean phase
-  const cleanStart = chaosEnd;
-  const textEntrance = spring({
-    frame: frame - cleanStart - 5,
+  // Phase 2: Hook text "Manual work is killing your growth" (2-3s)
+  const hookStart = chaosEnd;
+  const hookEntrance = spring({
+    frame: frame - hookStart - 3,
+    fps,
+    config: { damping: 200, stiffness: 170 },
+    durationInFrames: Math.round(1 * fps),
+  });
+
+  // Phase 3: Pain points (3-6s)
+  const painStart = Math.round(3 * fps);
+
+  // Phase 4: Everything fades, "We fix that" appears (6-8s)
+  const hookAndPainFade = interpolate(
+    frame,
+    [Math.round(5.5 * fps), Math.round(6 * fps)],
+    [1, 0],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+  );
+
+  const fixStart = Math.round(6 * fps);
+  const fixEntrance = spring({
+    frame: frame - fixStart - 3,
     fps,
     config: { damping: 200, stiffness: 170 },
     durationInFrames: Math.round(1.2 * fps),
   });
 
-  const logoEntrance = spring({
-    frame: frame - cleanStart - Math.round(1.5 * fps),
-    fps,
-    config: { damping: 200, stiffness: 170 },
-    durationInFrames: Math.round(1 * fps),
-  });
+  const showHookPhase = frame >= chaosEnd && frame < Math.round(6 * fps);
+  const showFixPhase = frame >= fixStart;
 
   return (
     <AbsoluteFill
@@ -64,7 +87,7 @@ export const Scene1Hook: React.FC = () => {
         alignItems: "center",
       }}
     >
-      {/* Chaos phase — notification bubbles */}
+      {/* Phase 1: Chaos notification bubbles */}
       {isChaos &&
         NOTIFICATIONS.map((notif, i) => {
           const staggerEntrance = spring({
@@ -111,17 +134,18 @@ export const Scene1Hook: React.FC = () => {
           );
         })}
 
-      {/* Fading out chaos overlay */}
-      {!isChaos && (
+      {/* Phase 2+3: Hook text + Pain points */}
+      {showHookPhase && (
         <div
           style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: 24,
+            gap: 32,
+            opacity: hookAndPainFade,
           }}
         >
-          {/* Main question text */}
+          {/* Hook headline */}
           <h1
             style={{
               fontSize: 50,
@@ -131,91 +155,147 @@ export const Scene1Hook: React.FC = () => {
               lineHeight: 1.2,
               letterSpacing: -1,
               margin: 0,
-              opacity: textEntrance,
-              transform: `translateY(${interpolate(textEntrance, [0, 1], [30, 0])}px)`,
+              opacity: hookEntrance,
+              transform: `translateY(${interpolate(hookEntrance, [0, 1], [30, 0])}px)`,
             }}
           >
-            What if your entire operation{" "}
-            <span style={{ color: COLORS.blue }}>ran itself?</span>
+            Manual work is{" "}
+            <span style={{ color: COLORS.red }}>killing your growth</span>
           </h1>
 
-          {/* Logo + "It can." */}
+          {/* Pain points */}
           <div
             style={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              gap: 14,
+            }}
+          >
+            {PAIN_POINTS.map((point, i) => {
+              const pointEntrance = spring({
+                frame: frame - painStart - i * 10,
+                fps,
+                config: { damping: 200, stiffness: 170 },
+                durationInFrames: Math.round(0.6 * fps),
+              });
+
+              const isLast = i === PAIN_POINTS.length - 1;
+
+              return (
+                <div
+                  key={i}
+                  style={{
+                    opacity: pointEntrance,
+                    transform: `translateY(${interpolate(pointEntrance, [0, 1], [15, 0])}px)`,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: isLast ? 22 : 20,
+                      fontWeight: isLast ? 700 : 400,
+                      color: isLast ? COLORS.orange : COLORS.textSecondary,
+                      letterSpacing: isLast ? 0.5 : 0,
+                    }}
+                  >
+                    {point}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Phase 4: "We fix that" */}
+      {showFixPhase && (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 20,
+            opacity: fixEntrance,
+            transform: `translateY(${interpolate(fixEntrance, [0, 1], [30, 0])}px)`,
+          }}
+        >
+          <h1
+            style={{
+              fontSize: 56,
+              fontWeight: 800,
+              color: COLORS.textPrimary,
+              textAlign: "center",
+              margin: 0,
+            }}
+          >
+            We{" "}
+            <span
+              style={{
+                background: `linear-gradient(135deg, ${COLORS.blue}, ${COLORS.purple})`,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              fix that.
+            </span>
+          </h1>
+
+          {/* Logo */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
               gap: 12,
-              opacity: logoEntrance,
-              transform: `translateY(${interpolate(logoEntrance, [0, 1], [20, 0])}px)`,
+              marginTop: 8,
             }}
           >
             <div
               style={{
+                width: 40,
+                height: 40,
+                borderRadius: 10,
+                backgroundColor: COLORS.blueDim,
+                border: `1.5px solid ${COLORS.blue}`,
                 display: "flex",
                 alignItems: "center",
-                gap: 12,
+                justifyContent: "center",
+                boxShadow: `0 0 20px ${COLORS.blueGlow}`,
               }}
             >
-              {/* VPM NYC Logo placeholder */}
-              <div
+              <span
                 style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 10,
-                  backgroundColor: COLORS.blueDim,
-                  border: `1.5px solid ${COLORS.blue}`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  boxShadow: `0 0 20px ${COLORS.blueGlow}`,
+                  fontSize: 14,
+                  fontWeight: 800,
+                  color: COLORS.blue,
+                  letterSpacing: -0.5,
                 }}
               >
-                <span
-                  style={{
-                    fontSize: 16,
-                    fontWeight: 800,
-                    color: COLORS.blue,
-                    letterSpacing: -0.5,
-                  }}
-                >
-                  SP
-                </span>
+                SP
+              </span>
+            </div>
+            <div>
+              <div
+                style={{
+                  fontSize: 16,
+                  fontWeight: 700,
+                  color: COLORS.textPrimary,
+                  letterSpacing: 1,
+                }}
+              >
+                VPM NYC
               </div>
-              <div>
-                <div
-                  style={{
-                    fontSize: 18,
-                    fontWeight: 700,
-                    color: COLORS.textPrimary,
-                    letterSpacing: 1,
-                  }}
-                >
-                  VPM NYC
-                </div>
-                <div
-                  style={{
-                    fontSize: 12,
-                    fontWeight: 400,
-                    color: COLORS.textMuted,
-                    letterSpacing: 0.5,
-                  }}
-                >
-                  Secured Properties
-                </div>
+              <div
+                style={{
+                  fontSize: 11,
+                  fontWeight: 400,
+                  color: COLORS.textMuted,
+                  letterSpacing: 0.5,
+                }}
+              >
+                Secured Properties
               </div>
             </div>
-
-            <span
-              style={{
-                fontSize: 28,
-                fontWeight: 700,
-                color: COLORS.textPrimary,
-                marginTop: 8,
-              }}
-            >
-              It can.
-            </span>
           </div>
         </div>
       )}
